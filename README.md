@@ -151,3 +151,6 @@ Está prohibido usar estructuras globales de tipo “norm”.
 - Usar makefile con módulos separados (parser.o, executor.o, etc.)
 - Uso de Git con ramas por feature (parser/heredoc, executor/pipes, etc.) [Feature branch workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow#:~:text=How%20it%20works,work%20on%20a%20new%20feature.)
 - Reuniones para revisión de integración
+
+## Guías y ayudas:
+[42-cursus.gitbook](https://42-cursus.gitbook.io/guide/3-rank-03/minishell/functions)
