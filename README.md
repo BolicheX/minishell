@@ -103,9 +103,9 @@ Está prohibido usar estructuras globales de tipo “norm”.
 
 ### Atajos de teclado (comportamiento interactivo)
 
-- Ctrl-C: imprime una nueva línea con el prompt.
-- Ctrl-D: termina el shell.
-- Ctrl-\: no hace nada.
+- Ctrl-C : imprime una nueva línea con el prompt.
+- Ctrl-D : termina el shell.
+- Ctrl-\ : no hace nada.
 
 ## Built-ins requeridos
 
@@ -150,6 +150,7 @@ Está prohibido usar estructuras globales de tipo “norm”.
 - Manejo de errores y estados de retorno
 - Pruebas con valgrind para fugas de memoria
 - Comprobación del comportamiento frente a casos extremos
+- [Hoja de Correción](https://github.com/zafraedu/minishell/blob/main/assets/es.eval.pdf)
 
 ## 🧩 Coordinación
 
