@@ -161,8 +161,10 @@ Está prohibido usar estructuras globales de tipo “norm”.
 - Reuniones para revisión de integración
 
 ##  📖 Guías y ayudas:
-- [BASH Mnual](https://www.gnu.org/software/bash/manual/bash.html)
+- [BASH Manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [Sheell Syntax](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
 - [Heredoc](https://linuxize.com/post/bash-heredoc/)
+- [WritingYourOwnShell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
 - [42-cursus.gitbook](https://42-cursus.gitbook.io/guide/3-rank-03/minishell/functions)
 - [Guia](https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218)
 - [Guia2](https://gitlab.com/madebypixel02/minishell)
