@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/20 17:22:09 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:25:16 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,5 @@ typedef struct s_cmd
 	int		out;
 	t_cmd	*next;
 }		t_cmd;
+
+#endif
