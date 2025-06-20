@@ -103,9 +103,9 @@ Está prohibido usar estructuras globales de tipo “norm”.
 
 ### Atajos de teclado (comportamiento interactivo)
 
-- Ctrl-C: imprime una nueva línea con el prompt.
-- Ctrl-D: termina el shell.
-- Ctrl-\: no hace nada.
+- Ctrl-C : imprime una nueva línea con el prompt.
+- Ctrl-D : termina el shell.
+- Ctrl-\ : no hace nada.
 
 ## Built-ins requeridos
 
@@ -116,6 +116,11 @@ Está prohibido usar estructuras globales de tipo “norm”.
 - [`unset`](https://man7.org/linux/man-pages/man1/unset.1p.html)
 - [`env`](https://www.geeksforgeeks.org/env-command-in-linux-with-examples)
 - [`exit`](https://linuxize.com/post/bash-exit)
+
+## BONUS
+- `&&`, `||` con paréntesis para prioridades.
+- Los wildcards `*` deben funcionar para el directorio actual.
+
 
 ## ✅ Orden de Programación (Etapas)
 
@@ -128,6 +133,7 @@ Está prohibido usar estructuras globales de tipo “norm”.
 
 ### 🥈 Fase 2 – Parser Completo
 
+- [`Lexing`](https://www.geeksforgeeks.org/c/c-lexical-analyser-lexer/)
 - Tokenización con soporte de comillas `'` y `"`
 - Expansión de variables (`$VAR`, `$?`)
 - Manejo de errores de sintaxis
@@ -144,10 +150,21 @@ Está prohibido usar estructuras globales de tipo “norm”.
 - Manejo de errores y estados de retorno
 - Pruebas con valgrind para fugas de memoria
 - Comprobación del comportamiento frente a casos extremos
+- [Hoja de Correción](https://github.com/zafraedu/minishell/blob/main/assets/es.eval.pdf)
 
 ## 🧩 Coordinación
 
+- La mayoría de grupos dividen el trabajo en `Front-end:`Lexing/Parsing, comandos y señales y `Back-end:` Ejecución del programa.
 - Definir estructuras compartidas: t_command, t_token, t_shell
 - Usar makefile con módulos separados (parser.o, executor.o, etc.)
 - Uso de Git con ramas por feature (parser/heredoc, executor/pipes, etc.) [Feature branch workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow#:~:text=How%20it%20works,work%20on%20a%20new%20feature.)
 - Reuniones para revisión de integración
+
+##  📖 Guías y ayudas:
+- [BASH Manual](https://www.gnu.org/software/bash/manual/bash.html)
+- [Sheell Syntax](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+- [Heredoc](https://linuxize.com/post/bash-heredoc/)
+- [WritingYourOwnShell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
+- [42-cursus.gitbook](https://42-cursus.gitbook.io/guide/3-rank-03/minishell/functions)
+- [Guia](https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218)
+- [Guia2](https://gitlab.com/madebypixel02/minishell)
