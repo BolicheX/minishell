@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <string.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -47,28 +49,30 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-typedef struct s_env
+// typedef struct s_env
+// {
+// 	char			*key;
+// 	char			*value;
+// 	struct s_env	*next;
+// }	t_env;
+
+typedef struct s_cmd
 {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+	char			**argv;
+	char			*path;
+	int				in;
+	int				out;
+	struct s_cmd	*next;
+}		t_cmd;
 
 typedef struct s_ms
 {
 	t_cmd	*cmd_list;
-	t_env	*env_list;
+	//t_env	*env_list;
+	char	**envp;
+	int		cmd_line_num;
 	int		status;
 	pid_t	pid;
 }		t_ms;
-
-typedef struct s_cmd
-{
-	char	**argv;
-	char	*path;
-	int		in;
-	int		out;
-	t_cmd	*next;
-}		t_cmd;
 
 #endif
