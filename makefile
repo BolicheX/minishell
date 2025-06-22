@@ -10,37 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-# The name of the executable
-NAME = minishell
-
-# Compilation flags
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-# Linker flags : 'libft'
-LFLAGS = -lft
-
-# Command to remove files/directories
-REMOVE = rm -rf
-# Command to create directories
-MKDIR = mkdir -p
-
-# Path variables
-SRCS_PATH =  ./src/
-OBJS_PATH = ./objs/
-INC_PATH = ./inc/
-
-# Path to libraries
-LIBFT_PATH = $(INC_PATH)libft/
-
-# Source files
-SRC = $(wildcard $(SRCS_PATH)*.c)
-
-# Object files
-OBJS = $(patsubst $(SRCS_PATH)%.c, $(OBJS_PATH)%.o, $(SRC))
-
-# Compiler flags to link to libraries
-LINK_LIBS = -L$(LIBFT_PATH)
-
 # Color codes for terminal output
 DEF_COLOR = \033[0;39m
 GRAY = \033[0;90m
@@ -52,30 +21,76 @@ MAGENTA = \033[0;95m
 CYAN = \033[0;96m
 WHITE = \033[0;97m
 
-all : $(NAME)
+# The name of the executable
+NAME = minishell
 
-# The target to build the mandatory part
-$(NAME) : $(OBJS)
-		@make -C $(LIBFT_PATH) --no-print-directory
-		@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LINK_LIBS) $(LFLAGS)
-		@echo "$(GREEN) The Makefile of [SO_LONG] has been compiled!$(DEF_COLOR)"
+# Compilator and flags
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-# Compiles C source files into object files
-$(OBJS_PATH)%.o : $(SRCS_PATH)%.c
-	@$(MKDIR) $(OBJS_PATH)
-	@$(CC) $(CFLAGS) -I $(INC_PATH) -c $< -o $@
+# Command to remove files/directories
+REMOVE = rm -rf
+# Command to create directories
+MKDIR = mkdir -p
 
+# Paths
+SRCS_PATH = src/
+OBJS_PATH = objs/
+INC_PATH = inc/
+LIBFT_PATH = $(INC_PATH)libft/
 
-clean :
-	@$(REMOVE) $(OBJS_PATH)
-	@make clean -C $(LIBFT_PATH) --no-print-directory
-	@echo "$(BLUE)[$(NAME)] Object files cleaned!$(DEF_COLOR)"
+# Source files
+SRC = $(wildcard $(SRCS_PATH)*.c)
 
-fclean : clean
-	@$(REMOVE) $(NAME) $(OBJS_PATH)
-	@make fclean -C $(LIBFT_PATH) --no-print-directory
-	@echo "$(BLUE)[$(NAME)] Executable files and directories cleaned!$(DEF_COLOR)"
+# Object files
+OBJS = $(patsubst $(SRCS_PATH)%.c, $(OBJS_PATH)%.o, $(SRC))
+
+# Compiler flags to link to libraries
+LINK_LIBS = -L$(LIBFT_PATH) -lft -lreadline
+
+# Prevents all commands from showing in the shell.
+.SILENT:
+
+.PHONY: all libft clean fclean re norm
+
+all: libft $(NAME)
+
+# Runs the libft Makefile to update the libft.a if dependencies have changed.
+libft:
+	$(MAKE) -C $(LIBFT_PATH) --no-print-directory
+
+# Compiles the mandatory part.
+$(NAME): $(LIBFT_PATH)libft.a $(OBJS_PATH) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LINK_LIBS)
+	echo "$(GREEN)[$(NAME)] executable compiled.$(DEF_COLOR)"
+
+# Compiles the libft if libft.a is missing.
+$(LIBFT_PATH)libft.a:
+	$(MAKE) -C $(LIBFT_PATH) --no-print-directory
+
+# Creates the objects directory if it doesn't exist.
+$(OBJS_PATH):
+	$(MKDIR) $(OBJS_PATH)
+	echo "$(YELLOW)[$(OBJS_PATH)] directory created.$(DEF_COLOR)"
+
+# Compiles C source files into object files.
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC_PATH)minishell.h
+	$(CC) $(CFLAGS) -I $(INC_PATH) -I $(LIBFT_PATH) -c $< -o $@
+	echo "$(CYAN)[$@] object compiled.$(DEF_COLOR)"
+
+clean:
+	$(REMOVE) $(OBJS_PATH)
+	echo "$(MAGENTA)[$(NAME)] objects directory and files cleaned.$(DEF_COLOR)"
+	$(MAKE) clean -C $(LIBFT_PATH) --no-print-directory
+
+fclean:
+	$(REMOVE) $(OBJS_PATH)
+	echo "$(MAGENTA)[$(NAME)] objects directory and files cleaned.$(DEF_COLOR)"
+	$(REMOVE) $(NAME)
+	echo "$(BLUE)[$(NAME)] executable cleaned.$(DEF_COLOR)"
+	$(MAKE) fclean -C $(LIBFT_PATH) --no-print-directory
 
 re: fclean all
 
-.PHONY: all clean fclean re
+norm:
+	norminette $(SRCS_PATH) $(INC_PATH)
