@@ -10,11 +10,30 @@
 #                                                                              #
 # **************************************************************************** #
 
+# Color codes for terminal output
+DEF_COLOR = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
+
+# The name of the library
 NAME = libft.a
-CC = gcc
+
+# Compilator and flags
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
+
 AR = ar -rcs
 
+# Command to remove files/directories
+REMOVE = rm -rf
+
+# Source files
 SRC = chars/ft_putchar.c \
 		chars/ft_putstr.c \
 		chars/ft_putptr.c \
@@ -65,39 +84,32 @@ SRC = chars/ft_putchar.c \
 		get_next_line/get_next_line.c \
 
 
-# .c files = .o files
-OBJ = $(SRC:.c=.o)
+# Object files
+OBJS = $(SRC:.c=.o)
 
-# Colors
-DEF_COLOR = \033[0;39m
-GRAY = \033[0;90m
-RED = \033[0;91m
-GREEN = \033[0;92m
-YELLOW = \033[0;93m
-BLUE = \033[0;94m
-MAGENTA = \033[0;95m
-CYAN = \033[0;96m
-WHITE = \033[0;97m
-
-# compilation and linking
-all: $(NAME)
-
-$(NAME): $(OBJ)
-	@$(AR) $(NAME) $(OBJ)
-	@echo "$(GREEN) [LIBFT] Library compiled $(DEF_COLOR)"
-
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-clean:
-	@rm -rf $(OBJ)
-	@echo "$(BLUE) [LIBFT] Object files cleaned!$(DEF_COLOR)"
-
-fclean: clean
-	@rm -rf $(NAME)
-	@echo "$(BLUE) [LIBFT] Executable files cleaned!$(DEF_COLOR)"
-
-re: fclean all
-	@echo "$(BLUE) [LIBFT] Cleaned and rebuilt everything!$(DEF_COLOR)"
+# Prevents all commands from showing in the shell.
+.SILENT:
 
 .PHONY: all clean fclean re
+
+all: $(NAME)
+
+# Compiles the mandatory part.
+$(NAME): $(OBJS)
+	$(AR) $(NAME) $(OBJS)
+	echo "$(GREEN)[libft] library compiled.$(DEF_COLOR)"
+
+# Compiles C source files into object files.
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+	echo "$(CYAN)[$@] object compiled.$(DEF_COLOR)"
+
+clean:
+	$(REMOVE) $(OBJS)
+	echo "$(MAGENTA)[libft] object files cleaned.$(DEF_COLOR)"
+
+fclean: clean
+	$(REMOVE) $(NAME)
+	echo "$(BLUE)[libft] library cleaned.$(DEF_COLOR)"
+
+re: fclean all

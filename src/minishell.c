@@ -20,11 +20,16 @@ int main(int argc, char *argv[], char *envp[])
     while (1)
     {
         cmd_line = readline("$ ");
-        (void) cmd_line;
+        if (cmd_line == NULL)
+        {
+            ft_putstr_fd("Signal received. Stop.\n", STDERR_FILENO);
+            return (1);
+        }
         //printf("%s\n", cmd_line);
         //ft_transform_cmd(cmd_line, &ms); //Lexing+Expanding+Parsing. Cámbiale el nombre a esta función a tu gusto.
         //ft_execute_cmd(&ms);
         ms.cmd_line_num++;
+        free(cmd_line);
     }
     return (0);
 }

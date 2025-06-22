@@ -1,0 +1,27 @@
+
+# Archivos de compilación
+*.o
+*.out
+*.exe
+*.a
+*.so
+*.d
+
+# Ejecutables comunes
+a.out
+core
+main
+minishell
+
+# Archivos de depuración
+*.log
+
+# Archivos del sistema y del editor
+*.swp
+*.swo
+*.tmp
+*.bak
+*.dSYM/
+.vscode/
+.idea/
+.DS_Store
