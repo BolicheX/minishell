@@ -6,11 +6,22 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 20:39:13 by jose-jim          #+#    #+#             */
-/*   Updated: 2024/11/21 15:21:38 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:25:53 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
+
+
+int ft_strcmp(char *s1, char *s2)
+{
+	int i;
+
+	i = 0;
+	while ((s1[i] || s2[i]) && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
