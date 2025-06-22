@@ -26,7 +26,7 @@ int main(int argc, char *argv[], char *envp[])
             return (1);
         }
         //printf("%s\n", cmd_line);
-        //ft_transform_cmd(cmd_line, &ms); //Lexing+Expanding+Parsing. Cámbiale el nombre a esta función a tu gusto.
+        ft_transform_cmd(cmd_line, &ms); //Lexing+Expanding+Parsing. Cámbiale el nombre a esta función a tu gusto.
         //ft_execute_cmd(&ms);
         ms.cmd_line_num++;
         free(cmd_line);

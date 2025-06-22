@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/20 17:25:16 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:48:23 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,14 @@ typedef struct s_ms
 	int		status;
 	pid_t	pid;
 }		t_ms;
+
+/* -------◊		TOKENS	◊------- */
+t_token	*ft_new_token(t_token_type type, char *value);
+void	ft_add_token(t_token **list, t_token *new);
+void	ft_print_tokens(t_token *tokens);
+
+/* -------◊		LEXING	◊------- */
+int	ft_transform_cmd(char *cmd_line, t_ms *ms);
+
 
 #endif

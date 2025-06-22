@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:45 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/04/22 17:30:22 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/22 23:47:50 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t n);
 size_t	ft_strlcat(char *dst, const char *src, size_t n);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
+int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strrncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
