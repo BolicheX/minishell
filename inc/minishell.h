@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/22 23:48:23 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:44:23 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,21 @@ typedef struct s_ms
 	t_cmd	*cmd_list;
 	//t_env	*env_list;
 	char	**envp;
+	char	**envp_paths;
 	int		cmd_line_num;
 	int		status;
 	pid_t	pid;
 }		t_ms;
+
+/* -------◊		CLEAN	◊------- */
+void	ft_close(int *fd);
+void	ft_free_str_array(char **array);
+void	ft_clean_all(t_ms *ms);
+
+/* -------◊		EXIT	◊------- */
+void	ft_exit_clean(int exit_code, t_ms *ms);
+void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms);
+void	ft_exit_error(char *message, int exit_code, t_ms *ms);
 
 /* -------◊		TOKENS	◊------- */
 t_token	*ft_new_token(t_token_type type, char *value);
