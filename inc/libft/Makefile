@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+         #
+#    By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/26 12:12:48 by jose-jim          #+#    #+#              #
-#    Updated: 2025/04/22 21:38:28 by jose-jim         ###   ########.fr        #
+#    Updated: 2025/06/23 19:47:18 by jescuder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,15 @@ SRC = chars/ft_putchar.c \
 		math/ft_abs.c \
 		math/ft_max.c \
 		math/ft_min.c \
+		linked_lists/ft_lstadd_back_bonus.c \
+		linked_lists/ft_lstadd_front_bonus.c \
+		linked_lists/ft_lstclear_bonus.c \
+		linked_lists/ft_lstdelone_bonus.c \
+		linked_lists/ft_lstiter_bonus.c \
+		linked_lists/ft_lstlast_bonus.c \
+		linked_lists/ft_lstmap_bonus.c \
+		linked_lists/ft_lstnew_bonus.c \
+		linked_lists/ft_lstsize_bonus.c \
 		ft_printf/ft_printf.c \
 		get_next_line/get_next_line.c \
 
