@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/24 18:03:51 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:13:54 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	ft_perror(char *perror_prefix)
 {
-	char	*complete_prefix;
-
 	if (perror_prefix != NULL)
 	{
-		complete_prefix = ft_strjoin("-minishell: ", perror_prefix);
-		perror(complete_prefix);
-		free(complete_prefix);
+		ft_putstr_fd("-minishell: ", STDERR_FILENO);
+		perror(perror_prefix);
 	}
 	else
 		perror("-minishell: error");
