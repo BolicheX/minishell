@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 20:52:45 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/04/22 17:29:54 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:06:57 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_max_i(int *arr, int size)
 {

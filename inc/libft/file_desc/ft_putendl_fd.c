@@ -6,11 +6,11 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:04:45 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/23 17:10:01 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:06:05 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)
 {

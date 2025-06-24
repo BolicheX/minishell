@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 20:39:13 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/21 20:25:53 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:08:11 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
+#include "libft.h"
 
 int ft_strcmp(char *s1, char *s2)
 {

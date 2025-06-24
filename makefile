@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+         #
+#    By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/16 21:26:43 by jose-jim          #+#    #+#              #
-#    Updated: 2025/01/21 15:52:15 by jose-jim         ###   ########.fr        #
+#    Updated: 2025/06/24 16:40:29 by jescuder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ WHITE = \033[0;97m
 # The name of the executable
 NAME = minishell
 
-# Compilator and flags
+# Compiler and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
@@ -45,8 +45,8 @@ SRC = $(wildcard $(SRCS_PATH)*.c)
 # Object files
 OBJS = $(patsubst $(SRCS_PATH)%.c, $(OBJS_PATH)%.o, $(SRC))
 
-# Compiler flags to link to libraries
-LINK_LIBS = -L$(LIBFT_PATH) -lft -lreadline
+# Compiler flags to link libraries
+LFLAGS = -L$(LIBFT_PATH) -lft -lreadline
 
 # Prevents all commands from showing in the shell.
 .SILENT:
@@ -55,16 +55,16 @@ LINK_LIBS = -L$(LIBFT_PATH) -lft -lreadline
 
 all: libft $(NAME)
 
-# Runs the libft Makefile to update the libft.a if dependencies have changed.
+# Runs the libft Makefile, which will compile libft.a if its dependencies have changed.
 libft:
 	$(MAKE) -C $(LIBFT_PATH) --no-print-directory
 
 # Compiles the mandatory part.
 $(NAME): $(LIBFT_PATH)libft.a $(OBJS_PATH) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LINK_LIBS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LFLAGS)
 	echo "$(GREEN)[$(NAME)] executable compiled.$(DEF_COLOR)"
 
-# Compiles the libft if libft.a is missing.
+# Compiles libft.a if it's missing.
 $(LIBFT_PATH)libft.a:
 	$(MAKE) -C $(LIBFT_PATH) --no-print-directory
 

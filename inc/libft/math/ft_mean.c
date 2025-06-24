@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mean.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 14:12:17 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/04/22 17:29:51 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:07:00 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_mean(int *n, int size)
 {

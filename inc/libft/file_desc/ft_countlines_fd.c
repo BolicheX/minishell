@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_countlines_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 13:49:32 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/01/16 21:02:18 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:05:59 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libft.h"
 
 int	ft_countlines_fd(int fd)
 {
