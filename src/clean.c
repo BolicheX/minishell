@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/23 18:59:21 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:56:01 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_close(int *fd)
 	if (*fd == -1)
         return ;
 	if (close(*fd) == -1)
-        perror("Error");
+        ft_perror("error");
     *fd = -1;
 }
 
