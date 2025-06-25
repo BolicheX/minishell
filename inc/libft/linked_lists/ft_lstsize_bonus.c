@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 20:58:11 by jescuder          #+#    #+#             */
-/*   Updated: 2022/10/01 23:17:43 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:01:01 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	ft_lstsize(t_list *lst)
 {
-	int	n;
+	int	size;
 
-	n = 0;
-	while (lst)
+	size = 0;
+	while (lst != NULL)
 	{
 		lst = lst->next;
-		n++;
+		size++;
 	}
-	return (n);
+	return (size);
 }

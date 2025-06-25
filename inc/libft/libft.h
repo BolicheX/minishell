@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:45 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/23 19:49:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:54:17 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		ft_max_2(int a, int b);
 int		ft_min_i(int *arr, int size);
 
 /* -------◊	LINKED LISTS	◊------- */
-typedef struct s_list
+typedef struct	s_list
 {
 	void			*content;
 	struct s_list	*next;
@@ -98,13 +98,29 @@ typedef struct s_list
 
 t_list  *ft_lstnew(void *content);
 void    ft_lstadd_front(t_list **lst, t_list *new);
-int	    ft_lstsize(t_list *lst);
-t_list  *ft_lstlast(t_list *lst);
 void    ft_lstadd_back(t_list **lst, t_list *new);
-void    ft_lstdelone(t_list *lst, void (*del)(void *));
+t_list  *ft_lstlast(t_list *lst);
+int	    ft_lstsize(t_list *lst);
+void    ft_lstdelone(t_list *node, void (*del)(void *));
 void    ft_lstclear(t_list **lst, void (*del)(void	*));
 void    ft_lstiter(t_list *lst, void (*f)(void *));
 t_list  *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+/* -------◊	KEY-VALUE LISTS	◊------- */
+typedef struct	s_kvl
+{
+	char			*key;
+	void			*value;
+	struct s_kvl	*next;
+}					t_kvl;
+
+t_kvl	*ft_kvl_new(char *key, void *value);
+void	ft_kvl_add(t_kvl **lst, t_kvl *new);
+int		ft_kvl_set(t_kvl **lst, char *key, void *value);
+void	*ft_kvl_get(t_kvl *lst, char *key);
+void	ft_kvl_delone(t_kvl *node, void (*del)(void    *));
+void	ft_kvl_clear(t_kvl **lst, void (*del)(void    *));
+int		ft_kvl_remove(t_kvl **lst, char *key, void (*del)(void    *));
 
 /* -------◊	PRINTF	◊------- */
 int		ft_printf(const char *s, ...);

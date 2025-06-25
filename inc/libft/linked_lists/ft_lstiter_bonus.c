@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 23:38:57 by jescuder          #+#    #+#             */
-/*   Updated: 2022/10/01 23:46:08 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:56:21 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	if (!lst || !f)
+	if (lst == NULL || f == NULL)
 		return ;
-	while (lst)
+	while (lst != NULL)
 	{
 		f(lst->content);
 		lst = lst->next;

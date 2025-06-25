@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   ft_kvl_delone.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/01 23:01:10 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/25 11:48:41 by jescuder         ###   ########.fr       */
+/*   Created: 2025/06/25 13:58:18 by jescuder          #+#    #+#             */
+/*   Updated: 2025/06/25 14:54:17 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void	*))
+void    ft_kvl_delone(t_kvl *node, void (*del)(void    *))
 {
-	t_list	*node;
-	t_list	*next;
-
-	if (lst == NULL || del == NULL)
+    if (node == NULL || del == NULL)
 		return ;
-	node = *lst;
-	while (node != NULL)
-	{
-		next = node->next;
-		ft_lstdelone(node, del);
-		node = next;
-	}
-	*lst = NULL;
+    free(node->key);
+    del(node->value);
+    free(node);
 }

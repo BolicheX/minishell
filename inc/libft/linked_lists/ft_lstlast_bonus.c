@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 21:05:00 by jescuder          #+#    #+#             */
-/*   Updated: 2022/10/01 22:42:28 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:58:33 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	if (!lst)
-		return (0);
-	while (lst->next)
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
 		lst = lst->next;
 	return (lst);
 }
