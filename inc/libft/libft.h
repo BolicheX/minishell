@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:45 by jose-jim          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/25 21:33:40 by jescuder         ###   ########.fr       */
+=======
+/*   Updated: 2025/06/25 19:10:58 by jose-jim         ###   ########.fr       */
+>>>>>>> dced0bf (añadida comprobacion a expand.c y corregido erroes de compilacion)
 /*                                                                            */
 /* ************************************************************************** */
 

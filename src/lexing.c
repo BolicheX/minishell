@@ -6,20 +6,11 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/22 22:45:51 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:46:20 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* static int	get_operator_precedence(char c)
-{
-	if (c == '|')
-		return (1);
-	if (c == '<' || c == '>')
-		return (2);
-	return (0);
-} */
 
 static int	skip_quotes(const char *line, int i)
 {
@@ -32,32 +23,31 @@ static int	skip_quotes(const char *line, int i)
 	return (i);
 }
 
-static int	lex_operator(const char *line, int i, t_token **tokens)
+static int	lex_operator(const char *line, int i, t_list **tokens)
 {
 	char	op;
 	int		len;
 	char	*str;
-	t_token	*tok;
 
 	op = line[i];
 	len = 1;
 	if ((op == '<' || op == '>') && line[i + 1] == op)
 		len = 2;
 	str = ft_substr(line, i, len);
+	if (!str)
+		return (i + len);
 	if (op == '|')
-		tok = ft_new_token(T_PIPE, str);
+		ft_add_token(tokens, T_PIPE, str);
 	else
-		tok = ft_new_token(T_REDIR, str);
-	ft_add_token(tokens, tok);
+		ft_add_token(tokens, T_REDIR, str);
 	free(str);
 	return (i + len);
 }
 
-static int	lex_word(const char *line, int i, t_token **tokens)
+static int	lex_word(const char *line, int i, t_list **tokens)
 {
 	int		start;;
 	char	*str;
-	t_token	*tok;
 
 	start = i;
 	while (line[i] && line[i] != ' ' && !ft_strchr("|<>", line[i]))
@@ -68,16 +58,15 @@ static int	lex_word(const char *line, int i, t_token **tokens)
 			i++;
 	}
 	str = ft_substr(line, start, i - start);
-	tok = ft_new_token(T_WORD, str);
-	ft_add_token(tokens, tok);
+	if (str)
+		ft_add_token(tokens, T_WORD, str);
 	free(str);
 	return (i);
 }
 
-t_token	*ft_lexing(char *line)
+void	ft_lexing(char *line, t_list **tokens)
 {
 	int i = 0;
-	t_token *tokens = NULL;
 
 	while (line[i])
 	{
@@ -86,21 +75,24 @@ t_token	*ft_lexing(char *line)
 		if (!line[i])
 			break;
 		if (ft_strchr("|<>", line[i]))
-			i = lex_operator(line, i, &tokens);
+			i = lex_operator(line, i, tokens);
 		else
-			i = lex_word(line, i, &tokens);
+			i = lex_word(line, i, tokens);
 	}
-	return (tokens);
 }
 
 int	ft_transform_cmd(char *cmd_line, t_ms *ms)
 {
-	t_token *tokens;
+	t_list *tokens;
+/* 	t_list *cmds; */
 
-	tokens = ft_lexing(cmd_line);
+	tokens = NULL;
+	ft_lexing(cmd_line, &tokens);
 	ft_expand(tokens, ms);
-	ft_print_tokens(tokens);
-	printf("%s\n", cmd_line);
-	(void)ms;
-	return(0);
+	ft_lstiter(tokens, ft_print_token);
+/* 	cmds = ft_parse(tokens);
+	print_cmd_list(cmds);
+	ms->cmd_list = cmds; */
+	ft_lstclear(&tokens, ft_del_token);
+	return (0);
 }
