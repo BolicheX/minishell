@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 20:47:45 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/25 14:54:17 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:33:40 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct	s_kvl
 
 t_kvl	*ft_kvl_new(char *key, void *value);
 void	ft_kvl_add(t_kvl **lst, t_kvl *new);
-int		ft_kvl_set(t_kvl **lst, char *key, void *value);
+void	*ft_kvl_set(t_kvl **lst, char *key, void *value);
 void	*ft_kvl_get(t_kvl *lst, char *key);
 void	ft_kvl_delone(t_kvl *node, void (*del)(void    *));
 void	ft_kvl_clear(t_kvl **lst, void (*del)(void    *));
