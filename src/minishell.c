@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/23 18:05:56 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 10:51:08 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,30 @@ static void ft_init(char *envp[], t_ms *ms)
     ms->cmd_line_num = 1;//Contador de líneas necesario para cierto mensaje de error.
 }
 
+//There are arguments or STDIN_FILENO was redirected to a file or a pipe,
+//so we don't execute in interactive mode.
+void    ft_non_interactive_execution(int argc, char *argv[], t_ms *ms)
+{
+    (void) argc;
+    (void) argv;
+    ft_exit_clean(1, ms);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
     t_ms    ms;
     char    *cmd_line;
 
     ft_init(&ms, envp);
-    //Como es en modo interactivo, ver si hay que terminar con error si se introducen argumentos, o si sólo hay que ignorarlos.
-    (void) argc;
-    (void) argv;
+    if (argc != 1 || isatty(STDIN_FILENO) == 0)
+        ft_non_interactive_execution(argc, argv, &ms);
     while (1)
     {
         //TODO Probablemente haya que actualizar envp en cada iteración, por si cambia. Probablemente con getenv.
         cmd_line = readline("$ ");
         if (cmd_line == NULL)
         {
-            ft_putstr_fd("Signal received. Stop.\n", STDERR_FILENO);
+            ft_putendl_fd("exit", STDERR_FILENO);
             return (1);
         }
         //printf("%s\n", cmd_line);
