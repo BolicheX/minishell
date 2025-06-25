@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/25 10:51:08 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:34:56 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void set_envp_paths(t_ms *ms)
 		{
 			envp_paths = ft_split(envp[i] + 5, ':');
 			if (envp_paths == NULL)
-				ft_print_error(NULL, 1, ms);
+				ft_exit_error(NULL, 1, ms);
 			ms->envp_paths = envp_paths;
 			return ;
 		}
@@ -56,7 +56,7 @@ int main(int argc, char *argv[], char *envp[])
     t_ms    ms;
     char    *cmd_line;
 
-    ft_init(&ms, envp);
+    ft_init(envp, &ms);
     if (argc != 1 || isatty(STDIN_FILENO) == 0)
         ft_non_interactive_execution(argc, argv, &ms);
     while (1)

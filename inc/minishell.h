@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/24 18:02:06 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:33:50 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,16 @@ void	ft_exit_error(char *message, int exit_code, t_ms *ms);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
 /* -------◊		TOKENS	◊------- */
-t_token	*ft_new_token(t_token_type type, char *value);
-void	ft_add_token(t_token **list, t_token *new);
-void	ft_print_tokens(t_token *tokens);
+int	ft_add_token(t_list **tokens, t_token_type type, const char *value);
+void	ft_del_token(void *content);
+void	ft_print_token(void *node);
 
 /* -------◊		LEXING	◊------- */
 int	ft_transform_cmd(char *cmd_line, t_ms *ms);
+
+
+/* -------◊		EXPANDING VARIBALES	◊------- */
+int	ft_expand(t_list *tokens, t_ms *ms);
 
 
 #endif
