@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/24 19:56:01 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:16:25 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ static void ft_close_all(t_ms *ms)
 //Frees all heap memory in t_ms.
 static void ft_free_all(t_ms *ms)
 {
-	ft_free_str_array(ms->envp);
-	ft_free_str_array(ms->envp_paths);
+	//ft_free_str_array(ms->envp);
+	//ft_free_str_array(ms->envp_paths);
+	ft_kvl_clear(&ms->env, free);
 	//TODO Los demás campos de ms que estén en heap memory.
 }
 

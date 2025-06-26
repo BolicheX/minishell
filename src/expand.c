@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/25 19:54:50 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:30:19 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_env_value(char *var_name, char **envp)
-{
-	char *var = "Hola";
-	(void)var_name;
-	(void)envp;
-	return (var);
-}
+// char *get_env_value(char *var_name, char **envp)
+// {
+// 	char *var = "Hola";
+// 	(void)var_name;
+// 	(void)envp;
+// 	return (var);
+// }
 
 int ft_append_var(t_ms *ms, char **result, char *str, int *i)
 {
@@ -33,7 +33,9 @@ int ft_append_var(t_ms *ms, char **result, char *str, int *i)
 	var_name = ft_substr(str, j, *i - j);
 	if (!var_name)
 		return (ft_perror("malloc"), -1);
-	var_value = get_env_value(var_name, ms->envp);
+	//var_value = get_env_value(var_name, ms->envp);
+	//var_value = "Hola";
+	var_value = (char *) ft_kvl_get(ms->env, var_name);//Cuidado con las mayúsculas
 	free(var_name);
 	tmp = *result;
 	*result = ft_strjoin(*result, var_value);
