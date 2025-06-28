@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/25 21:42:21 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:51:45 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char			**argv;
+	int				argc;
 	char			*path;
 	int				in;
 	int				out;
