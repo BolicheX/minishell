@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:24:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/25 21:47:02 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:23:12 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_cmd_list(t_list *cmd_list)
+void	ft_print_cmd_list(t_list *cmds)
 {
 	int		i;
 	t_cmd	*cmd;
 	int		cmd_num = 1;
 
-	while (cmd_list)
+	while (cmds)
 	{
-		cmd = (t_cmd *)cmd_list->content;
+		cmd = (t_cmd *)cmds->content;
 		printf("Command #%d:\n", cmd_num++);
 		printf("  argv: ");
 		if (cmd->argv)
@@ -35,7 +35,7 @@ void	print_cmd_list(t_list *cmd_list)
 		printf("  in: %d\n", cmd->in);
 		printf("  out: %d\n", cmd->out);
 
-		cmd_list = cmd_list->next;
+		cmds = cmds->next;
 	}
 }
 
@@ -50,4 +50,17 @@ void	ft_print_token(void *node)
 		printf("[REDIR] [%s]\n", token->value);
 	else if (token->type == T_PIPE)
 		printf("[PIPE]  [%s]\n", token->value);
+}
+
+static void	ft_print_env_internal(char *key, void *value)
+{
+	printf("Key: %s\n", key);
+	printf("Value: %s\n", (char *) value);
+}
+
+//Para probar que se están inicializando bien las variables de entorno.
+void	ft_print_env(t_ms *ms)
+{
+	printf("%s", "Variables de entorno:\n");
+	ft_kvl_iter(ms->env, ft_print_env_internal);
 }

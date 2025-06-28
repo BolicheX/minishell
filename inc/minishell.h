@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/27 19:51:45 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:50:01 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,6 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-// typedef struct s_env
-// {
-// 	char			*key;
-// 	char			*value;
-// 	struct s_env	*next;
-// }	t_env;
-
 typedef struct s_cmd
 {
 	char			**argv;
@@ -60,14 +53,16 @@ typedef struct s_cmd
 
 typedef struct s_ms
 {
-	t_list	*cmd_list;
-	t_kvl	*env_list;
-	char	**envp;
-	char	**envp_paths;
-	int		cmd_line_num;
+	t_list	*cmds;
+	t_kvl	*env;
+	int		cmd_lines_num;
 	int		status;
 	pid_t	pid;
 }		t_ms;
+
+/* -------◊		INIT	◊------- */
+void    ft_init(char *envp[], t_ms *ms);
+void    ft_init_env(char *envp[], t_ms *ms);
 
 /* -------◊		CLEAN	◊------- */
 void	ft_close(int *fd);
@@ -81,19 +76,22 @@ void	ft_exit_error(char *message, int exit_code, t_ms *ms);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
 /* -------◊		TOKENS	◊------- */
-int	ft_add_token(t_list **tokens, t_token_type type, const char *value);
+int		ft_add_token(t_list **tokens, t_token_type type, const char *value);
 void	ft_del_token(void *content);
 void	ft_print_token(void *node);
 
 /* -------◊		LEXING	◊------- */
 int	ft_transform_cmd(char *cmd_line, t_ms *ms);
 
-
 /* -------◊		EXPANDING VARIBALES	◊------- */
 int	ft_expand(t_list *tokens, t_ms *ms);
 
 /* -------◊		PARSING	◊------- */
 t_list	*ft_parse(t_list *tokens);
-void	print_cmd_list(t_list *cmd_list);
+
+/* -------◊		DEBUG	◊------- */
+void	ft_print_cmd_list(t_list *cmds);
+void	ft_print_token(void *node);
+void	ft_print_env(t_ms *ms);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/25 21:46:20 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:00:31 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int	ft_transform_cmd(char *cmd_line, t_ms *ms)
 	ft_expand(tokens, ms);
 	ft_lstiter(tokens, ft_print_token);
 /* 	cmds = ft_parse(tokens);
-	print_cmd_list(cmds);
-	ms->cmd_list = cmds; */
+	ft_print_cmd_list(cmds);
+	ms->cmds = cmds; */
 	ft_lstclear(&tokens, ft_del_token);
 	return (0);
 }
