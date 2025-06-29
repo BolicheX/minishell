@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/28 17:50:01 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:19:16 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ int	ft_expand(t_list *tokens, t_ms *ms);
 
 /* -------◊		PARSING	◊------- */
 t_list	*ft_parse(t_list *tokens);
+
+/* -------◊		FILE DESCRIPTORS	◊------- */
+int ft_open_read(char *filename);
+int ft_open_write(char *filename, int truncate);
 
 /* -------◊		DEBUG	◊------- */
 void	ft_print_cmd_list(t_list *cmds);

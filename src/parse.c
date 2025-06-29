@@ -6,12 +6,11 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/27 22:39:50 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:04:40 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void ft_free_cmd(void *content)
 {
@@ -40,7 +39,11 @@ void ft_free_cmd(void *content)
 
 void	ft_cleanup_parse(t_list *cmd_list, t_cmd *cmd)
 {
-	ft_lstclear(&cmd_list, (void *)ft_free_cmd);
+	if (cmd_list)
+	{
+		ft_lstclear(&cmd_list, (void *)ft_free_cmd);
+		cmd_list = NULL;
+	}
 	if (cmd)
 		ft_free_cmd(cmd);
 }
@@ -94,19 +97,18 @@ int ft_handle_redir(t_cmd *cmd, t_token *redir_tok, t_list **tokens)
 	t_token *file_tok;
 	int fd;
 
+	fd = -1;
 	if (!*tokens || !(*tokens)->content)
-		return (ft_perror("syntax error: missing file after redirection"), -1);
+		return (ft_perror("syntax error: missing file after redirection"), 0);
 	file_tok = (t_token *)(*tokens)->content;
 	if (file_tok->type != T_WORD)
-		return (ft_perror("syntax error: expected file after redirection"), -1);
+		return (ft_perror("syntax error: expected file after redirection"), 0);
 	if (!ft_strcmp(redir_tok->value, ">"))
-		fd = open(file_tok->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = ft_open_write(file_tok->value, 1);
 	else if (!ft_strcmp(redir_tok->value, ">>"))
-		fd = open(file_tok->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = ft_open_write(file_tok->value, 0);
 	else if (!ft_strcmp(redir_tok->value, "<"))
-		fd = open(file_tok->value, O_RDONLY);
-	if (fd < 0)
-		return (ft_perror("failed to open redirection file"), -1);
+		fd = ft_open_read(file_tok->value);
 	if (redir_tok->value[0] == '<')
 		cmd->in = fd;
 	else
@@ -170,21 +172,21 @@ t_list *ft_parse(t_list *tokens)
 	cmd_list = NULL;
 	cmd = ft_new_cmd();
 	if (!cmd)
-		return NULL;
+		return (NULL);
 	while (tokens)
 	{
 		tok = (t_token *)tokens->content;
 		tokens = tokens->next;
 		if (ft_handle_token(tok, &tokens, &cmd, &cmd_list) < 0)
 		{
-			ft_cleanup_parse(cmd_list, cmd);
-			return NULL;
+			ft_cleanup_parse(NULL, cmd);
+			return (NULL);
 		}
 	}
 	if (ft_finalize_cmd(cmd, &cmd_list) < 0)
 	{
 		ft_cleanup_parse(cmd_list, cmd);
-		return NULL;
+		return (NULL);
 	}
-	return cmd_list;
+	return (cmd_list);
 }
