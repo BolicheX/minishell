@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:20:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/26 18:33:32 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:39:40 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void ft_init_env_aux(char *value_str, char *env_str, t_ms *ms)
     ft_kvl_add(&ms->env, new_node);
 }
 
-void    ft_init_env(char *envp[], t_ms *ms)
+static void ft_init_env(char *envp[], t_ms *ms)
 {
     int     i;
     char    *env_str;
@@ -80,11 +80,28 @@ void    ft_init_env(char *envp[], t_ms *ms)
     }
 }
 
+//TODO Comprobar qué cosas hay que hacer si no es modo interactivo.
 void    ft_init(char *envp[], t_ms *ms)
 {
     ft_memset(ms, 0, sizeof(t_ms));
     ft_init_env(envp, ms);
     //ft_print_env(ms);//Para debug
     //printf("Value de PATH: %s\n", (char *) ft_kvl_get(ms->env, "PATH"));
-    ms->cmd_lines_num = 1;//Contador de líneas necesario para cierto mensaje de error.
+    ms->cmd_lines_num = 1;//Contador de líneas necesario para mensaje de error heredoc.
+}
+
+/* Initializes ms->original_termios with the original terminal configuration
+to be able to restore it. */
+void    ft_init_termios(t_ms *ms)
+{
+    struct termios  original_termios;
+
+    if (tcgetattr(STDIN_FILENO, &original_termios) == -1)
+    {
+        ms->termios_ok = 0;
+        return ;
+    }
+    ms->termios_ok = 1;
+    ms->orig_termios = original_termios;
+    ft_setup_terminal(ms);
 }

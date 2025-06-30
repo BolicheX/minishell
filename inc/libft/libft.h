@@ -6,17 +6,12 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:21 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/26 18:08:31 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/27 17:57:18 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-# include <stddef.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdarg.h>
 
 // buffer_size of gnl
 # ifndef BUFFER_SIZE
@@ -26,6 +21,11 @@
 // hexadecimal of ft_printf - putptr, puthexa
 # define HEX_LOWCASE "0123456789abcdef"
 # define HEX_UPCASE  "0123456789ABCDEF"
+
+#include <stddef.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdarg.h>
 
 /* -------◊		FUNCTIONS TO CONVERSION/INTEGERS	◊------- */
 int		ft_atoi(const char *str);

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/26 18:16:25 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:36:25 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ static void ft_free_all(t_ms *ms)
 	//TODO Los demás campos de ms que estén en heap memory.
 }
 
-//Closes every file descriptor and frees all heap memory in t_ms.
+//Closes every file descriptor and frees all heap memory in t_ms,
+//and restores the original terminal configuration.
 void    ft_clean_all(t_ms *ms)
 {
     ft_close_all(ms);
     ft_free_all(ms);
+	//ft_restore_terminal(ms);
 }

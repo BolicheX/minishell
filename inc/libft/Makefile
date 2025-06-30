@@ -6,7 +6,7 @@
 #    By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/26 12:12:48 by jose-jim          #+#    #+#              #
-#    Updated: 2025/06/24 16:22:46 by jescuder         ###   ########.fr        #
+#    Updated: 2025/06/27 17:56:24 by jescuder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ $(NAME): $(OBJS)
 	echo "$(GREEN)[libft] library compiled.$(DEF_COLOR)"
 
 # Compiles C source files into object files.
-%.o: %.c
+%.o: %.c libft.h
 	$(CC) $(CFLAGS) -I ./ -c $< -o $@
 	echo "$(CYAN)[$@] object compiled.$(DEF_COLOR)"
 
