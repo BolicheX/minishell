@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/29 16:04:40 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:15:03 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void ft_free_cmd(void *content)
 	cmd = (t_cmd *)content;
 	if (!cmd)
 		return;
-	if (cmd->in >= 0)
+	if (cmd->in != -1 && cmd->in != STDIN_FILENO)
 		close(cmd->in);
-	if (cmd->out >= 0)
+	if (cmd->out != -1 && cmd->out != STDOUT_FILENO)
 		close(cmd->out);
 	if (cmd->argv)
 	{

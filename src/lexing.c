@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/26 18:00:31 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:09:45 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,17 @@ void	ft_lexing(char *line, t_list **tokens)
 int	ft_transform_cmd(char *cmd_line, t_ms *ms)
 {
 	t_list *tokens;
-/* 	t_list *cmds; */
+	t_list *cmds;
 
 	tokens = NULL;
 	ft_lexing(cmd_line, &tokens);
 	ft_expand(tokens, ms);
 	ft_lstiter(tokens, ft_print_token);
-/* 	cmds = ft_parse(tokens);
-	ft_print_cmd_list(cmds);
-	ms->cmds = cmds; */
+	cmds = ft_parse(tokens);
 	ft_lstclear(&tokens, ft_del_token);
+	ft_resolve_paths(cmds, ms);
+	ft_print_cmd_list(cmds);
+	ms->cmds = cmds;
+/* 	ft_cleanup_parse(cmds, NULL); */
 	return (0);
 }

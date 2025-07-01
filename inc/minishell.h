@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/30 20:08:16 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:36:50 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,10 @@ int	ft_expand(t_list *tokens, t_ms *ms);
 
 /* -------◊		PARSING	◊------- */
 t_list	*ft_parse(t_list *tokens);
+void	ft_cleanup_parse(t_list *cmd_list, t_cmd *cmd);
+
+/* -------◊		PATHS	◊------- */
+void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */
 int ft_open_read(char *filename);
