@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/01 22:36:50 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:33:36 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct	s_ms
 void	ft_close(int *fd);
 void	ft_free_str_array(char **array);
 void	ft_clean_all(t_ms *ms);
+void	ft_clean_cmd(void *content);
+void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd);
 
 /* -------◊		EXIT	◊------- */
 void	ft_perror(char *perror_prefix);
@@ -103,7 +105,7 @@ int	ft_expand(t_list *tokens, t_ms *ms);
 
 /* -------◊		PARSING	◊------- */
 t_list	*ft_parse(t_list *tokens);
-void	ft_cleanup_parse(t_list *cmd_list, t_cmd *cmd);
+void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd);
 
 /* -------◊		PATHS	◊------- */
 void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/30 20:36:25 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:34:20 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,69 @@ void	ft_free_str_array(char **array)
 }
 
 //Closes every file descriptor in t_ms.
-static void ft_close_all(t_ms *ms)
+//La dejo por si por algun motivo se necesita cerrar los fds de los comandos sin liberar la memoria de los comandos.
+//Pero por ahora se usa ft_clean_cm tanto para liberar memoria como para cerrar los fds.
+/* static void	ft_close_all(t_ms *ms)
 {
-	(void) ms;
-    //TODO Esperar a ver de qué manera y dónde se guardan los fd durante el parsing. Y entonces cerrarlos.
-    //Posiblemente lo mejor sea guardarlos en una lista enlazada durante el parseo y para cerrarlos no haya que tocar sus copias en t_cmd(campos in y out).
-    //Otra opción es guardarlos sólo en los campos in y out de los t_cmd teniendo cuidado durante el parseo de que, en los casos en que el programa deba cerrarse
-    //por algún error, no se quede ninguno abierto y sin asignar a un t_cmd, porque entonces esta función no lo cerraría.
+	t_list	*cmd_list;
+	t_cmd	*cmd;
+
+	if (!ms || !ms->cmds)
+		return;
+	cmd_list = ms->cmds;
+	while (cmd_list)
+	{
+		cmd = (t_cmd *)cmd_list->content;
+		if (cmd)
+		{
+			if (cmd->in != STDIN_FILENO && cmd->in >= 0)
+			{
+				close(cmd->in);
+				cmd->in = -1;
+			}
+			if (cmd->out != STDOUT_FILENO && cmd->out >= 0)
+			{
+				close(cmd->out);
+				cmd->out = -1;
+			}
+		}
+		cmd_list = cmd_list->next;
+	}
+} */
+
+void ft_clean_cmd(void *content)
+{
+	t_cmd	*cmd;
+
+	cmd = (t_cmd *)content;
+	if (!cmd)
+		return;
+	if (cmd->in >= 0 && cmd->in != STDIN_FILENO)
+	{
+		close(cmd->in);
+		cmd->in = -1;
+	}
+	if (cmd->out >= 0 && cmd->out != STDOUT_FILENO)
+	{
+		close(cmd->out);
+		cmd->out = -1;
+	}
+	if (cmd->argv)
+		ft_free_str_array(cmd->argv);
+	if (cmd->path)
+		free(cmd->path);
+	free(cmd);
+}
+
+void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd)
+{
+	if (cmd_list)
+	{
+		ft_lstclear(&cmd_list, (void *)ft_clean_cmd);
+		cmd_list = NULL;
+	}
+	if (cmd)
+		ft_clean_cmd(cmd);
 }
 
 //Frees all heap memory in t_ms.
@@ -52,6 +108,7 @@ static void ft_free_all(t_ms *ms)
 {
 	//ft_free_str_array(ms->envp);
 	//ft_free_str_array(ms->envp_paths);
+	ft_lstclear(&ms->cmds, ft_clean_cmd);
 	ft_kvl_clear(&ms->env, free);
 	//TODO Los demás campos de ms que estén en heap memory.
 }
@@ -60,7 +117,7 @@ static void ft_free_all(t_ms *ms)
 //and restores the original terminal configuration.
 void    ft_clean_all(t_ms *ms)
 {
-    ft_close_all(ms);
+    //ft_close_all(ms);
     ft_free_all(ms);
 	//ft_restore_terminal(ms);
 }

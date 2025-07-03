@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/01 12:09:45 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:33:36 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ int	ft_transform_cmd(char *cmd_line, t_ms *ms)
 	ft_resolve_paths(cmds, ms);
 	ft_print_cmd_list(cmds);
 	ms->cmds = cmds;
-/* 	ft_cleanup_parse(cmds, NULL); */
+/* 	ft_clean_parse(cmds, NULL); */
 	return (0);
 }

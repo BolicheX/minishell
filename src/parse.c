@@ -6,47 +6,11 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/01 11:15:03 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:33:52 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void ft_free_cmd(void *content)
-{
-	t_cmd	*cmd;
-	int		i;
-
-	cmd = (t_cmd *)content;
-	if (!cmd)
-		return;
-	if (cmd->in != -1 && cmd->in != STDIN_FILENO)
-		close(cmd->in);
-	if (cmd->out != -1 && cmd->out != STDOUT_FILENO)
-		close(cmd->out);
-	if (cmd->argv)
-	{
-		i = 0;
-		while (i < cmd->argc)
-		{
-			free(cmd->argv[i]);
-			i++;
-		}
-		free(cmd->argv);
-	}
-	free(cmd);
-}
-
-void	ft_cleanup_parse(t_list *cmd_list, t_cmd *cmd)
-{
-	if (cmd_list)
-	{
-		ft_lstclear(&cmd_list, (void *)ft_free_cmd);
-		cmd_list = NULL;
-	}
-	if (cmd)
-		ft_free_cmd(cmd);
-}
 
 t_cmd *ft_new_cmd(void)
 {
@@ -179,13 +143,13 @@ t_list *ft_parse(t_list *tokens)
 		tokens = tokens->next;
 		if (ft_handle_token(tok, &tokens, &cmd, &cmd_list) < 0)
 		{
-			ft_cleanup_parse(NULL, cmd);
+			ft_clean_parse(NULL, cmd);
 			return (NULL);
 		}
 	}
 	if (ft_finalize_cmd(cmd, &cmd_list) < 0)
 	{
-		ft_cleanup_parse(cmd_list, cmd);
+		ft_clean_parse(cmd_list, cmd);
 		return (NULL);
 	}
 	return (cmd_list);
