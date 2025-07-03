@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/03 16:33:36 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:20:11 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,13 @@ void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);
 int ft_open_read(char *filename);
 int ft_open_write(char *filename, int truncate);
 
+/* -------◊		BUILT-INS	◊------- */
+int	ft_echo(t_cmd *cmd);
+
 /* -------◊		DEBUG	◊------- */
 void	ft_print_cmd_list(t_list *cmds);
 void	ft_print_token(void *node);
 void	ft_print_env(t_ms *ms);
+
 
 #endif

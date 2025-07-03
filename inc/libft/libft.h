@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:21 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/27 17:57:18 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:13:51 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		ft_putptr(unsigned long n);
 int		ft_putnbr(int nb);
 int		ft_putnbr_unsign(unsigned int n);
 int		ft_puthex(unsigned int number, int conv);
+int		ft_countchar(const char *str, char c);
 
 /* -------◊	FUNCTIONS TO MANIPULATE STRINGS	◊------- */
 size_t	ft_strlen(const char *str);

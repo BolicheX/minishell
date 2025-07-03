@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/30 20:14:07 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/03 22:37:42 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,22 @@ static void ft_non_interactive_mode(int argc, char *argv[], t_ms *ms)
     (void) argc;
     (void) argv;
     ft_exit_clean(1, ms);
+}
+
+void	ft_execute_builtin(t_ms *ms)
+{
+	t_list	*current;
+	char	**argv;
+
+	current = ms->cmds;
+	while (current)
+	{
+		argv = ((t_cmd *)current->content)->argv;
+		if (argv && argv[0] && ft_strcmp(argv[0], "echo") == 0)
+			ms->status = ft_echo((t_cmd *)current->content);
+		current = current->next;
+	}
+	ft_lstclear(&ms->cmds, ft_clean_cmd);
 }
 
 static void ft_interactive_mode(t_ms *ms)
@@ -39,6 +55,7 @@ static void ft_interactive_mode(t_ms *ms)
         }
         //printf("%s\n", cmd_line);
         ft_transform_cmd(cmd_line, ms);
+		ft_execute_builtin(ms);
         //ft_execute_cmd(&ms);
         ms->cmd_lines_num++;
         free(cmd_line);
