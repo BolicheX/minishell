@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/03 22:15:50 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/17 16:02:28 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,16 @@ int	ft_echo(t_cmd *cmd)
 		ft_putchar_fd('\n', cmd->out);
 	return (0);
 }
+
+int	ft_pwd(t_cmd *cmd)
+{
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		ft_perror("Error getting current working directory");
+	ft_putendl_fd(cwd, cmd->out);
+	free(cwd);
+	return (0);
+}
+
