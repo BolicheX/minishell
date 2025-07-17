@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/17 16:02:28 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:21:11 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,31 @@ int	ft_pwd(t_cmd *cmd)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		ft_perror("Error getting current working directory");
+		ft_error("pwd", NULL, NULL, 1);
 	ft_putendl_fd(cwd, cmd->out);
 	free(cwd);
 	return (0);
 }
 
+int	ft_cd(t_cmd *cmd, t_ms *ms)
+{
+	char	*path;
+
+	if (!cmd->argv[1])
+	{
+		path = ft_kvl_get(ms->env, "HOME");
+		if (!path)
+		{
+			ft_error("cd", NULL, "HOME not set", 1);
+			return (1);
+		}
+	}
+	else
+		path = cmd->argv[1];
+	if (chdir(path) != 0)
+	{
+		ft_error("cd", path, NULL, 1);
+		return (1);
+	}
+	return (0);
+}

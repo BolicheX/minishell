@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/17 16:42:32 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:15:15 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd);
 /* -------◊		EXIT	◊------- */
 void	ft_perror(char *perror_prefix);
 void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms);
-void	ft_error(const char *context, const char *msg, int exit_code);
+void	ft_error(char *cmd, char *arg, char *msg, int exit_code);
 void	ft_exit_error(char *msg, int exit_code, t_ms *ms);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
@@ -118,6 +118,7 @@ int ft_open_write(char *filename, int truncate);
 /* -------◊		BUILT-INS	◊------- */
 int	ft_echo(t_cmd *cmd);
 int	ft_pwd(t_cmd *cmd);
+int	ft_cd(t_cmd *cmd, t_ms *ms);
 
 /* -------◊		DEBUG	◊------- */
 void	ft_print_cmd_list(t_list *cmds);

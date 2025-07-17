@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/17 16:42:46 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:18:54 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,30 @@ void    ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)
 	ft_exit_clean(exit_code, ms);
 }
 
-void	ft_error(const char *context, const char *msg, int exit_code)
+void	ft_error(char *cmd, char *arg, char *msg, int exit_code)
 {
-	if (context && msg)
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (cmd)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd((char *)context, STDERR_FILENO);
+		ft_putstr_fd(cmd, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd((char *)msg, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
 	}
-	else if (context)
+	if (arg)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		perror(context);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
+	if (msg)
+		ft_putstr_fd(msg, STDERR_FILENO);
 	else
-		perror("minishell");
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	(void)exit_code;
 }
 
 void	ft_exit_error(char *msg, int exit_code, t_ms *ms)
 {
-	ft_error(msg, NULL, exit_code);
+	ft_error(msg, NULL, NULL, exit_code);
 	ft_exit_clean(exit_code, ms);
 }
 
