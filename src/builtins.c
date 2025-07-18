@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/17 18:21:11 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:53:16 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,26 @@ int	ft_cd(t_cmd *cmd, t_ms *ms)
 	{
 		ft_error("cd", path, NULL, 1);
 		return (1);
+	}
+	return (0);
+}
+
+int	ft_env(t_cmd *cmd, t_ms *ms)
+{
+	t_kvl	*env;
+	int		out_fd;
+
+	env = ms->env;
+	out_fd = cmd->out;
+	while (env)
+	{
+		if (env->key && env->value)
+		{
+			ft_putstr_fd(env->key, out_fd);
+			ft_putchar_fd('=', out_fd);
+			ft_putendl_fd(env->value, out_fd);
+		}
+		env = env->next;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/17 17:58:53 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:50:41 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_execute_builtin(t_ms *ms)
 			ms->status = ft_pwd((t_cmd *)current->content);
 		if (argv && argv[0] && ft_strcmp(argv[0], "cd") == 0)
 			ms->status = ft_cd((t_cmd *)current->content, ms);
+		if (argv && argv[0] && ft_strcmp(argv[0], "env") == 0)
+			ms->status = ft_env((t_cmd *)current->content, ms);
 		current = current->next;
 	}
 	ft_lstclear(&ms->cmds, ft_clean_cmd);
