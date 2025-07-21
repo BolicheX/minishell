@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_kvl_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:16:11 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/25 14:54:17 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/20 21:22:31 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@ t_kvl    *ft_kvl_new(char *key, void *value)
 	if (new == NULL)
 	    return (NULL);
     new->key = ft_strdup(key);
+	if (new->key == NULL)
+	{
+		free(new);
+		return (NULL);
+	}
 	new->value = value;
 	new->next = NULL;
 	return (new);
 }
+

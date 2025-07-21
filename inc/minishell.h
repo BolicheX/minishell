@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/18 17:53:27 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:57:11 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	ft_echo(t_cmd *cmd);
 int	ft_pwd(t_cmd *cmd);
 int	ft_cd(t_cmd *cmd, t_ms *ms);
 int	ft_env(t_cmd *cmd, t_ms *ms);
+int	ft_export(t_cmd *cmd, t_ms *ms);
 
 /* -------◊		DEBUG	◊------- */
 void	ft_print_cmd_list(t_list *cmds);

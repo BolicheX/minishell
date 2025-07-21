@@ -3,28 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_kvl_clear.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 13:02:19 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/25 14:54:17 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/20 20:44:29 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_kvl_clear(t_kvl **lst, void (*del)(void    *))
+t_kvl *ft_kvl_clear(t_kvl **lst, void (*del)(void *))
 {
-	t_kvl    *node;
-	t_kvl    *next;
+	t_kvl	*tmp;
 
-	if (lst == NULL || del == NULL)
-		return ;
-	node = *lst;
-	while (node != NULL)
+	while (*lst)
 	{
-		next = node->next;
-        ft_kvl_delone(node, del);
-		node = next;
+		tmp = (*lst)->next;
+		ft_kvl_delone(*lst, del);
+		*lst = tmp;
 	}
 	*lst = NULL;
+	return (NULL);
 }
