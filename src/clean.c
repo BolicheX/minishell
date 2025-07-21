@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/03 16:34:20 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/21 19:34:52 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,16 @@ void	ft_close(int *fd)
     *fd = -1;
 }
 
-void	ft_free_str_array(char **array)
+//Closes every file descriptor in t_ms.
+static void	ft_close_all(t_ms *ms)
 {
-	size_t	i;
-
-    if (array == NULL)
-		return ;
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	ft_close(&ms->heredoc[0]);
+	ft_close(&ms->heredoc[1]);
 }
 
-//Closes every file descriptor in t_ms.
 //La dejo por si por algun motivo se necesita cerrar los fds de los comandos sin liberar la memoria de los comandos.
 //Pero por ahora se usa ft_clean_cm tanto para liberar memoria como para cerrar los fds.
-/* static void	ft_close_all(t_ms *ms)
+/* static void	ft_close_cmd(t_ms *ms)
 {
 	t_list	*cmd_list;
 	t_cmd	*cmd;
@@ -110,6 +101,10 @@ static void ft_free_all(t_ms *ms)
 	//ft_free_str_array(ms->envp_paths);
 	ft_lstclear(&ms->cmds, ft_clean_cmd);
 	ft_kvl_clear(&ms->env, free);
+    free(ms->last_history_entry);
+    ft_free_str_array(ms->input_lines);
+    free(ms->limiter);
+
 	//TODO Los demás campos de ms que estén en heap memory.
 }
 
@@ -117,7 +112,7 @@ static void ft_free_all(t_ms *ms)
 //and restores the original terminal configuration.
 void    ft_clean_all(t_ms *ms)
 {
-    //ft_close_all(ms);
+    ft_close_all(ms);
     ft_free_all(ms);
 	//ft_restore_terminal(ms);
 }
