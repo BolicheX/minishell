@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:20:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/30 20:39:40 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:29:08 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ void    ft_init(char *envp[], t_ms *ms)
     ft_init_env(envp, ms);
     //ft_print_env(ms);//Para debug
     //printf("Value de PATH: %s\n", (char *) ft_kvl_get(ms->env, "PATH"));
-    ms->cmd_lines_num = 1;//Contador de líneas necesario para mensaje de error heredoc.
+    ms->cmd_prompts_count = 1;//Contador de prompts de comandos necesario para mensaje de error heredoc.
+    ms->heredoc[0] = -1;
+	ms->heredoc[1] = -1;
 }
 
 /* Initializes ms->original_termios with the original terminal configuration

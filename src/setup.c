@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:48:36 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/30 20:36:06 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/20 10:37:14 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ void    ft_restore_terminal(t_ms *ms)
 
 void    ft_setup_signals()
 {
-    struct sigaction sa;
-
-    sa.sa_handler = ft_prompt_signal_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_RESTART;
-    sigaction(SIGINT, &sa, NULL);
-    //sigaction(SIGQUIT, &sa, NULL);//Esto sí muestra "^\" aunque el handler no haga nada.
-    signal(SIGQUIT, SIG_IGN);
+    g_signal = 0;//TODO Usar para el exit_status de minishell para que $? sea correcta. Recordar la $? interna.
+    ft_signals_minishell();
 }

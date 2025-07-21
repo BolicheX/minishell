@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:24:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/06/26 18:23:12 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/20 15:04:47 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,42 @@ void	ft_print_env(t_ms *ms)
 {
 	printf("%s", "Variables de entorno:\n");
 	ft_kvl_iter(ms->env, ft_print_env_internal);
+}
+
+void	ft_debug_print_msg(char *message)
+{
+	ft_putendl_fd(message, STDOUT_FILENO);
+}
+
+void	ft_debug_print_str(char *str, char *pre_msg, char *post_msg)
+{
+	ft_debug_print_msg(pre_msg);
+	ft_debug_print_msg(str);
+	ft_debug_print_msg(post_msg);
+}
+
+void	ft_debug_print_array(char **array, char *pre_msg, char *post_msg)
+{
+	int	i;
+
+	i = 0;
+	while (array[i] != NULL)
+		ft_debug_print_str(array[i++], pre_msg, post_msg);
+}
+
+void	ft_debug_print_fd(int fd, char *pre_msg, char *post_msg)
+{
+	ssize_t bytesRead;
+    char buffer[1024];
+
+	if (pre_msg != NULL)
+		ft_debug_print_msg(pre_msg);
+	while ((bytesRead = read(fd, buffer, 1024)) > 0) {
+        write(STDOUT_FILENO, buffer, bytesRead);
+    }
+    if (bytesRead == -1) {
+        perror("Error al leer");
+    }
+	if (post_msg != NULL)
+		ft_debug_print_msg(post_msg);
 }
