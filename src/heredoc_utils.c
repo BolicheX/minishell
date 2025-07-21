@@ -3,20 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/19 12:41:29 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:05:08 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    ft_heredoc_init(char *limiter, t_ms *ms)
+int	ft_handle_heredoc_token(t_list *tokens, t_ms *ms)
 {
-    ms->limiter = ft_strdup(limiter);
-    if (pipe(ms->heredoc) == -1)
-        ft_exit_perror(NULL, 1, ms);
+	t_token	*tok;
+	t_list	*next;
+
+	next = tokens->next;
+	if (!next)
+		return (ft_error("syntax error near unexpected token", NULL, "`newline'", 1));
+	tok = (t_token *)next->content;
+	if (tok->type != T_WORD)
+		return (ft_error("syntax error near unexpected token", NULL, tok->value, 1));
+	ms->limiter = ft_strdup(tok->value);
+	if (!ms->limiter)
+		ft_exit_perror("malloc", 1, ms);
+	if (pipe(ms->heredoc) == -1)
+		ft_exit_perror(NULL, 1, ms);
+	return(0);
+}
+
+int	ft_heredoc_init(t_list *tokens, t_ms *ms)
+{
+	t_token	*tok;
+
+	ms->limiter = NULL;
+	while (tokens)
+	{
+		tok = (t_token *)tokens->content;
+		if (tok->type == T_REDIR && ft_strcmp(tok->value, "<<") == 0)
+			return (ft_handle_heredoc_token(tokens, ms));
+		tokens = tokens->next;
+	}
+	return (0);
 }
 
 void    ft_heredoc_close(t_ms *ms)

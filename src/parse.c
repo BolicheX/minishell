@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/03 16:33:52 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:20:37 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_cmd *ft_new_cmd(void)
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
+	{
 		ft_perror("malloc");
+		return NULL;
+	}
 	cmd->argv = NULL;
 	cmd->argc = 0;
 	cmd->path = NULL;

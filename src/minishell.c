@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/21 20:49:57 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:31:53 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static void ft_non_interactive_mode(int argc, char *argv[], t_ms *ms)
     ft_exit_clean(1, ms);
 }
 
-void	ft_execute_builtin(t_ms *ms)
+void	ft_execute_builtin(t_list *cmds, t_ms *ms)
 {
 	t_list	*current;
 	char	**argv;
 
-	current = ms->cmds;
+	current = cmds;
 	while (current)
 	{
 		argv = ((t_cmd *)current->content)->argv;
@@ -44,7 +44,7 @@ void	ft_execute_builtin(t_ms *ms)
 			ms->status = ft_export((t_cmd *)current->content, ms);
 		current = current->next;
 	}
-	ft_lstclear(&ms->cmds, ft_clean_cmd);
+	//ft_lstclear(&ms->cmds, ft_clean_cmd);
 }
 
 //NOTA: Sustituye a ft_transform_cmd.
@@ -61,8 +61,13 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     is_heredoc = 0;
     tokens = NULL;
 	ft_lexing(cmd_line, &tokens);//TODO JOSE Debe llamar a ft_heredoc_init si es un comando heredoc.
-    if (ft_strcmp(cmd_line, "heredoc") == 0)//Para pruebas
-        ft_heredoc_init("EOF", ms);
+	if(ft_heredoc_init(tokens, ms))
+	{
+		ft_lstclear(&tokens, ft_del_token);
+		return (0);
+	}
+/*     if (ft_strcmp(cmd_line, "heredoc") == 0)//Para pruebas
+        ft_heredoc_init("EOF", ms); */
     if (ms->limiter != NULL)
     {
         is_heredoc = 1;
@@ -73,7 +78,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
         ft_add_history(cmd_line, ms);
     ft_expand(tokens, ms);//TODO JOSE El limiter en un comando heredoc no debe expandirse. Puedes simplemente no expandir si ft_strcmp(str, limiter) == 0).
 	//ft_lstiter(tokens, ft_print_token);//TODO Quitar tras confirmar debugging.
-    ft_lstclear(&tokens, ft_del_token);
+    //ft_lstclear(&tokens, ft_del_token);
     // if (is_heredoc == 1)//Para pruebas
     //     ft_debug_print_fd(ms->heredoc[0], NULL, NULL);//Sustituye por la línea de abajo cuando quieras.
     // else
@@ -81,11 +86,14 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     //     ft_debug_print_msg("Execute:");
     //     ft_debug_print_msg(cmd_line);
     // }
-    (void) cmds;
-    // cmds = ft_parse(tokens);//TODO JOSE Debe asignar ms->heredoc[0] al campo "in" del t_cmd si es un comando heredoc.
-    // ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
+    //(void) cmds;
+    cmds = ft_parse(tokens);//TODO JOSE Debe asignar ms->heredoc[0] al campo "in" del t_cmd si es un comando heredoc.
+	ft_lstclear(&tokens, ft_del_token);
+    //ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
     // ms->cmds = cmds;//TODO Probablemente no haga falta incluirlo en t_ms porque sólo hay que liberarlo en ft_execute_cmd_line.
+	ft_execute_builtin(cmds, ms);
     // ft_execute_cmd_line(cmds, ms);
+	ft_lstclear(&cmds, ft_clean_cmd);
     ft_heredoc_close(ms);//TODO Comprobar free a NULL.
     return (is_heredoc);
 }
@@ -127,7 +135,7 @@ static void ft_interactive_mode(t_ms *ms)
     {
         input = readline("minishell$ ");
         if (input == NULL)
-            ft_exit_error("exit", 1, ms);
+            ft_exit_error("exit", NULL, NULL, 1, ms);
         //ft_debug_print_str(input, "-Input:", "-Fin Input.");
         input_lines = ft_split_empty(input, '\n');
         //ft_debug_print_array(input_lines, "-Input Line:", "-Fin Input Line.");

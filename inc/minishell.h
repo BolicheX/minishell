@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/21 20:25:36 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:30:38 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd);
 /* -------◊		EXIT	◊------- */
 void	ft_perror(char *perror_prefix);
 void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms);
-void	ft_error(char *cmd, char *arg, char *msg, int exit_code);
-void	ft_exit_error(char *msg, int exit_code, t_ms *ms);
+int		ft_error(char *cmd, char *arg, char *msg, int exit_code);
+void	ft_exit_error(char *cmd, char *arg, char *msg, int exit_code, t_ms *ms);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
 /* -------◊		SIGNALS	◊------- */
@@ -108,7 +108,7 @@ void	ft_update_input_lines(char **input_lines, t_ms *ms);
 int		ft_heredoc(int i, t_ms *ms);
 
 /* -------◊		HEREDOC UTILS	◊------- */
-void	ft_heredoc_init(char *limiter, t_ms *ms);
+int	ft_heredoc_init(t_list *tokens, t_ms *ms);
 void	ft_heredoc_close(t_ms *ms);
 void	ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms);
 void	ft_trim_input_lines(int start, t_ms *ms);

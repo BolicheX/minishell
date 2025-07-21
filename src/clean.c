@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/21 19:34:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:30:01 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void ft_free_all(t_ms *ms)
 {
 	//ft_free_str_array(ms->envp);
 	//ft_free_str_array(ms->envp_paths);
-	ft_lstclear(&ms->cmds, ft_clean_cmd);
+	//ft_lstclear(&ms->cmds, ft_clean_cmd);
 	ft_kvl_clear(&ms->env, free);
     free(ms->last_history_entry);
     ft_free_str_array(ms->input_lines);

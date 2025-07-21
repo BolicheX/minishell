@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/01 23:13:14 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:32:36 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,12 @@ int ft_append_var(t_ms *ms, char **result, char *str, int *i)
 	var_name = ft_substr(str, j, *i - j);
 	if (!var_name)
 		return (ft_perror("malloc"), -1);
-	var_value = (char *) ft_kvl_get(ms->env, var_name);//Cuidado con las mayúsculas
+	if (ms->limiter && ft_strcmp(var_name, ms->limiter) == 0)
+	{
+		free(var_name);
+		return (*i);
+	}
+	var_value = (char *) ft_kvl_get(ms->env, var_name);
 	free(var_name);
 	tmp = *result;
 	*result = ft_strjoin(*result, var_value);
