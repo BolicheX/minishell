@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/21 22:32:36 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:59:16 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,31 @@ int ft_append_var(t_ms *ms, char **result, char *str, int *i)
 	int j;
 	char *var_name;
 	char *var_value;
-	char *tmp;
 
 	j = ++(*i);
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	var_name = ft_substr(str, j, *i - j);
 	if (!var_name)
-		return (ft_perror("malloc"), -1);
-	if (ms->limiter && ft_strcmp(var_name, ms->limiter) == 0)
-	{
-		free(var_name);
-		return (*i);
-	}
+		return (-1);
 	var_value = (char *) ft_kvl_get(ms->env, var_name);
+	if (!var_value)
+		var_value = "\0";
 	free(var_name);
-	tmp = *result;
-	*result = ft_strjoin(*result, var_value);
-	free(tmp);
+	if (var_value)
+		*result = ft_strjoin_free(*result, var_value);
 	if (!*result)
-		return (ft_perror("malloc"), -1);
+		return (-1);
 	return (*i);
 }
 
-int ft_append_plain_text(char **result, char *str, int *i)
+int ft_append_plain_text(char **result, char *str, char quote, int *i)
 {
 	int start;
 	char *new;
 
 	start = *i;
-	while (str[*i] && str[*i] != '$' && str[*i] != '\'' && str[*i] != '"')
+	while (str[*i] && str[*i] != quote && !(str[*i] == '$' && quote == '"'))
 		(*i)++;
 	if (*i == start)
 		return (0);
@@ -54,7 +49,7 @@ int ft_append_plain_text(char **result, char *str, int *i)
 	free(*result);
 	*result = new;
 	if (!*result)
-		return (ft_perror("malloc"), -1);
+		return (-1);
 	return (0);
 }
 
@@ -72,8 +67,9 @@ int ft_closed_quotes(const char *str, int i, char *quote)
 
 int ft_handle_quotes(char *str, int *i, char *quote)
 {
-	if (!*quote && (str[*i] == '\'' || str[*i] == '"') && ft_closed_quotes(str, *i, quote))
+	if (!*quote && (str[*i] == '\'' || str[*i] == '"'))
 	{
+		quote[0] = str[*i];
 		(*i)++;
 		return (1);
 	}
@@ -94,7 +90,7 @@ char *ft_replace_var(char *str, t_ms *ms)
 
 	result = ft_strdup("");
 	if (!result)
-		return (ft_perror("malloc"), NULL);
+		ft_exit_perror("malloc", 1, ms);
 	i = 0;
 	quote = '\0';
 	while (str[i])
@@ -105,10 +101,10 @@ char *ft_replace_var(char *str, t_ms *ms)
 			(ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
 		{
 			if (ft_append_var(ms, &result, str, &i) == -1)
-				return (free(result), NULL);
+				return (free(result), ft_exit_perror("malloc", 1, ms), NULL);
 		}
-		else if (ft_append_plain_text(&result, str, &i) == -1)
-			return (free(result), NULL);
+		else if (ft_append_plain_text(&result, str, quote, &i) == -1)
+			return (free(result), ft_exit_perror("malloc", 1, ms), NULL);
 	}
 	free(str);
 	return (result);
@@ -133,17 +129,16 @@ int ft_has_unclosed_quotes(const char *str)
 
 char *ft_check_expand(char **value, t_ms *ms)
 {
-	char *expanded_value = NULL;
+	char *expanded_value;
 
+	expanded_value = NULL;
 	if (!*value)
 		return (NULL);
 	if (ft_has_unclosed_quotes(*value))
-		return (ft_perror("minishell: syntax error: unclosed quotes"), NULL);
+		return (ft_error("minishell", NULL, "unclosed quotes", 1), NULL);
 	if (ft_strchr(*value, '$') || ft_strchr(*value, '\'') || ft_strchr(*value, '\"'))
 	{
 		expanded_value = ft_replace_var(*value, ms);
-		if (!expanded_value)
-			return (NULL);
 		*value = expanded_value;
 	}
 	return (*value);
@@ -158,10 +153,13 @@ int ft_expand(t_list *tokens, t_ms *ms)
 		token = (t_token *)tokens->content;
 		if (token->type == T_WORD)
 		{
-			if (!ft_check_expand(&token->value, ms))
-				return (0);
+			if(!(ft_check_expand(&token->value, ms)) || !token->value)
+			{
+				ft_lstclear(&tokens, ft_del_token);
+				return (-1);
+			}
 		}
 		tokens = tokens->next;
 	}
-	return (1);
+	return (0);
 }
