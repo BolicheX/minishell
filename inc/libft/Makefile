@@ -6,7 +6,7 @@
 #    By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/26 12:12:48 by jose-jim          #+#    #+#              #
-#    Updated: 2025/06/27 17:56:24 by jescuder         ###   ########.fr        #
+#    Updated: 2025/07/23 15:11:16 by jescuder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ AR = ar -rcs
 REMOVE = rm -rf
 
 # Source files
-SRC = $(shell find -name '*.c')
+SRC = $(shell find -name '*.c')#TODO Una nueva norma dice que todos los archivos fuente que necesitas para compilar deben estar nombrados explícitamente.
 
 # Object files
 OBJS = $(SRC:.c=.o)

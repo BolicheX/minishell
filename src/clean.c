@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/21 22:30:01 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:27:49 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,19 @@ static void	ft_close_all(t_ms *ms)
 	}
 } */
 
-void ft_clean_cmd(void *content)
+void	ft_clean_cmd(void *content)
 {
 	t_cmd	*cmd;
 
 	cmd = (t_cmd *)content;
 	if (!cmd)
 		return;
-	if (cmd->in >= 0 && cmd->in != STDIN_FILENO)
-	{
-		close(cmd->in);
-		cmd->in = -1;
-	}
-	if (cmd->out >= 0 && cmd->out != STDOUT_FILENO)
-	{
-		close(cmd->out);
-		cmd->out = -1;
-	}
-	if (cmd->argv)
-		ft_free_str_array(cmd->argv);
-	if (cmd->path)
-		free(cmd->path);
+	if (cmd->in != STDIN_FILENO)
+		ft_close(&cmd->in);
+	if (cmd->out != STDOUT_FILENO)
+		ft_close(&cmd->out);
+	ft_free_str_array(cmd->argv);
+	free(cmd->path);
 	free(cmd);
 }
 
@@ -87,7 +79,7 @@ void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd)
 {
 	if (cmd_list)
 	{
-		ft_lstclear(&cmd_list, (void *)ft_clean_cmd);
+		ft_lstclear(&cmd_list, ft_clean_cmd);
 		cmd_list = NULL;
 	}
 	if (cmd)
@@ -99,11 +91,11 @@ static void ft_free_all(t_ms *ms)
 {
 	//ft_free_str_array(ms->envp);
 	//ft_free_str_array(ms->envp_paths);
-	//ft_lstclear(&ms->cmds, ft_clean_cmd);
 	ft_kvl_clear(&ms->env, free);
     free(ms->last_history_entry);
     ft_free_str_array(ms->input_lines);
     free(ms->limiter);
+	ft_lstclear(&ms->cmds, ft_clean_cmd);
 
 	//TODO Los demás campos de ms que estén en heap memory.
 }

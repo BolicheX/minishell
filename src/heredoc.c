@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/20 18:13:35 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:06:43 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
     int     exit_status;
     char    *input;
 
-    child_process_id = ft_heredoc_fork(history_entry, fork_pipe, ms);
     signal(SIGINT, SIG_IGN);
+    child_process_id = ft_heredoc_fork(history_entry, fork_pipe, ms);
     waitpid(child_process_id, &exit_status, 0);
     ft_signals_minishell();
     input = ft_fd_to_str(fork_pipe[0]);

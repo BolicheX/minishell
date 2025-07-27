@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:57:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/17 18:16:34 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/27 14:11:14 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_set_path(char *cmd, t_kvl *env)
 
 	if (!cmd || ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
-	paths = ft_get_env_path(env);
+	paths = ft_get_env_path(env);//TODO Controlar si paths == NULL.
 	i = 0;
 	path = NULL;
 	while (paths[i])

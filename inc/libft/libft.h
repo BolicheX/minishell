@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:21 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/21 20:25:46 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:24:06 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	ft_kvl_iter(t_kvl *lst, void (*f)(char *, void *));
 void	ft_kvl_delone(t_kvl *node, void (*del)(void    *));
 t_kvl	*ft_kvl_clear(t_kvl **lst, void (*del)(void    *));
 int		ft_kvl_remove(t_kvl **lst, char *key, void (*del)(void    *));
+int		ft_kvl_size(t_kvl *lst);
 
 /* -------◊	PRINTF	◊------- */
 int		ft_printf(const char *s, ...);

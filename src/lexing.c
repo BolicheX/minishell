@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/21 21:22:05 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:28:47 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,3 @@ void	ft_lexing(char *line, t_list **tokens)
 			i = lex_word(line, i, tokens);
 	}
 }
-
-/* int	ft_transform_cmd(char *cmd_line, t_ms *ms)
-{
-	t_list *tokens;
-	t_list *cmds;
-
-	tokens = NULL;
-	ft_lexing(cmd_line, &tokens);
-	ft_expand(tokens, ms);
-	//ft_lstiter(tokens, ft_print_token);
-	cmds = ft_parse(tokens);
-	ft_lstclear(&tokens, ft_del_token);
-	ft_resolve_paths(cmds, ms);
-	//ft_print_cmd_list(cmds);
-	ms->cmds = cmds;
-	//ft_clean_parse(cmds, NULL);
-	return (0);
-} */
