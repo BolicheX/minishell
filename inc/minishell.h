@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/21 22:30:38 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:37:27 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	ft_transform_cmd(char *cmd_line, t_ms *ms);
 int	ft_expand(t_list *tokens, t_ms *ms);
 
 /* -------◊		PARSING	◊------- */
-t_list	*ft_parse(t_list *tokens);
+t_list	*ft_parse(t_list *tokens, t_ms *ms);
 
 /* -------◊		PATHS	◊------- */
 void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);
@@ -141,6 +141,7 @@ int	ft_pwd(t_cmd *cmd);
 int	ft_cd(t_cmd *cmd, t_ms *ms);
 int	ft_env(t_cmd *cmd, t_ms *ms);
 int	ft_export(t_cmd *cmd, t_ms *ms);
+int	ft_unset(t_cmd *cmd, t_ms *ms);
 
 //TODO Quitar este archivo antes de entregar
 /* -------◊		DEBUG	◊------- */

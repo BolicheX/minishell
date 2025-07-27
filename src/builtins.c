@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/18 18:37:21 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:33:29 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,3 +94,17 @@ int	ft_env(t_cmd *cmd, t_ms *ms)
 	return (0);
 }
 
+int	ft_unset(t_cmd *cmd, t_ms *ms)
+{
+	char	**argv;
+	int		i;
+
+	argv = cmd->argv;
+	i = 1;
+	while (argv[i])
+	{
+		ft_kvl_remove(&ms->env, argv[i], free);
+		i++;
+	}
+	return (0);
+}

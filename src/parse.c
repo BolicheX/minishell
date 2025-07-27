@@ -6,20 +6,20 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/21 22:20:37 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:11:37 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd *ft_new_cmd(void)
+t_cmd *ft_new_cmd(t_ms *ms)
 {
 	t_cmd	*cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{
-		ft_perror("malloc");
+		ft_exit_perror("malloc", 1, ms);
 		return NULL;
 	}
 	cmd->argv = NULL;
@@ -59,7 +59,7 @@ int ft_handle_word(t_token *tok, t_cmd *cmd)
 	return 0;
 }
 
-int ft_handle_redir(t_cmd *cmd, t_token *redir_tok, t_list **tokens)
+int ft_handle_redir(t_cmd *cmd, t_token *redir_tok, t_list **tokens, t_ms *ms)
 {
 	t_token *file_tok;
 	int fd;
@@ -76,6 +76,8 @@ int ft_handle_redir(t_cmd *cmd, t_token *redir_tok, t_list **tokens)
 		fd = ft_open_write(file_tok->value, 0);
 	else if (!ft_strcmp(redir_tok->value, "<"))
 		fd = ft_open_read(file_tok->value);
+	else if (!ft_strcmp(redir_tok->value, "<<"))
+		fd = ms->heredoc[0];
 	if (redir_tok->value[0] == '<')
 		cmd->in = fd;
 	else
@@ -95,7 +97,7 @@ int	ft_finalize_cmd(t_cmd *cmd, t_list **cmd_list)
 	return (0);
 }
 
-int	ft_handle_pipe(t_cmd **cmd, t_list **cmd_list)
+int	ft_handle_pipe(t_cmd **cmd, t_ms *ms)
 {
 	int		fds[2];
 	t_list	*node;
@@ -109,8 +111,8 @@ int	ft_handle_pipe(t_cmd **cmd, t_list **cmd_list)
 	node = ft_lstnew(*cmd);
 	if (!node)
 		return (-1);
-	ft_lstadd_back(cmd_list, node);
-	new_cmd = ft_new_cmd();
+	ft_lstadd_back(&ms->cmds, node);
+	new_cmd = ft_new_cmd(ms);
 	if (!new_cmd)
 		return (-1);
 	(*cmd)->out = fds[1];
@@ -119,32 +121,33 @@ int	ft_handle_pipe(t_cmd **cmd, t_list **cmd_list)
 	return (0);
 }
 
-int	ft_handle_token(t_token *tok, t_list **tokens, t_cmd **cmd, t_list **cmd_list)
+int	ft_handle_token(t_token *tok, t_list **tokens, t_cmd **cmd, t_ms *ms)
 {
 	if (tok->type == T_WORD)
 		return (ft_handle_word(tok, *cmd));
 	else if (tok->type == T_REDIR)
-		return (ft_handle_redir(*cmd, tok, tokens));
+		return (ft_handle_redir(*cmd, tok, tokens, ms));
 	else if (tok->type == T_PIPE)
-		return (ft_handle_pipe(cmd, cmd_list));
+		return (ft_handle_pipe(cmd, ms));
 	return (0);
 }
 
-t_list *ft_parse(t_list *tokens)
+t_list *ft_parse(t_list *tokens, t_ms *ms)
 {
 	t_list  *cmd_list;
 	t_cmd   *cmd;
 	t_token *tok;
 
 	cmd_list = NULL;
-	cmd = ft_new_cmd();
+	ms->cmds = cmd_list;
+	cmd = ft_new_cmd(ms);
 	if (!cmd)
 		return (NULL);
 	while (tokens)
 	{
 		tok = (t_token *)tokens->content;
 		tokens = tokens->next;
-		if (ft_handle_token(tok, &tokens, &cmd, &cmd_list) < 0)
+		if (ft_handle_token(tok, &tokens, &cmd, ms) < 0)
 		{
 			ft_clean_parse(NULL, cmd);
 			return (NULL);
