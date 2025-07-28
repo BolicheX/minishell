@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/25 12:11:37 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:27:58 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int ft_handle_redir(t_cmd *cmd, t_token *redir_tok, t_list **tokens, t_ms *ms)
 		fd = ft_open_read(file_tok->value);
 	else if (!ft_strcmp(redir_tok->value, "<<"))
 		fd = ms->heredoc[0];
+	ms->heredoc[0] = -1;//TODO JOSE Revisa si lo puedo poner fuera del if para que no se pase de 25 líneas. ¿Heredoc siempre estaría en el primer ft_handle_redir?
 	if (redir_tok->value[0] == '<')
 		cmd->in = fd;
 	else
