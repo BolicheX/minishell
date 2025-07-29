@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:21 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/26 13:24:06 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:16:23 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 # define HEX_LOWCASE "0123456789abcdef"
 # define HEX_UPCASE  "0123456789ABCDEF"
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
+# include <stddef.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdarg.h>
 
 /* -------◊		FUNCTIONS TO CONVERSION/INTEGERS	◊------- */
 int		ft_atoi(const char *str);
@@ -97,24 +97,24 @@ int		ft_max_2(int a, int b);
 int		ft_min_i(int *arr, int size);
 
 /* -------◊	LINKED LISTS	◊------- */
-typedef struct	s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
 
-t_list  *ft_lstnew(void *content);
-void    ft_lstadd_front(t_list **lst, t_list *new);
-void    ft_lstadd_back(t_list **lst, t_list *new);
-t_list  *ft_lstlast(t_list *lst);
-int	    ft_lstsize(t_list *lst);
-void    ft_lstdelone(t_list *node, void (*del)(void *));
-void    ft_lstclear(t_list **lst, void (*del)(void	*));
-void    ft_lstiter(t_list *lst, void (*f)(void *));
-t_list  *ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstlast(t_list *lst);
+int		ft_lstsize(t_list *lst);
+void	ft_lstdelone(t_list *node, void (*del)(void *));
+void	ft_lstclear(t_list **lst, void (*del)(void	*));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 /* -------◊	KEY-VALUE LISTS	◊------- */
-typedef struct	s_kvl
+typedef struct s_kvl
 {
 	char			*key;
 	void			*value;
@@ -122,7 +122,7 @@ typedef struct	s_kvl
 }					t_kvl;
 
 t_kvl	*ft_kvl_new(char *key, void *value);
-int    ft_kvl_add(t_kvl **lst, t_kvl *new);
+int		ft_kvl_add(t_kvl **lst, t_kvl *new);
 void	*ft_kvl_set(t_kvl **lst, char *key, void *value);
 void	*ft_kvl_get(t_kvl *lst, char *key);
 void	ft_kvl_iter(t_kvl *lst, void (*f)(char *, void *));

@@ -6,17 +6,17 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/24 14:59:16 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/27 12:19:22 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_append_var(t_ms *ms, char **result, char *str, int *i)
+int	ft_append_var(t_ms *ms, char **result, char *str, int *i)
 {
-	int j;
-	char *var_name;
-	char *var_value;
+	int		j;
+	char	*var_name;
+	char	*var_value;
 
 	j = ++(*i);
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
@@ -35,10 +35,10 @@ int ft_append_var(t_ms *ms, char **result, char *str, int *i)
 	return (*i);
 }
 
-int ft_append_plain_text(char **result, char *str, char quote, int *i)
+int	ft_append_plain_text(char **result, char *str, char quote, int *i)
 {
-	int start;
-	char *new;
+	int		start;
+	char	*new;
 
 	start = *i;
 	while (str[*i] && str[*i] != quote && !(str[*i] == '$' && quote == '"'))
@@ -53,9 +53,9 @@ int ft_append_plain_text(char **result, char *str, char quote, int *i)
 	return (0);
 }
 
-int ft_closed_quotes(const char *str, int i, char *quote)
+int	ft_closed_quotes(const char *str, int i, char *quote)
 {
-	const char *closing;
+	const char	*closing;
 
 	*quote = str[i];
 	closing = ft_strchr(str + i + 1, *quote);
@@ -65,7 +65,7 @@ int ft_closed_quotes(const char *str, int i, char *quote)
 	return (0);
 }
 
-int ft_handle_quotes(char *str, int *i, char *quote)
+int	ft_handle_quotes(char *str, int *i, char *quote)
 {
 	if (!*quote && (str[*i] == '\'' || str[*i] == '"'))
 	{
@@ -82,11 +82,11 @@ int ft_handle_quotes(char *str, int *i, char *quote)
 	return (0);
 }
 
-char *ft_replace_var(char *str, t_ms *ms)
+char	*ft_replace_var(char *str, t_ms *ms)
 {
-	char *result;;
-	int i;
-	char quote;
+	char	*result;;
+	int		i;
+	char	quote;
 
 	result = ft_strdup("");
 	if (!result)
@@ -110,10 +110,13 @@ char *ft_replace_var(char *str, t_ms *ms)
 	return (result);
 }
 
-int ft_has_unclosed_quotes(const char *str)
+int	ft_has_unclosed_quotes(const char *str)
 {
-	char quote = '\0';
-	int i = 0;
+	char	quote;
+	int		i;
+
+	quote = '\0';
+	i = 0;
 	while (str && str[i])
 	{
 		if (!quote && (str[i] == '\'' || str[i] == '"'))
@@ -127,16 +130,17 @@ int ft_has_unclosed_quotes(const char *str)
 	return (0);
 }
 
-char *ft_check_expand(char **value, t_ms *ms)
+char	*ft_check_expand(char **value, t_ms *ms)
 {
-	char *expanded_value;
+	char	*expanded_value;
 
 	expanded_value = NULL;
 	if (!*value)
 		return (NULL);
 	if (ft_has_unclosed_quotes(*value))
 		return (ft_error("minishell", NULL, "unclosed quotes", 1), NULL);
-	if (ft_strchr(*value, '$') || ft_strchr(*value, '\'') || ft_strchr(*value, '\"'))
+	if (ft_strchr(*value, '$')
+		|| ft_strchr(*value, '\'') || ft_strchr(*value, '\"'))
 	{
 		expanded_value = ft_replace_var(*value, ms);
 		*value = expanded_value;

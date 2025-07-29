@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/27 17:29:56 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:15:55 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "libft.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <string.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <signal.h>
-#include <dirent.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <signal.h>
-#include <termios.h>
+# include "libft.h"
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <string.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <signal.h>
+# include <dirent.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <signal.h>
+# include <termios.h>
 
 extern volatile sig_atomic_t	g_signal;//En la ejecución de comandos actualizar con el exit_code del último comando del pipeline.
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	T_WORD,
 	T_PIPE,
@@ -39,13 +39,13 @@ typedef enum	e_token_type
 	T_QUOTE
 }				t_token_type;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
 }				t_token;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	char			**argv;
 	int				argc;
@@ -54,7 +54,7 @@ typedef struct	s_cmd
 	int				out;
 }				t_cmd;
 
-typedef struct	s_ms
+typedef struct s_ms
 {
 	t_kvl			*env;
 	int				termios_ok;
@@ -88,7 +88,7 @@ void	ft_signals_default();
 int		ft_get_exit_code(int exit_status);
 
 /* -------◊		INIT	◊------- */
-void    ft_init(char *envp[], t_ms *ms);
+void	ft_init(char *envp[], t_ms *ms);
 void	ft_init_termios(t_ms *ms);
 
 /* -------◊		SETUP	◊------- */
@@ -107,7 +107,7 @@ void	ft_update_input_lines(char **input_lines, t_ms *ms);
 int		ft_heredoc(int i, t_ms *ms);
 
 /* -------◊		HEREDOC UTILS	◊------- */
-int	ft_heredoc_init(t_list *tokens, t_ms *ms);
+int		ft_heredoc_init(t_list *tokens, t_ms *ms);
 void	ft_heredoc_close(t_ms *ms);
 void	ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms);
 void	ft_trim_input_lines(int start, t_ms *ms);
@@ -121,7 +121,7 @@ void	ft_del_token(void *content);
 void	ft_lexing(char *line, t_list **tokens);
 
 /* -------◊		EXPANDING VARIBALES	◊------- */
-int	ft_expand(t_list *tokens, t_ms *ms);
+int		ft_expand(t_list *tokens, t_ms *ms);
 
 /* -------◊		PARSING	◊------- */
 t_list	*ft_parse(t_list *tokens, t_ms *ms);
@@ -130,8 +130,8 @@ t_list	*ft_parse(t_list *tokens, t_ms *ms);
 void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */
-int ft_open_read(char *filename);
-int ft_open_write(char *filename, int truncate);
+int		ft_open_read(char *filename);
+int		ft_open_write(char *filename, int truncate);
 
 /* -------◊		BUILT-INS	◊------- */
 int	ft_echo(t_cmd *cmd);
