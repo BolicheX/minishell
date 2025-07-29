@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/28 14:27:58 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/29 11:38:53 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,12 +135,10 @@ int	ft_handle_token(t_token *tok, t_list **tokens, t_cmd **cmd, t_ms *ms)
 
 t_list *ft_parse(t_list *tokens, t_ms *ms)
 {
-	t_list  *cmd_list;
 	t_cmd   *cmd;
 	t_token *tok;
 
-	cmd_list = NULL;
-	ms->cmds = cmd_list;
+	ms->cmds = NULL;
 	cmd = ft_new_cmd(ms);
 	if (!cmd)
 		return (NULL);
@@ -154,10 +152,10 @@ t_list *ft_parse(t_list *tokens, t_ms *ms)
 			return (NULL);
 		}
 	}
-	if (ft_finalize_cmd(cmd, &cmd_list) < 0)
+	if (ft_finalize_cmd(cmd, &ms->cmds) < 0)
 	{
-		ft_clean_parse(cmd_list, cmd);
+		ft_clean_parse(ms->cmds, cmd);
 		return (NULL);
 	}
-	return (cmd_list);
+	return (ms->cmds);
 }
