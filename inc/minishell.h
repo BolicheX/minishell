@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/29 11:15:55 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:31:21 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,11 @@ typedef struct s_ms
 
 /* -------◊		CLEAN	◊------- */
 void	ft_close(int *fd);
-void	ft_clean_all(t_ms *ms);
+void	ft_close_cmd(void *content);
 void	ft_clean_cmd(void *content);
 void	ft_clean_parse(t_list *cmd_list, t_cmd *cmd);
+void	ft_close_all(t_ms *ms);
+void	ft_clean_all(t_ms *ms);
 
 /* -------◊		EXIT	◊------- */
 void	ft_perror(char *perror_prefix);
@@ -149,8 +151,9 @@ void	ft_execute(t_list *cmds, t_ms *ms);
 void	ft_print_cmd_list(t_list *cmds);
 void	ft_print_token(void *node);
 void	ft_print_env(t_ms *ms);
-void	ft_debug_print_msg(char *message);
-void	ft_debug_print_str(char *str, char *pre_msg, char *post_msg);
+void	ft_debug_print_str(char *message);
+void	ft_debug_print_msg(char *message, char *prefix);
+void	ft_debug_print_lines(char *str, char *pre_msg, char *post_msg);
 void	ft_debug_print_array(char **array, char *pre_msg, char *post_msg);
 void	ft_debug_print_fd(int fd, char *pre_msg, char *post_msg);
 

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/27 17:49:16 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:27:05 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     //     ft_debug_print_fd(ms->heredoc[0], NULL, NULL);//Sustituye por la línea de abajo cuando quieras.
     // else
     // {
-    //     ft_debug_print_msg("Execute:");
-    //     ft_debug_print_msg(cmd_line);
+    //     ft_debug_print_str("Execute:");
+    //     ft_debug_print_str(cmd_line);
     // }
     cmds = ft_parse(tokens, ms);
     ft_lstclear(&tokens, ft_del_token);
@@ -126,17 +126,22 @@ static void ft_traverse_input(t_ms *ms)
 
 static void ft_interactive_mode(t_ms *ms)
 {
+    char    *prompt;
     char    *input;
     char    **input_lines;
 
+    prompt = "\001\033[1;34m\002minishell\001\033[0m\002$ ";
     while (1)
     {
-        input = readline("minishell$ ");
+        input = readline(prompt);
         if (input == NULL)
-            ft_exit_error(NULL, NULL, "exit", 1, ms);
-        //ft_debug_print_str(input, "-Input:", "-Fin Input.");
+        {
+            ft_putendl_fd("exit", STDERR_FILENO);
+            ft_exit_clean(1, ms);
+        }
+        //ft_debug_print_lines(input, "-Input:", "-Fin Input.");
         input_lines = ft_split_empty(input, '\n');
-        //ft_debug_print_array(input_lines, "-Input Line:", "-Fin Input Line.");
+        //ft_debug_print_array(input_lines, "-Input lines:", "-Fin Input lines.");
         free(input);
         if (input_lines == NULL)
             ft_exit_perror(NULL, 1, ms);

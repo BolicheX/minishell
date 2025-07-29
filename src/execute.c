@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:23:45 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/27 14:48:56 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:32:40 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int ft_execute_if_is_builtin(t_cmd *cmd, t_ms *ms)
         exit_code = ft_pwd(cmd);
     else if (ft_strcmp(cmd_name, "export") == 0)
         exit_code = ft_export(cmd, ms);
-    // else if (ft_strcmp(cmd_name, "unset") == 0)
-    //     exit_code = ft_unset(cmd);
+    else if (ft_strcmp(cmd_name, "unset") == 0)
+        exit_code = ft_unset(cmd, ms);
     else if (ft_strcmp(cmd_name, "env") == 0)
         exit_code = ft_env(cmd, ms);
     // else if (ft_strcmp(cmd_name, "exit") == 0)
-    //     exit_code = ft_exit(cmd);
+    //     exit_code = ft_exit(cmd, ms);
     return (exit_code);
 }
 
@@ -41,6 +41,7 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     int     exit_code;
     char    **envp;
 
+    ft_debug_print_msg(cmd->argv[0], "ft_execute_child: ");
     exit_code = ft_execute_if_is_builtin(cmd, ms);
     if (exit_code != -1)
         ft_exit_clean(exit_code, ms);
@@ -52,6 +53,7 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     ft_signals_default();
     dup2(cmd->in, STDIN_FILENO);
     dup2(cmd->out, STDOUT_FILENO);
+    ft_close_all(ms);
     execve(cmd->path, cmd->argv, envp);
     if (errno == ENOENT)
         ft_exit_perror(cmd->path, 127, ms);//Comando no encontrado
@@ -81,6 +83,7 @@ int ft_execute_one(t_cmd *cmd, t_ms *ms)
     int     exit_code;
     int     exit_status;
 
+    //ft_debug_print_str("ft_execute_one");
     exit_code = ft_execute_if_is_builtin(cmd, ms);
     if (exit_code != -1)
         return (exit_code);
@@ -100,6 +103,7 @@ int ft_execute_pipeline(t_list *cmds, int *child_ids, int cmds_count, t_ms *ms)
     t_cmd   *cmd;
     int     exit_status;
 
+    //ft_debug_print_str("ft_execute_pipeline");
     i = 0;
     while (i < cmds_count)
     {

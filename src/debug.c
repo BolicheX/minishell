@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:24:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/20 15:04:47 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:25:55 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,34 @@ void	ft_print_env(t_ms *ms)
 	ft_kvl_iter(ms->env, ft_print_env_internal);
 }
 
-void	ft_debug_print_msg(char *message)
+void	ft_debug_print_str(char *message)
 {
-	ft_putendl_fd(message, STDOUT_FILENO);
+	ft_putendl_fd(message, STDERR_FILENO);
 }
 
-void	ft_debug_print_str(char *str, char *pre_msg, char *post_msg)
+void	ft_debug_print_msg(char *message, char *prefix)
 {
-	ft_debug_print_msg(pre_msg);
-	ft_debug_print_msg(str);
-	ft_debug_print_msg(post_msg);
+	if (prefix != NULL)
+		ft_putstr_fd(prefix, STDERR_FILENO);
+	ft_debug_print_str(message);
+}
+
+void	ft_debug_print_lines(char *str, char *pre_msg, char *post_msg)
+{
+	ft_debug_print_str(pre_msg);
+	ft_debug_print_str(str);
+	ft_debug_print_str(post_msg);
 }
 
 void	ft_debug_print_array(char **array, char *pre_msg, char *post_msg)
 {
 	int	i;
 
+	ft_debug_print_str(pre_msg);
 	i = 0;
 	while (array[i] != NULL)
-		ft_debug_print_str(array[i++], pre_msg, post_msg);
+		ft_debug_print_str(array[i++]);
+	ft_debug_print_str(post_msg);
 }
 
 void	ft_debug_print_fd(int fd, char *pre_msg, char *post_msg)
@@ -92,7 +101,7 @@ void	ft_debug_print_fd(int fd, char *pre_msg, char *post_msg)
     char buffer[1024];
 
 	if (pre_msg != NULL)
-		ft_debug_print_msg(pre_msg);
+		ft_debug_print_str(pre_msg);
 	while ((bytesRead = read(fd, buffer, 1024)) > 0) {
         write(STDOUT_FILENO, buffer, bytesRead);
     }
@@ -100,5 +109,5 @@ void	ft_debug_print_fd(int fd, char *pre_msg, char *post_msg)
         perror("Error al leer");
     }
 	if (post_msg != NULL)
-		ft_debug_print_msg(post_msg);
+		ft_debug_print_str(post_msg);
 }

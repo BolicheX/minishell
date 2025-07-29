@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/23 14:06:43 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:23:42 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void ft_heredoc_child(char *history_entry, int fork_pipe[2], t_ms *ms)
     {
         ft_close(&fork_pipe[1]);
         ft_print_heredoc_error(ms);
-        //ft_debug_print_msg("Child End");
+        //ft_debug_print_str("Child End");
         ft_exit_clean(2, ms);
     }
     ft_putstr_fd(input, fork_pipe[1]);
     ft_close(&fork_pipe[1]);
-    //ft_debug_print_msg("Child End");
+    //ft_debug_print_str("Child End");
     ft_exit_clean(0, ms);
 }
 
@@ -77,7 +77,7 @@ static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
         free(history_entry);
         ft_exit_perror(NULL, 1, ms);
     }
-    //ft_debug_print_str(input, "-Heredoc Input:", "-Fin Heredoc Input.");
+    //ft_debug_print_lines(input, "-Heredoc Input:", "-Fin Heredoc Input.");
     ft_update_input_lines(ft_split_empty(input, '\n'), ms);
     if (WIFEXITED(exit_status))
         return (WEXITSTATUS(exit_status));
@@ -106,19 +106,19 @@ static int  ft_heredoc_traverse_input(int i, char **history_entry_p, t_ms *ms)
     input_lines = ms->input_lines;
     if (input_lines[i] != NULL && ft_strchr(*history_entry_p, '\n') == NULL)
     {
-        //ft_debug_print_msg("Primer salto de línea.");
+        //ft_debug_print_str("Primer salto de línea.");
         ft_update_history_entry(history_entry_p, NULL, ms);
     }
     while (input_lines[i] != NULL)
     {
-        //ft_debug_print_str(input_lines[i], "-Heredoc Traverse line:", "-Fin Heredoc Traverse line.");
+        //ft_debug_print_lines(input_lines[i], "-Heredoc Traverse line:", "-Fin Heredoc Traverse line.");
         ft_update_history_entry(history_entry_p, input_lines[i], ms);
         if (ft_strcmp(input_lines[i], ms->limiter) == 0)
         {
             ft_add_history(*history_entry_p, ms);
             free(*history_entry_p);
             ft_trim_input_lines(++i, ms);
-            //ft_debug_print_msg("-Heredoc Traverse limiter");
+            //ft_debug_print_str("-Heredoc Traverse limiter");
             ft_close(&ms->heredoc[1]);
             return (1);
         }
@@ -129,7 +129,7 @@ static int  ft_heredoc_traverse_input(int i, char **history_entry_p, t_ms *ms)
         }
         i++;
     }
-    //ft_debug_print_msg("-Heredoc Traverse NO limiter");
+    //ft_debug_print_str("-Heredoc Traverse NO limiter");
     return (0);
 }
 
@@ -141,7 +141,7 @@ int ft_heredoc(int i, t_ms *ms)
     char    *history_entry;
     int     exit_code;
 
-    //ft_debug_print_msg("-Heredoc Function");
+    //ft_debug_print_str("-Heredoc Function");
     history_entry = ft_strdup(ms->input_lines[i]);
     if (history_entry == NULL)
         ft_exit_perror(NULL, 1, ms);
@@ -153,7 +153,7 @@ int ft_heredoc(int i, t_ms *ms)
         exit_code = ft_heredoc_readline(history_entry, ms);
         if (exit_code != 0)
         {
-            //ft_debug_print_msg("-Heredoc Function End exit_code != 0");
+            //ft_debug_print_str("-Heredoc Function End exit_code != 0");
             ft_close(&ms->heredoc[1]);
             ft_add_history(history_entry, ms);
             free(history_entry);
