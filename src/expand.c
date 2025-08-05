@@ -6,11 +6,26 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/27 12:19:22 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:52:12 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int ft_append_exit_code(char **result, t_ms *ms, int *i)
+{
+	char *exit_code;
+
+	exit_code = ft_itoa(g_signal);
+	if (!exit_code)
+		ft_exit_perror("malloc", 1, ms);
+	*result = ft_strjoin_free(*result, exit_code);
+	free(exit_code);
+	if (!*result)
+		ft_exit_perror("malloc", 1, ms);
+	(*i)++;
+	return (*i);
+}
 
 int	ft_append_var(t_ms *ms, char **result, char *str, int *i)
 {
@@ -19,6 +34,8 @@ int	ft_append_var(t_ms *ms, char **result, char *str, int *i)
 	char	*var_value;
 
 	j = ++(*i);
+	if (str[*i] == '?')
+		return (ft_append_exit_code(result, ms, i));
 	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 	var_name = ft_substr(str, j, *i - j);
@@ -82,7 +99,7 @@ int	ft_handle_quotes(char *str, int *i, char *quote)
 	return (0);
 }
 
-char	*ft_replace_var(char *str, t_ms *ms)
+char	*ft_replace_var(char *s, t_ms *ms)
 {
 	char	*result;;
 	int		i;
@@ -93,20 +110,20 @@ char	*ft_replace_var(char *str, t_ms *ms)
 		ft_exit_perror("malloc", 1, ms);
 	i = 0;
 	quote = '\0';
-	while (str[i])
+	while (s[i])
 	{
-		if (ft_handle_quotes(str, &i, &quote))
+		if (ft_handle_quotes(s, &i, &quote))
 			continue;
-		if (quote != '\'' && str[i] == '$' && str[i + 1] &&
-			(ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+		if (quote != '\'' && s[i] == '$' && s[i + 1] &&
+			(ft_isalpha(s[i + 1]) || s[i + 1] == '_' || s[i + 1] == '?'))
 		{
-			if (ft_append_var(ms, &result, str, &i) == -1)
+			if (ft_append_var(ms, &result, s, &i) == -1)
 				return (free(result), ft_exit_perror("malloc", 1, ms), NULL);
 		}
-		else if (ft_append_plain_text(&result, str, quote, &i) == -1)
+		else if (ft_append_plain_text(&result, s, quote, &i) == -1)
 			return (free(result), ft_exit_perror("malloc", 1, ms), NULL);
 	}
-	free(str);
+	free(s);
 	return (result);
 }
 
