@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:57:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/29 11:54:09 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/07 22:09:24 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_set_path(char *cmd, t_kvl *env)
 	{
 		path = ft_strjoin_path(paths[i], cmd);
 		if (!path)
-			break;
+			break ;
 		if (access(path, X_OK) == 0)
 			break ;
 		free(path);
@@ -76,19 +76,19 @@ char	*ft_set_path(char *cmd, t_kvl *env)
 
 void	ft_resolve_paths(t_list *cmd_list, t_ms *ms)
 {
-	t_cmd *cmd;;
+	t_cmd	*cmd;
 
 	while (cmd_list)
 	{
 		cmd = (t_cmd *)cmd_list->content;
 		cmd_list = cmd_list->next;
 		if (!ft_strcmp(cmd->argv[0], "cd")
-				|| !ft_strcmp(cmd->argv[0], "echo")
-				|| !ft_strcmp(cmd->argv[0], "pwd")
-				|| !ft_strcmp(cmd->argv[0], "exit")
-				|| !ft_strcmp(cmd->argv[0], "export")
-				|| !ft_strcmp(cmd->argv[0], "unset")
-				|| !ft_strcmp(cmd->argv[0], "env"))
+			|| !ft_strcmp(cmd->argv[0], "echo")
+			|| !ft_strcmp(cmd->argv[0], "pwd")
+			|| !ft_strcmp(cmd->argv[0], "exit")
+			|| !ft_strcmp(cmd->argv[0], "export")
+			|| !ft_strcmp(cmd->argv[0], "unset")
+			|| !ft_strcmp(cmd->argv[0], "env"))
 			cmd->path = NULL;
 		else
 		{

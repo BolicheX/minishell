@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/29 17:31:21 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/07 23:13:05 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <signal.h>
 # include <termios.h>
 
-extern volatile sig_atomic_t	g_signal;//En la ejecución de comandos actualizar con el exit_code del último comando del pipeline.
+extern volatile sig_atomic_t	g_signal;
 
 typedef enum e_token_type
 {
@@ -80,13 +80,12 @@ void	ft_clean_all(t_ms *ms);
 void	ft_perror(char *perror_prefix);
 void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms);
 int		ft_error(char *cmd, char *arg, char *msg, int exit_code);
-void	ft_exit_error(char *cmd, char *arg, char *msg, int exit_code, t_ms *ms);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
 /* -------◊		SIGNALS	◊------- */
-void	ft_signals_minishell();
-void	ft_signals_heredoc();
-void	ft_signals_default();
+void	ft_signals_minishell(void);
+void	ft_signals_heredoc(void);
+void	ft_signals_default(void);
 int		ft_get_exit_code(int exit_status);
 
 /* -------◊		INIT	◊------- */
@@ -96,7 +95,7 @@ void	ft_init_termios(t_ms *ms);
 /* -------◊		SETUP	◊------- */
 void	ft_setup_terminal(t_ms *ms);
 void	ft_restore_terminal(t_ms *ms);
-void	ft_setup_signals();
+void	ft_setup_signals(void);
 
 /* -------◊		ENV	◊------- */
 char	**ft_env_to_array(t_ms *ms);
@@ -116,19 +115,40 @@ void	ft_trim_input_lines(int start, t_ms *ms);
 void	ft_print_heredoc_error(t_ms *ms);
 
 /* -------◊		TOKENS	◊------- */
+int		ft_token_pipe(t_cmd **cmd, t_ms *ms);
+int		ft_token_redir(t_cmd *cmd, t_token *red_tok, t_list **tokens, t_ms *ms);
+int		ft_token_word(t_token *tok, t_cmd *cmd);
 int		ft_add_token(t_list **tokens, t_token_type type, const char *value);
 void	ft_del_token(void *content);
 
 /* -------◊		LEXING	◊------- */
 void	ft_lexing(char *line, t_list **tokens);
+int		skip_quotes(const char *line, int i);
+int		lex_operator(const char *line, int i, t_list **tokens);
+int		lex_word(const char *line, int i, t_list **tokens);
 
 /* -------◊		EXPANDING VARIBALES	◊------- */
+int		ft_handle_quotes(char *str, int *i, char *quote);
+char	*ft_replace_var(char *s, t_ms *ms);
+int		ft_has_unclosed_quotes(const char *str);
+char	*ft_check_expand(char **value, t_ms *ms);
 int		ft_expand(t_list *tokens, t_ms *ms);
 
+/* -------◊		APPENDING EXPANDED VARIABLES	◊------- */
+int		ft_append_exit_code(char **result, t_ms *ms, int *i);
+int		ft_append_var(t_ms *ms, char **result, char *str, int *i);
+int		ft_append_plain_text(char **result, char *str, char quote, int *i);
+
 /* -------◊		PARSING	◊------- */
+t_cmd	*ft_new_cmd(t_ms *ms);
+int		ft_finalize_cmd(t_cmd *cmd, t_list **cmd_list);
+int		ft_handle_token(t_token *tok, t_list **tokens, t_cmd **cmd, t_ms *ms);
 t_list	*ft_parse(t_list *tokens, t_ms *ms);
 
 /* -------◊		PATHS	◊------- */
+char	**ft_get_env_path(t_kvl *env);
+char	*ft_strjoin_path(const char *path, const char *cmd);
+char	*ft_set_path(char *cmd, t_kvl *env);
 void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */
@@ -136,12 +156,18 @@ int		ft_open_read(char *filename);
 int		ft_open_write(char *filename, int truncate);
 
 /* -------◊		BUILT-INS	◊------- */
-int	ft_echo(t_cmd *cmd);
-int	ft_pwd(t_cmd *cmd);
-int	ft_cd(t_cmd *cmd, t_ms *ms);
-int	ft_env(t_cmd *cmd, t_ms *ms);
-int	ft_export(t_cmd *cmd, t_ms *ms);
-int	ft_unset(t_cmd *cmd, t_ms *ms);
+int		ft_echo(t_cmd *cmd);
+int		ft_pwd(t_cmd *cmd);
+int		ft_cd(t_cmd *cmd, t_ms *ms);
+int		ft_env(t_cmd *cmd, t_ms *ms);
+int		ft_export(t_cmd *cmd, t_ms *ms);
+int		ft_unset(t_cmd *cmd, t_ms *ms);
+
+/* -------◊		EXPORT BUILT-IN AUX	◊------- */
+void	ft_export_print(t_kvl *sorted, int out_fd);
+void	ft_export_no_args(t_cmd *cmd, t_ms *ms);
+int		ft_valid_var(const char *str);
+int		ft_add_var(char *str, t_ms *ms);
 
 /* -------◊		EXECUTE	◊------- */
 void	ft_execute(t_list *cmds, t_ms *ms);

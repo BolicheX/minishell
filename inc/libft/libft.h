@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:53:21 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/29 11:16:23 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/07 23:14:34 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,12 @@ int		ft_kvl_add(t_kvl **lst, t_kvl *new);
 void	*ft_kvl_set(t_kvl **lst, char *key, void *value);
 void	*ft_kvl_get(t_kvl *lst, char *key);
 void	ft_kvl_iter(t_kvl *lst, void (*f)(char *, void *));
-void	ft_kvl_delone(t_kvl *node, void (*del)(void    *));
-t_kvl	*ft_kvl_clear(t_kvl **lst, void (*del)(void    *));
-int		ft_kvl_remove(t_kvl **lst, char *key, void (*del)(void    *));
+t_kvl	*ft_kvl_strclone(t_kvl *env);
+void	ft_kvl_delone(t_kvl *node, void (*del)(void	*));
+t_kvl	*ft_kvl_clear(t_kvl **lst, void (*del)(void	*));
+int		ft_kvl_remove(t_kvl **lst, char *key, void (*del)(void	*));
 int		ft_kvl_size(t_kvl *lst);
+t_kvl	*ft_kvl_alphasort(t_kvl *lst);
 
 /* -------◊	PRINTF	◊------- */
 int		ft_printf(const char *s, ...);

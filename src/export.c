@@ -6,69 +6,13 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:37:32 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/20 20:45:05 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/07 23:22:56 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_kvl *ft_kvl_strclone(t_kvl *env)
-{
-	t_kvl	*clone;
-	t_kvl	*node;
-	char	*value_dup;
-
-	clone = NULL;
-	while (env)
-	{
-		value_dup = NULL;
-		if (env->value)
-		{
-			value_dup = ft_strdup(env->value);
-			if (!value_dup)
-				return (ft_kvl_clear(&clone, free));
-		}
-		node = ft_kvl_new(env->key, value_dup);
-		if (!node)
-		{
-			free(value_dup);
-			return (ft_kvl_clear(&clone, free));
-		}
-		ft_kvl_add(&clone, node);
-		env = env->next;
-	}
-	return (clone);
-}
-
-t_kvl *ft_kvl_alphasort(t_kvl *lst)
-{
-	t_kvl *sorted;
-	t_kvl *curr;
-	t_kvl *pos;
-
-	sorted = NULL;
-	while (lst)
-	{
-		curr = lst;
-		lst = lst->next;
-		if (!sorted || ft_strcmp(curr->key, sorted->key) < 0)
-		{
-			curr->next = sorted;
-			sorted = curr;
-		}
-		else
-		{
-			pos = sorted;
-			while (pos->next && ft_strcmp(curr->key, pos->next->key) > 0)
-				pos = pos->next;
-			curr->next = pos->next;
-			pos->next = curr;
-		}
-	}
-	return sorted;
-}
-
-static void	ft_export_print(t_kvl *sorted, int out_fd)
+void	ft_export_print(t_kvl *sorted, int out_fd)
 {
 	while (sorted)
 	{
@@ -103,6 +47,7 @@ int	ft_valid_var(const char *str)
 {
 	int	i;
 
+	i = 0;
 	if (!str || !str[0])
 		return (0);
 	if (!(ft_isalpha(str[0]) || str[0] == '_'))
@@ -161,7 +106,7 @@ int	ft_export(t_cmd *cmd, t_ms *ms)
 		{
 			ft_error("export", cmd->argv[i], "not a valid identifier", 1);
 			i++;
-			continue;
+			continue ;
 		}
 		else
 			ft_add_var(cmd->argv[i], ms);

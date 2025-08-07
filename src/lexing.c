@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/26 13:28:47 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/07 23:23:20 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	skip_quotes(const char *line, int i)
+int	skip_quotes(const char *line, int i)
 {
-	char quote = line[i];
+	char	quote;
+
+	quote = line[i];
 	i++;
 	while (line[i] && line[i] != quote)
 		i++;
@@ -23,7 +25,7 @@ static int	skip_quotes(const char *line, int i)
 	return (i);
 }
 
-static int	lex_operator(const char *line, int i, t_list **tokens)
+int	lex_operator(const char *line, int i, t_list **tokens)
 {
 	char	op;
 	int		len;
@@ -44,9 +46,9 @@ static int	lex_operator(const char *line, int i, t_list **tokens)
 	return (i + len);
 }
 
-static int	lex_word(const char *line, int i, t_list **tokens)
+int	lex_word(const char *line, int i, t_list **tokens)
 {
-	int		start;;
+	int		start;
 	char	*str;
 
 	start = i;
@@ -66,14 +68,15 @@ static int	lex_word(const char *line, int i, t_list **tokens)
 
 void	ft_lexing(char *line, t_list **tokens)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (line[i])
 	{
 		while (line[i] == ' ')
 			i++;
 		if (!line[i])
-			break;
+			break ;
 		if (ft_strchr("|<>", line[i]))
 			i = lex_operator(line, i, tokens);
 		else

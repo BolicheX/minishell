@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 20:39:13 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/27 12:04:01 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/07 23:14:52 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] && s1[i] == s2[i])
