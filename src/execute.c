@@ -6,13 +6,13 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:23:45 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/29 17:32:40 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:06:47 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_execute_if_is_builtin(t_cmd *cmd, t_ms *ms)
+int ft_execute_if_is_builtin(t_cmd *cmd, int is_subshell, t_ms *ms)
 {
     char    *cmd_name;
     int     exit_code;
@@ -24,15 +24,15 @@ int ft_execute_if_is_builtin(t_cmd *cmd, t_ms *ms)
     else if (ft_strcmp(cmd_name, "cd") == 0)
         exit_code = ft_cd(cmd, ms);
     else if (ft_strcmp(cmd_name, "pwd") == 0)
-        exit_code = ft_pwd(cmd);
+        exit_code = ft_pwd();
     else if (ft_strcmp(cmd_name, "export") == 0)
         exit_code = ft_export(cmd, ms);
     else if (ft_strcmp(cmd_name, "unset") == 0)
         exit_code = ft_unset(cmd, ms);
     else if (ft_strcmp(cmd_name, "env") == 0)
-        exit_code = ft_env(cmd, ms);
-    // else if (ft_strcmp(cmd_name, "exit") == 0)
-    //     exit_code = ft_exit(cmd, ms);
+        exit_code = ft_env(ms);
+    else if (ft_strcmp(cmd_name, "exit") == 0)
+        exit_code = ft_exit(cmd, is_subshell, ms);
     return (exit_code);
 }
 
@@ -42,7 +42,7 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     char    **envp;
 
     ft_debug_print_msg(cmd->argv[0], "ft_execute_child: ");
-    exit_code = ft_execute_if_is_builtin(cmd, ms);
+    exit_code = ft_execute_if_is_builtin(cmd, 1, ms);
     if (exit_code != -1)
         ft_exit_clean(exit_code, ms);
     if (cmd->path == NULL)
@@ -51,9 +51,9 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     if (envp == NULL)
         ft_exit_perror(NULL, 1, ms);
     ft_signals_default();
-    dup2(cmd->in, STDIN_FILENO);
-    dup2(cmd->out, STDOUT_FILENO);
-    ft_close_all(ms);
+    // dup2(cmd->in, STDIN_FILENO);
+    // dup2(cmd->out, STDOUT_FILENO);
+    // ft_close_all(ms);
     execve(cmd->path, cmd->argv, envp);
     if (errno == ENOENT)
         ft_exit_perror(cmd->path, 127, ms);//Comando no encontrado
@@ -73,7 +73,12 @@ pid_t   ft_execute_fork(t_cmd *cmd, int input_fd, int output_fd, t_ms *ms)
     if (child_process_id == -1)
         return (-1);
     else if (child_process_id == 0)
+    {
+        dup2(cmd->in, STDIN_FILENO);
+        dup2(cmd->out, STDOUT_FILENO);
+        ft_close_all(ms);
         ft_execute_child(cmd, ms);
+    }
     return (child_process_id);
 }
 
@@ -84,7 +89,7 @@ int ft_execute_one(t_cmd *cmd, t_ms *ms)
     int     exit_status;
 
     //ft_debug_print_str("ft_execute_one");
-    exit_code = ft_execute_if_is_builtin(cmd, ms);
+    exit_code = ft_execute_if_is_builtin(cmd, 0, ms);
     if (exit_code != -1)
         return (exit_code);
     child_process_id = ft_execute_fork(cmd, cmd->in, cmd->out, ms);

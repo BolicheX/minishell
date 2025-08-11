@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/07 23:13:05 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:06:28 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/stat.h>
 # include <signal.h>
 # include <termios.h>
+# include <limits.h>
 
 extern volatile sig_atomic_t	g_signal;
 
@@ -156,10 +157,11 @@ int		ft_open_read(char *filename);
 int		ft_open_write(char *filename, int truncate);
 
 /* -------◊		BUILT-INS	◊------- */
+int		ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms);
 int		ft_echo(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
+int		ft_pwd(void);
 int		ft_cd(t_cmd *cmd, t_ms *ms);
-int		ft_env(t_cmd *cmd, t_ms *ms);
+int		ft_env(t_ms *ms);
 int		ft_export(t_cmd *cmd, t_ms *ms);
 int		ft_unset(t_cmd *cmd, t_ms *ms);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/07 23:09:33 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:25:56 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	ft_perror(char *perror_prefix)
 {
 	if (perror_prefix != NULL)
 	{
-		ft_putstr_fd("-minishell: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		perror(perror_prefix);
 	}
 	else
-		perror("-minishell: error");
+		perror("minishell: error");
 }
 
 void    ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)
