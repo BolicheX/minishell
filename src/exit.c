@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/12 00:04:00 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:36:47 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	ft_perror(char *perror_prefix)
 {
 	if (perror_prefix != NULL)
 	{
-		ft_putstr_fd("-minishell: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		perror(perror_prefix);
 	}
 	else
-		perror("-minishell: error");
+		perror("minishell: error");
 }
 
 void    ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)

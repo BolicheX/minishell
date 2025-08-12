@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/27 12:05:13 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/11 21:49:06 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ int	ft_echo(t_cmd *cmd)
 	}
 	while (argv[i])
 	{
-		ft_putstr_fd(argv[i], cmd->out);
+		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		if (argv[i + 1])
-			ft_putchar_fd(' ', cmd->out);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
 	if (newline)
-		ft_putchar_fd('\n', cmd->out);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	return (0);
 }
 
-int	ft_pwd(t_cmd *cmd)
+int	ft_pwd(void)
 {
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		ft_error("pwd", NULL, NULL, 1);
-	ft_putendl_fd(cwd, cmd->out);
+	ft_putendl_fd(cwd, STDOUT_FILENO);
 	free(cwd);
 	return (0);
 }
@@ -64,6 +64,11 @@ int	ft_cd(t_cmd *cmd, t_ms *ms)
 			return (1);
 		}
 	}
+	else if (cmd->argv[2])
+	{
+		ft_error("cd", NULL, "too many arguments", 1);
+		return (1);
+	}
 	else
 		path = cmd->argv[1];
 	if (chdir(path) != 0)
@@ -74,20 +79,18 @@ int	ft_cd(t_cmd *cmd, t_ms *ms)
 	return (0);
 }
 
-int	ft_env(t_cmd *cmd, t_ms *ms)
+int	ft_env(t_ms *ms)
 {
 	t_kvl	*env;
-	int		out_fd;
 
 	env = ms->env;
-	out_fd = cmd->out;
 	while (env)
 	{
 		if (env->key && env->value)
 		{
-			ft_putstr_fd(env->key, out_fd);
-			ft_putchar_fd('=', out_fd);
-			ft_putendl_fd(env->value, out_fd);
+			ft_putstr_fd(env->key, STDOUT_FILENO);
+			ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putendl_fd(env->value, STDOUT_FILENO);
 		}
 		env = env->next;
 	}

@@ -6,13 +6,65 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/12 02:01:34 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:36:00 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t   g_signal;
+
+static int  ft_parse_exit_code(char *str)
+{
+    unsigned long   result;
+    int             sign;
+
+    result = 0;
+    sign = 1;
+    while (ft_isspace(*str))
+        str++;
+    if (*str == '-' || *str == '+')
+    {
+        if (*str++ == '-')
+            sign = -1;
+    }
+    if (ft_isdigit(*str) == 0)
+        return (-1);
+    while (ft_isdigit(*str))
+    {
+        if (result > ((unsigned long)LONG_MAX + 1 - (*str - '0')) / 10)
+            return (-1);
+        result = result * 10 + (*str++ - '0');
+    }
+    while (ft_isspace(*str))
+        str++;
+    if ((*str != '\0') || (sign == 1 && result > (unsigned long)LONG_MAX))
+        return (-1);
+    return ((long)result * sign % 256);
+}
+
+int ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms)
+{
+    int     exit_code;
+
+    if (is_subshell == 0)
+        ft_putendl_fd("exit", STDERR_FILENO);
+    if (cmd->argc == 1)
+       ft_exit_clean(g_signal, ms);
+    exit_code = ft_parse_exit_code(cmd->argv[1]);
+    if (exit_code == -1)
+    {
+        ft_error("exit", cmd->argv[1], "numeric argument required", 1);
+        ft_exit_clean(2, ms);
+    }
+    if (cmd->argc > 2)
+    {
+        ft_error("exit", NULL, "too many arguments", 1);
+        return (1);
+    }
+    ft_exit_clean(exit_code, ms);
+    return (0);
+}
 
 //If there are arguments or STDIN_FILENO was redirected to a file or a pipe,
 //we execute in a non-interactive mode.
@@ -23,33 +75,6 @@ static void ft_non_interactive_mode(int argc, char *argv[], t_ms *ms)
 	ft_exit_clean(1, ms);
 }
 
-void	ft_execute_builtin(t_list *cmds, t_ms *ms)
-{
-	t_list	*current;
-	char	**argv;
-
-	current = cmds;
-	while (current)
-	{
-		argv = ((t_cmd *)current->content)->argv;
-		if (argv && argv[0] && ft_strcmp(argv[0], "echo") == 0)
-			g_signal = ft_echo((t_cmd *)current->content);
-		if (argv && argv[0] && ft_strcmp(argv[0], "pwd") == 0)
-			g_signal = ft_pwd((t_cmd *)current->content);
-		if (argv && argv[0] && ft_strcmp(argv[0], "cd") == 0)
-			g_signal = ft_cd((t_cmd *)current->content, ms);
-		if (argv && argv[0] && ft_strcmp(argv[0], "env") == 0)
-			g_signal = ft_env((t_cmd *)current->content, ms);
-		if (argv && argv[0] && ft_strcmp(argv[0], "export") == 0)
-			g_signal = ft_export((t_cmd *)current->content, ms);
-		if (argv && argv[0] && ft_strcmp(argv[0], "unset") == 0)
-			g_signal = ft_unset((t_cmd *)current->content, ms);
-		current = current->next;
-	}
-	//ft_lstclear(&ms->cmds, ft_clean_cmd);
-}
-
-//NOTA: Sustituye a ft_transform_cmd.
 //Interprets a command line by lexing, expanding, parsing and executing.
 //If it's a heredoc command, ft_heredoc manages the following lines, asks for
 //more if necessary and sets the lines after the limiter to be traversed here
@@ -79,7 +104,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
         ft_add_history(cmd_line, ms);
     if (ft_expand(&tokens, ms) == -1)
 		return (is_heredoc);
-	ft_lstiter(tokens, ft_print_token);//TODO Quitar tras confirmar debugging.
+	//ft_lstiter(tokens, ft_print_token);//TODO Quitar tras confirmar debugging.
     // if (is_heredoc == 1)//Para pruebas
     //     ft_debug_print_fd(ms->heredoc[0], NULL, NULL);//Sustituye por la línea de abajo cuando quieras.
     // else
@@ -96,7 +121,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     ft_lstclear(&tokens, ft_del_token);
     if (ft_resolve_paths(cmds, ms))
 		return (is_heredoc);
-    ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
+    //ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
     ms->cmds = cmds;
     ft_execute(cmds, ms);
     ft_heredoc_close(ms);
@@ -118,7 +143,7 @@ static void ft_traverse_input(t_ms *ms)
     i = 0;
     while (input_lines[i] != NULL)
     {
-        if (*input_lines[i] != '\0')//TODO Comprobar.
+        if (*input_lines[i] != '\0')
         {
             is_heredoc = ft_interpret_input_line(input_lines[i], i, ms);
             if (is_heredoc == 1)
@@ -144,7 +169,7 @@ static void ft_interactive_mode(t_ms *ms)
         if (input == NULL)
         {
             ft_putendl_fd("exit", STDERR_FILENO);
-            ft_exit_clean(1, ms);
+            ft_exit_clean(g_signal, ms);
         }
         //ft_debug_print_lines(input, "-Input:", "-Fin Input.");
         input_lines = ft_split_empty(input, '\n');
@@ -198,10 +223,7 @@ int main(int argc, char *argv[], char *envp[])
         ft_exit_clean(exit_status, &ms);
     } */
     if (argc != 1 || isatty(STDIN_FILENO) == 0)
-    {
-        // Modo no interactivo sin -c, puedes implementar ft_non_interactive_mode
         ft_non_interactive_mode(argc, argv, &ms);
-    }
     else
     {
         ft_setup_signals();
