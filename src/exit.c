@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/07 23:09:33 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 00:04:00 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,20 @@ int	ft_error(char *cmd, char *arg, char *msg, int exit_code)
 /* 	else
 		ft_putstr_fd(strerror(errno), STDERR_FILENO); */
 	ft_putstr_fd("\n", STDERR_FILENO);
-	return(1);
-	(void)exit_code;
+	g_signal = exit_code;
+	return(exit_code);
+}
+
+int	ft_syntax_error(char *token, int exit_code)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
+	if (token)
+		ft_putstr_fd(token, STDERR_FILENO);
+	else
+		ft_putstr_fd("newline", STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
+	g_signal = exit_code;
+	return (exit_code);
 }
 
 void    ft_exit_clean(int exit_code, t_ms *ms)

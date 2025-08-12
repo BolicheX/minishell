@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:04:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/07 21:56:16 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 00:44:47 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,27 @@ int	ft_append_var(t_ms *ms, char **result, char *str, int *i)
 		*result = ft_strjoin_free(*result, var_value);
 	if (!*result)
 		return (-1);
-	return (*i);
+	return (0);
 }
 
 int	ft_append_plain_text(char **result, char *str, char quote, int *i)
 {
 	int		start;
-	char	*new;
 
 	start = *i;
-	while (str[*i] && str[*i] != quote && !(str[*i] == '$' && quote == '"'))
+	while (str[*i]
+		&& ((quote == '\'' && str[*i] != quote)
+			|| (quote == '"' && str[*i] != quote && str[*i] != '$')
+			|| (quote == '\0' && str[*i] != '$'
+				&& str[*i] != '\'' && str[*i] != '"')))
 		(*i)++;
 	if (*i == start)
+	{
+		*result = ft_strjoin_free2(*result, ft_substr(str, *i, 1));
+		(*i)++;
 		return (0);
-	new = ft_strjoin(*result, ft_substr(str, start, *i - start));
-	free(*result);
-	*result = new;
+	}
+	*result = ft_strjoin_free2(*result, ft_substr(str, start, *i - start));
 	if (!*result)
 		return (-1);
 	return (0);

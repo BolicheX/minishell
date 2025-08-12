@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/07 23:13:05 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 01:07:31 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_clean_all(t_ms *ms);
 void	ft_perror(char *perror_prefix);
 void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms);
 int		ft_error(char *cmd, char *arg, char *msg, int exit_code);
+int		ft_syntax_error(char *token, int exit_code);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
 /* -------◊		SIGNALS	◊------- */
@@ -122,7 +123,7 @@ int		ft_add_token(t_list **tokens, t_token_type type, const char *value);
 void	ft_del_token(void *content);
 
 /* -------◊		LEXING	◊------- */
-void	ft_lexing(char *line, t_list **tokens);
+int		ft_lexing(char *line, t_list **tokens);
 int		skip_quotes(const char *line, int i);
 int		lex_operator(const char *line, int i, t_list **tokens);
 int		lex_word(const char *line, int i, t_list **tokens);
@@ -132,7 +133,7 @@ int		ft_handle_quotes(char *str, int *i, char *quote);
 char	*ft_replace_var(char *s, t_ms *ms);
 int		ft_has_unclosed_quotes(const char *str);
 char	*ft_check_expand(char **value, t_ms *ms);
-int		ft_expand(t_list *tokens, t_ms *ms);
+int		ft_expand(t_list **tokens, t_ms *ms);
 
 /* -------◊		APPENDING EXPANDED VARIABLES	◊------- */
 int		ft_append_exit_code(char **result, t_ms *ms, int *i);
@@ -149,7 +150,7 @@ t_list	*ft_parse(t_list *tokens, t_ms *ms);
 char	**ft_get_env_path(t_kvl *env);
 char	*ft_strjoin_path(const char *path, const char *cmd);
 char	*ft_set_path(char *cmd, t_kvl *env);
-void	ft_resolve_paths(t_list *cmd_list, t_ms *ms);
+int		ft_resolve_paths(t_list *cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */
 int		ft_open_read(char *filename);

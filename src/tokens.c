@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:40:05 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/07 23:12:41 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 00:53:21 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_token_pipe(t_cmd **cmd, t_ms *ms)
 	t_list	*node;
 	t_cmd	*new_cmd;
 
+	if ((*cmd)->argc == 0)
+		return (ft_syntax_error("|", 2), -1);
 	if (pipe(fds) < 0)
 	{
 		ft_perror("pipe failed");
@@ -43,10 +45,10 @@ int	ft_token_redir(t_cmd *cmd, t_token *red_tok, t_list **tokens, t_ms *ms)
 
 	fd = -1;
 	if (!*tokens || !(*tokens)->content)
-		return (ft_perror("syntax error: missing file after redirection"), -1);
+		return (ft_syntax_error(NULL, 2), -1);
 	file_tok = (t_token *)(*tokens)->content;
 	if (file_tok->type != T_WORD)
-		return (ft_perror("syntax error: expected file after redirection"), -1);
+		return (ft_syntax_error(NULL, 2), -1);
 	if (!ft_strcmp(red_tok->value, ">"))
 		fd = ft_open_write(file_tok->value, 1);
 	else if (!ft_strcmp(red_tok->value, ">>"))

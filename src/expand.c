@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/07 21:56:00 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 00:58:39 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,25 @@ char	*ft_check_expand(char **value, t_ms *ms)
 	return (*value);
 }
 
-int	ft_expand(t_list *tokens, t_ms *ms)
+int	ft_expand(t_list **tokens, t_ms *ms)
 {
 	t_token	*token;
+	t_list	*current;
 
-	while (tokens)
+	current = *tokens;
+	while (current)
 	{
-		token = (t_token *)tokens->content;
+		token = (t_token *)current->content;
 		if (token->type == T_WORD)
 		{
 			if (!(ft_check_expand(&token->value, ms)) || !token->value)
 			{
-				ft_lstclear(&tokens, ft_del_token);
+				ft_lstclear(tokens, ft_del_token);
+				*tokens = NULL;
 				return (-1);
 			}
 		}
-		tokens = tokens->next;
+		current = current->next;
 	}
 	return (0);
 }
