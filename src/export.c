@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:37:32 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/07 23:22:56 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/12 21:50:41 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	ft_add_var(char *str, t_ms *ms)
 		return (1);
 	}
 	ft_kvl_set(&ms->env, key, value);
+	free(key);
 	return (0);
 }
 
