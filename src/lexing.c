@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/12 00:24:28 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 21:16:54 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_lexing(char *line, t_list **tokens)
 	int		i;
 
 	i = 0;
+	ft_lstclear(tokens, ft_del_token);
 	while (line[i])
 	{
 		while (line[i] == ' ')

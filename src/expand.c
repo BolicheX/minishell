@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/12 00:58:39 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 21:21:48 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ char	*ft_check_expand(char **value, t_ms *ms)
 	return (*value);
 }
 
-int	ft_expand(t_list **tokens, t_ms *ms)
+int	ft_expand(t_ms *ms)
 {
 	t_token	*token;
 	t_list	*current;
 
-	current = *tokens;
+	current = ms->tokens;
 	while (current)
 	{
 		token = (t_token *)current->content;
@@ -108,8 +108,7 @@ int	ft_expand(t_list **tokens, t_ms *ms)
 		{
 			if (!(ft_check_expand(&token->value, ms)) || !token->value)
 			{
-				ft_lstclear(tokens, ft_del_token);
-				*tokens = NULL;
+				ft_lstclear(&ms->tokens, ft_del_token);
 				return (-1);
 			}
 		}

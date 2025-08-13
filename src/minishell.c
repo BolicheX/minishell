@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/13 19:58:42 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:18:27 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,13 @@ static void ft_non_interactive_mode(int argc, char *argv[], t_ms *ms)
 static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 {
 	int     is_heredoc;
-	t_list  *tokens;
-	t_list  *cmds;
+	//t_list  *cmds;
 
     is_heredoc = 0;
-    tokens = NULL;
-	if (ft_lexing(cmd_line, &tokens))
-    {
-		ft_lstclear(&tokens, ft_del_token);
+	if (ft_lexing(cmd_line, &ms->tokens))
 		return (0);
-	}
-	if(ft_heredoc_init(tokens, ms))
-	{
-		ft_lstclear(&tokens, ft_del_token);
+	if(ft_heredoc_init(ms->tokens, ms))
 		return (0);
-	}
     if (ms->limiter != NULL)
     {
         is_heredoc = 1;
@@ -105,7 +97,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     }
     else
         ft_add_history(cmd_line, ms);
-    if (ft_expand(&tokens, ms) == -1)
+    if (ft_expand(ms) == -1)
 		return (is_heredoc);
 	//ft_lstiter(tokens, ft_print_token);//TODO Quitar tras confirmar debugging.
     // if (is_heredoc == 1)//Para pruebas
@@ -114,19 +106,15 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     // {
     //     ft_debug_print_str("Execute:");
     //     ft_debug_print_str(cmd_line);
-    // }
-    cmds = ft_parse(tokens, ms);
-	if (!cmds)
-	{
-		ft_lstclear(&tokens, ft_del_token);
+    //
+	ft_lstclear(&ms->cmds, ft_clean_cmd);
+    ft_parse(ms);
+	if (!ms->cmds)
 		return (is_heredoc);
-	}
-    ft_lstclear(&tokens, ft_del_token);
-    if (ft_resolve_paths(cmds, ms))
+    if (ft_resolve_paths(ms->cmds, ms))
 		return (is_heredoc);
     //ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
-    ms->cmds = cmds;
-    ft_execute(cmds, ms);
+    ft_execute(ms->cmds, ms);
     ft_heredoc_close(ms);
     return (is_heredoc);
 }

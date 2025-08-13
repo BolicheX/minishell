@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/11 23:59:39 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:08:50 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ int	ft_handle_token(t_token *tok, t_list **tokens, t_cmd **cmd, t_ms *ms)
 	return (0);
 }
 
-t_list	*ft_parse(t_list *tokens, t_ms *ms)
+void	ft_parse(t_ms *ms)
 {
 	t_cmd	*cmd;
 	t_token	*tok;
+	t_list *tokens;
 
-	ms->cmds = NULL;
+	tokens = ms->tokens;
 	cmd = ft_new_cmd(ms);
 	if (!cmd)
-		return (NULL);
+		return ;
 	while (tokens)
 	{
 		tok = (t_token *)tokens->content;
@@ -68,13 +69,12 @@ t_list	*ft_parse(t_list *tokens, t_ms *ms)
 		if (ft_handle_token(tok, &tokens, &cmd, ms) < 0)
 		{
 			ft_clean_parse(NULL, cmd);
-			return (NULL);
+			return ;
 		}
 	}
 	if (ft_finalize_cmd(cmd, &ms->cmds) < 0)
 	{
 		ft_clean_parse(ms->cmds, cmd);
-		return (NULL);
+		return ;
 	}
-	return (ms->cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/12 16:33:33 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:29:10 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_ms
 	char			*limiter;
 	int				heredoc[2];
 	t_list			*cmds;
+	t_list			*tokens;
 	pid_t			pid;
 }				t_ms;
 
@@ -134,7 +135,7 @@ int		ft_handle_quotes(char *str, int *i, char *quote);
 char	*ft_replace_var(char *s, t_ms *ms);
 int		ft_has_unclosed_quotes(const char *str);
 char	*ft_check_expand(char **value, t_ms *ms);
-int		ft_expand(t_list **tokens, t_ms *ms);
+int		ft_expand(t_ms *ms);
 
 /* -------◊		APPENDING EXPANDED VARIABLES	◊------- */
 int		ft_append_exit_code(char **result, t_ms *ms, int *i);
@@ -145,12 +146,13 @@ int		ft_append_plain_text(char **result, char *str, char quote, int *i);
 t_cmd	*ft_new_cmd(t_ms *ms);
 int		ft_finalize_cmd(t_cmd *cmd, t_list **cmd_list);
 int		ft_handle_token(t_token *tok, t_list **tokens, t_cmd **cmd, t_ms *ms);
-t_list	*ft_parse(t_list *tokens, t_ms *ms);
+void	ft_parse(t_ms *ms);
 
 /* -------◊		PATHS	◊------- */
 char	**ft_get_env_path(t_kvl *env);
 char	*ft_strjoin_path(const char *path, const char *cmd);
 char	*ft_set_path(char *cmd, t_kvl *env);
+int		ft_isbuiltin(char *cmd);
 int		ft_resolve_paths(t_list *cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */

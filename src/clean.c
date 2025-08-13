@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/29 17:31:41 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:55:20 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void ft_free_all(t_ms *ms)
     ft_free_str_array(ms->input_lines);
     free(ms->limiter);
 	ft_lstclear(&ms->cmds, ft_clean_cmd);
+	ft_lstclear(&ms->tokens, ft_del_token);
 
 	//TODO Los demás campos de ms que estén en heap memory.
 }
