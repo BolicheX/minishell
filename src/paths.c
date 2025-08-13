@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:57:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/12 01:11:25 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:34:10 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,21 @@ char	*ft_set_path(char *cmd, t_kvl *env)
 	return (path);
 }
 
+int	ft_isbuiltin(char *cmd)
+{
+	if (!cmd || !*cmd)
+		return (0);
+	return (
+		!ft_strcmp(cmd, "cd")
+		|| !ft_strcmp(cmd, "echo")
+		|| !ft_strcmp(cmd, "pwd")
+		|| !ft_strcmp(cmd, "exit")
+		|| !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "env")
+	);
+}
+
 int	ft_resolve_paths(t_list *cmd_list, t_ms *ms)
 {
 	t_cmd	*cmd;
@@ -83,20 +98,20 @@ int	ft_resolve_paths(t_list *cmd_list, t_ms *ms)
 		cmd = (t_cmd *)cmd_list->content;
 		cmd_list = cmd_list->next;
 		if (!cmd || !cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
-			return (ft_error("", NULL, "command not found", 127));
-		if (!ft_strcmp(cmd->argv[0], "cd")
-			|| !ft_strcmp(cmd->argv[0], "echo")
-			|| !ft_strcmp(cmd->argv[0], "pwd")
-			|| !ft_strcmp(cmd->argv[0], "exit")
-			|| !ft_strcmp(cmd->argv[0], "export")
-			|| !ft_strcmp(cmd->argv[0], "unset")
-			|| !ft_strcmp(cmd->argv[0], "env"))
+		{
+			ft_error("", NULL, "command not found", 127);
+			continue;
+		}
+		if (ft_isbuiltin(cmd->argv[0]))
 			cmd->path = NULL;
 		else
 		{
 			cmd->path = ft_set_path(cmd->argv[0], ms->env);
 			if (!cmd->path)
-				return (ft_error(cmd->argv[0], NULL, "command not found", 127));
+			{
+				ft_error("", NULL, "command not found", 127);
+				continue;
+			}
 		}
 	}
 	return (0);
