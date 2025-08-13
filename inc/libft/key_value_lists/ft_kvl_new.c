@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:16:11 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/20 21:22:31 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:56:24 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ t_kvl    *ft_kvl_new(char *key, void *value)
 	new->next = NULL;
 	return (new);
 }
-

@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:04:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/12 00:44:47 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:29:43 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	ft_append_plain_text(char **result, char *str, char quote, int *i)
 	{
 		*result = ft_strjoin_free2(*result, ft_substr(str, *i, 1));
 		(*i)++;
-		return (0);
 	}
-	*result = ft_strjoin_free2(*result, ft_substr(str, start, *i - start));
+	else
+		*result = ft_strjoin_free2(*result, ft_substr(str, start, *i - start));
 	if (!*result)
 		return (-1);
 	return (0);
