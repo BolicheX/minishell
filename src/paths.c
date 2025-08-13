@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:57:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 22:34:10 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 22:38:27 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	ft_resolve_paths(t_list *cmd_list, t_ms *ms)
 			cmd->path = ft_set_path(cmd->argv[0], ms->env);
 			if (!cmd->path)
 			{
-				ft_error("", NULL, "command not found", 127);
+				ft_error(cmd->argv[0], NULL, "command not found", 127);
 				continue;
 			}
 		}
