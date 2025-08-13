@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/12 16:36:00 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:58:42 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     is_heredoc = 0;
     tokens = NULL;
 	if (ft_lexing(cmd_line, &tokens))
-    	return (0);
+    {
+		ft_lstclear(&tokens, ft_del_token);
+		return (0);
+	}
 	if(ft_heredoc_init(tokens, ms))
 	{
 		ft_lstclear(&tokens, ft_del_token);
