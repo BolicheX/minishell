@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 21:21:48 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:04:45 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,13 @@ int	ft_has_unclosed_quotes(const char *str)
 
 char	*ft_check_expand(char **value, t_ms *ms)
 {
-	char	*expanded_value;
-
-	expanded_value = NULL;
 	if (!*value)
 		return (NULL);
 	if (ft_has_unclosed_quotes(*value))
 		return (ft_error("minishell", NULL, "unclosed quotes", 1), NULL);
 	if (ft_strchr(*value, '$')
 		|| ft_strchr(*value, '\'') || ft_strchr(*value, '\"'))
-	{
-		expanded_value = ft_replace_var(*value, ms);
-		*value = expanded_value;
-	}
+		*value = ft_replace_var(*value, ms);
 	return (*value);
 }
 

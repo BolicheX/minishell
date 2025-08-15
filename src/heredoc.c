@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/28 16:23:42 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/15 19:30:49 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,21 @@ static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
     return (-1);
 }
 
-static int  ft_heredoc_write(const char *input_line, t_ms *ms)
+static int	ft_heredoc_write(char *input_line, t_ms *ms)
 {
-    char    *expanded_line;
+	char	*expanded_line;
 
-    expanded_line = ft_strdup(input_line);//TODO JOSE Expandir
-    if (expanded_line == NULL)
-        return (0);
-    ft_putendl_fd(expanded_line, ms->heredoc[1]);
-    free(expanded_line);
-    return (1);
+	expanded_line = ft_strdup(input_line);
+	if (!expanded_line)
+		return (0);
+	if (!ft_check_expand(&expanded_line, ms))
+	{
+		free(expanded_line);
+		return (0);
+	}
+	ft_putendl_fd(expanded_line, ms->heredoc[1]);
+	free(expanded_line);
+	return (1);
 }
 
 //Writes in the heredoc pipe, manages the heredoc history entry, indicates if
