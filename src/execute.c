@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:23:45 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/11 20:06:47 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/16 16:45:36 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,13 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     if (envp == NULL)
         ft_exit_perror(NULL, 1, ms);
     ft_signals_default();
-    // dup2(cmd->in, STDIN_FILENO);
-    // dup2(cmd->out, STDOUT_FILENO);
-    // ft_close_all(ms);
     execve(cmd->path, cmd->argv, envp);
     if (errno == ENOENT)
         ft_exit_perror(cmd->path, 127, ms);//Comando no encontrado
     else if (errno == EACCES)
         ft_exit_perror(cmd->path, 126, ms);//Permiso denegado
     else
-        ft_exit_perror(cmd->path, 1, ms);//ft_exit_perror(cmd->path, 1, ms);//Otro error
+        ft_exit_perror(cmd->path, 1, ms);//Otro error
 }
 
 pid_t   ft_execute_fork(t_cmd *cmd, int input_fd, int output_fd, t_ms *ms)
@@ -148,12 +145,15 @@ void    ft_execute(t_list *cmds, t_ms *ms)
     else
     {
         cmds_count = ft_lstsize(cmds);
-        child_ids = malloc(sizeof(int) * cmds_count);
+        child_ids = malloc(sizeof(int) * cmds_count);//TODO pasar a ms para liberar en child.
         if (child_ids == NULL)
             ft_exit_perror(NULL, 1, ms);
+        ms->child_ids = child_ids;
         exit_code = ft_execute_pipeline(cmds, child_ids, cmds_count, ms);
         if (exit_code != -1)
             g_signal = exit_code;
+        free(child_ids);
+        ms->child_ids = NULL;
     }
     ft_signals_minishell();
 }

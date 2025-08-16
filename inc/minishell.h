@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 22:29:10 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/16 16:28:33 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,16 @@ typedef struct s_cmd
 typedef struct s_ms
 {
 	t_kvl			*env;
-	int				termios_ok;
-	struct termios	orig_termios;
+	int				termios_ok;//TODO QUITAR si no lo usamos.
+	struct termios	orig_termios;//TODO QUITAR si no lo usamos.
 	int				cmd_prompts_count;
 	char			*last_history_entry;
 	char			**input_lines;
 	char			*limiter;
 	int				heredoc[2];
-	t_list			*cmds;
 	t_list			*tokens;
+	t_list			*cmds;
+	int				*child_ids;
 	pid_t			pid;
 }				t_ms;
 
@@ -105,14 +106,13 @@ char	**ft_env_to_array(t_ms *ms);
 
 /* -------◊		UTILS	◊------- */
 void	ft_add_history(char *entry, t_ms *ms);
-void	ft_update_input_lines(char **input_lines, t_ms *ms);
+int		ft_update_input_lines(char *input, t_ms *ms);
 
 /* -------◊		HEREDOC	◊------- */
 int		ft_heredoc(int i, t_ms *ms);
 
 /* -------◊		HEREDOC UTILS	◊------- */
 int		ft_heredoc_init(t_list *tokens, t_ms *ms);
-void	ft_heredoc_close(t_ms *ms);
 void	ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms);
 void	ft_trim_input_lines(int start, t_ms *ms);
 void	ft_print_heredoc_error(t_ms *ms);

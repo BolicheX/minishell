@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/21 22:05:08 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:00:19 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_handle_heredoc_token(t_list *tokens, t_ms *ms)
+static int  ft_handle_heredoc_token(t_list *tokens, t_ms *ms)
 {
 	t_token	*tok;
 	t_list	*next;
@@ -35,7 +35,10 @@ int	ft_heredoc_init(t_list *tokens, t_ms *ms)
 {
 	t_token	*tok;
 
+    free(ms->limiter);
 	ms->limiter = NULL;
+    ft_close(&ms->heredoc[0]);
+	ft_close(&ms->heredoc[1]);
 	while (tokens)
 	{
 		tok = (t_token *)tokens->content;
@@ -44,14 +47,6 @@ int	ft_heredoc_init(t_list *tokens, t_ms *ms)
 		tokens = tokens->next;
 	}
 	return (0);
-}
-
-void    ft_heredoc_close(t_ms *ms)
-{
-    free(ms->limiter);
-    ms->limiter = NULL;
-    ft_close(&ms->heredoc[0]);
-	ft_close(&ms->heredoc[1]);
 }
 
 void    ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms)
@@ -87,7 +82,7 @@ void    ft_trim_input_lines(int start, t_ms *ms)
 //Prints a warning when EOF(ctrl-D) is used as heredoc input.
 void    ft_print_heredoc_error(t_ms *ms)
 {
-    ft_putstr_fd("-minishell: warning: here-document at line ", STDERR_FILENO);
+    ft_putstr_fd("minishell: warning: here-document at line ", STDERR_FILENO);
     ft_putnbr_fd(ms->cmd_prompts_count, STDERR_FILENO);
     ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
     ft_putstr_fd(ms->limiter, STDERR_FILENO);

@@ -3,68 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/13 22:18:27 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/15 17:35:48 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t   g_signal;
-
-static int  ft_parse_exit_code(char *str)
-{
-    unsigned long   result;
-    int             sign;
-
-    result = 0;
-    sign = 1;
-    while (ft_isspace(*str))
-        str++;
-    if (*str == '-' || *str == '+')
-    {
-        if (*str++ == '-')
-            sign = -1;
-    }
-    if (ft_isdigit(*str) == 0)
-        return (-1);
-    while (ft_isdigit(*str))
-    {
-        if (result > ((unsigned long)LONG_MAX + 1 - (*str - '0')) / 10)
-            return (-1);
-        result = result * 10 + (*str++ - '0');
-    }
-    while (ft_isspace(*str))
-        str++;
-    if ((*str != '\0') || (sign == 1 && result > (unsigned long)LONG_MAX))
-        return (-1);
-    return ((long)result * sign % 256);
-}
-
-int ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms)
-{
-    int     exit_code;
-
-    if (is_subshell == 0)
-        ft_putendl_fd("exit", STDERR_FILENO);
-    if (cmd->argc == 1)
-       ft_exit_clean(g_signal, ms);
-    exit_code = ft_parse_exit_code(cmd->argv[1]);
-    if (exit_code == -1)
-    {
-        ft_error("exit", cmd->argv[1], "numeric argument required", 1);
-        ft_exit_clean(2, ms);
-    }
-    if (cmd->argc > 2)
-    {
-        ft_error("exit", NULL, "too many arguments", 1);
-        return (1);
-    }
-    ft_exit_clean(exit_code, ms);
-    return (0);
-}
 
 //If there are arguments or STDIN_FILENO was redirected to a file or a pipe,
 //we execute in a non-interactive mode.
@@ -82,7 +30,6 @@ static void ft_non_interactive_mode(int argc, char *argv[], t_ms *ms)
 static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 {
 	int     is_heredoc;
-	//t_list  *cmds;
 
     is_heredoc = 0;
 	if (ft_lexing(cmd_line, &ms->tokens))
@@ -99,14 +46,6 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
         ft_add_history(cmd_line, ms);
     if (ft_expand(ms) == -1)
 		return (is_heredoc);
-	//ft_lstiter(tokens, ft_print_token);//TODO Quitar tras confirmar debugging.
-    // if (is_heredoc == 1)//Para pruebas
-    //     ft_debug_print_fd(ms->heredoc[0], NULL, NULL);//Sustituye por la línea de abajo cuando quieras.
-    // else
-    // {
-    //     ft_debug_print_str("Execute:");
-    //     ft_debug_print_str(cmd_line);
-    //
 	ft_lstclear(&ms->cmds, ft_clean_cmd);
     ft_parse(ms);
 	if (!ms->cmds)
@@ -115,7 +54,6 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 		return (is_heredoc);
     //ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
     ft_execute(ms->cmds, ms);
-    ft_heredoc_close(ms);
     return (is_heredoc);
 }
 

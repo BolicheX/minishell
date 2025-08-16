@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/15 19:30:49 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/16 17:02:06 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
         ft_exit_perror(NULL, 1, ms);
     }
     //ft_debug_print_lines(input, "-Heredoc Input:", "-Fin Heredoc Input.");
-    ft_update_input_lines(ft_split_empty(input, '\n'), ms);
+    if (ft_update_input_lines(input, ms) == 0)
+    {
+        free(history_entry);
+        ft_exit_perror(NULL, 1, ms);
+    }
     if (WIFEXITED(exit_status))
         return (WEXITSTATUS(exit_status));
     write(STDOUT_FILENO, "\n", 1);
