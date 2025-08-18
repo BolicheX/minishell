@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/16 17:02:06 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:41:52 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ static void ft_heredoc_child(char *history_entry, int fork_pipe[2], t_ms *ms)
     char    *input;
 
     ft_close(&fork_pipe[0]);
+    if (ms->is_interactive == 0)
+    {
+        free(history_entry);
+        ft_close(&fork_pipe[1]);
+        ft_print_heredoc_error(ms);
+        ft_exit_clean(2, ms);
+    }
     ft_signals_heredoc();
     ft_add_history(history_entry, ms);
     free(history_entry);
@@ -25,36 +32,34 @@ static void ft_heredoc_child(char *history_entry, int fork_pipe[2], t_ms *ms)
     {
         ft_close(&fork_pipe[1]);
         ft_print_heredoc_error(ms);
-        //ft_debug_print_str("Child End");
         ft_exit_clean(2, ms);
     }
     ft_putstr_fd(input, fork_pipe[1]);
     ft_close(&fork_pipe[1]);
-    //ft_debug_print_str("Child End");
     ft_exit_clean(0, ms);
 }
 
 static pid_t    ft_heredoc_fork(char *history_entry, int fork_pipe[2], t_ms *ms)
 {
-    pid_t   child_process_id;
+    pid_t   child_id;
 
     if (pipe(fork_pipe) == -1)
     {
         free(history_entry);
         ft_exit_perror(NULL, 1, ms);
     }
-    child_process_id = fork();
-    if (child_process_id == -1)
+    child_id = fork();
+    if (child_id == -1)
     {
         free(history_entry);
         ft_close(&fork_pipe[0]);
         ft_close(&fork_pipe[1]);
         ft_exit_perror(NULL, 1, ms);
     }
-    else if (child_process_id == 0)
+    else if (child_id == 0)
         ft_heredoc_child(history_entry, fork_pipe, ms);
     ft_close(&fork_pipe[1]);
-    return (child_process_id);
+    return (child_id);
 }
 
 //Calls readline in a child process to achieve correct SIGINT handling and
@@ -62,14 +67,13 @@ static pid_t    ft_heredoc_fork(char *history_entry, int fork_pipe[2], t_ms *ms)
 static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
 {
     int     fork_pipe[2];
-    pid_t   child_process_id;
+    pid_t   child_id;
     int     exit_status;
     char    *input;
 
-    signal(SIGINT, SIG_IGN);
-    child_process_id = ft_heredoc_fork(history_entry, fork_pipe, ms);
-    waitpid(child_process_id, &exit_status, 0);
-    ft_signals_minishell();
+    ft_signals_ignore();
+    child_id = ft_heredoc_fork(history_entry, fork_pipe, ms);
+    waitpid(child_id, &exit_status, 0);
     input = ft_fd_to_str(fork_pipe[0]);
     ft_close(&fork_pipe[0]);
     if (input == NULL)
@@ -77,16 +81,12 @@ static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
         free(history_entry);
         ft_exit_perror(NULL, 1, ms);
     }
-    //ft_debug_print_lines(input, "-Heredoc Input:", "-Fin Heredoc Input.");
     if (ft_update_input_lines(input, ms) == 0)
     {
         free(history_entry);
         ft_exit_perror(NULL, 1, ms);
     }
-    if (WIFEXITED(exit_status))
-        return (WEXITSTATUS(exit_status));
-    write(STDOUT_FILENO, "\n", 1);
-    return (-1);
+    return (ft_get_exit_code_heredoc(exit_status));
 }
 
 static int	ft_heredoc_write(char *input_line, t_ms *ms)
@@ -114,20 +114,15 @@ static int  ft_heredoc_traverse_input(int i, char **history_entry_p, t_ms *ms)
 
     input_lines = ms->input_lines;
     if (input_lines[i] != NULL && ft_strchr(*history_entry_p, '\n') == NULL)
-    {
-        //ft_debug_print_str("Primer salto de línea.");
         ft_update_history_entry(history_entry_p, NULL, ms);
-    }
     while (input_lines[i] != NULL)
     {
-        //ft_debug_print_lines(input_lines[i], "-Heredoc Traverse line:", "-Fin Heredoc Traverse line.");
         ft_update_history_entry(history_entry_p, input_lines[i], ms);
         if (ft_strcmp(input_lines[i], ms->limiter) == 0)
         {
             ft_add_history(*history_entry_p, ms);
             free(*history_entry_p);
             ft_trim_input_lines(++i, ms);
-            //ft_debug_print_str("-Heredoc Traverse limiter");
             ft_close(&ms->heredoc[1]);
             return (1);
         }
@@ -138,7 +133,6 @@ static int  ft_heredoc_traverse_input(int i, char **history_entry_p, t_ms *ms)
         }
         i++;
     }
-    //ft_debug_print_str("-Heredoc Traverse NO limiter");
     return (0);
 }
 
@@ -150,7 +144,6 @@ int ft_heredoc(int i, t_ms *ms)
     char    *history_entry;
     int     exit_code;
 
-    //ft_debug_print_str("-Heredoc Function");
     history_entry = ft_strdup(ms->input_lines[i]);
     if (history_entry == NULL)
         ft_exit_perror(NULL, 1, ms);
@@ -162,14 +155,13 @@ int ft_heredoc(int i, t_ms *ms)
         exit_code = ft_heredoc_readline(history_entry, ms);
         if (exit_code != 0)
         {
-            //ft_debug_print_str("-Heredoc Function End exit_code != 0");
             ft_close(&ms->heredoc[1]);
             ft_add_history(history_entry, ms);
             free(history_entry);
-            if (exit_code == -1)//SIGINT
-                return (0);//Cancelar la ejecución del comando heredoc.
+            if (exit_code == -1)
+                return (0);
             else
-                return (1);//Terminar bucle y ejecutar el comando heredoc.
+                return (1);
         }
         i = 0;
     }

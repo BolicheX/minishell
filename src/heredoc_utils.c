@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/14 19:00:19 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:35:58 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,6 @@ void    ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms)
         ft_exit_perror(NULL, 1, ms);
 }
 
-void    ft_trim_input_lines(int start, t_ms *ms)
-{
-    char    **temp;
-
-    temp = ms->input_lines;
-    ms->input_lines = ft_str_subarray(temp, start, ft_str_arraylen(temp));
-    ft_free_str_array(temp);
-    if (ms->input_lines == NULL)
-        ft_exit_perror(NULL, 1, ms);
-}
-
 //Prints a warning when EOF(ctrl-D) is used as heredoc input.
 void    ft_print_heredoc_error(t_ms *ms)
 {
@@ -87,4 +76,16 @@ void    ft_print_heredoc_error(t_ms *ms)
     ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
     ft_putstr_fd(ms->limiter, STDERR_FILENO);
     ft_putendl_fd("')", STDERR_FILENO);
+}
+
+int ft_get_exit_code_heredoc(int exit_status)
+{
+    if (WIFEXITED(exit_status))
+    {
+        g_signal = 0;
+        return (WEXITSTATUS(exit_status));
+    }
+    write(STDOUT_FILENO, "\n", 1);
+    g_signal = SIGINT + 128;
+    return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:48:36 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/23 14:57:59 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/17 18:35:30 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,4 @@ void    ft_restore_terminal(t_ms *ms)
     if (ms->termios_ok == 0)
         return ;
     tcsetattr(STDIN_FILENO, TCSANOW, &ms->orig_termios);
-}
-
-void    ft_setup_signals()
-{
-    g_signal = 0;//TODO Usar para el exit_code de minishell para que $? sea correcta. Recordar la $? interna.
-    ft_signals_minishell();
 }

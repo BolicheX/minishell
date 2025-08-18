@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/16 16:28:33 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:34:56 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_cmd
 
 typedef struct s_ms
 {
+	int				is_interactive;
 	t_kvl			*env;
 	int				termios_ok;//TODO QUITAR si no lo usamos.
 	struct termios	orig_termios;//TODO QUITAR si no lo usamos.
@@ -68,7 +69,7 @@ typedef struct s_ms
 	t_list			*tokens;
 	t_list			*cmds;
 	int				*child_ids;
-	pid_t			pid;
+	pid_t			pid;//TODO QUITAR o ver para qué es
 }				t_ms;
 
 /* -------◊		CLEAN	◊------- */
@@ -87,10 +88,10 @@ int		ft_syntax_error(char *token, int exit_code);
 void	ft_exit_clean(int exit_code, t_ms *ms);
 
 /* -------◊		SIGNALS	◊------- */
-void	ft_signals_minishell(void);
+void	ft_signals_interactive(void);
 void	ft_signals_heredoc(void);
 void	ft_signals_default(void);
-int		ft_get_exit_code(int exit_status);
+void    ft_signals_ignore(void);
 
 /* -------◊		INIT	◊------- */
 void	ft_init(char *envp[], t_ms *ms);
@@ -99,7 +100,6 @@ void	ft_init_termios(t_ms *ms);
 /* -------◊		SETUP	◊------- */
 void	ft_setup_terminal(t_ms *ms);
 void	ft_restore_terminal(t_ms *ms);
-void	ft_setup_signals(void);
 
 /* -------◊		ENV	◊------- */
 char	**ft_env_to_array(t_ms *ms);
@@ -107,6 +107,7 @@ char	**ft_env_to_array(t_ms *ms);
 /* -------◊		UTILS	◊------- */
 void	ft_add_history(char *entry, t_ms *ms);
 int		ft_update_input_lines(char *input, t_ms *ms);
+void	ft_trim_input_lines(int start, t_ms *ms);
 
 /* -------◊		HEREDOC	◊------- */
 int		ft_heredoc(int i, t_ms *ms);
@@ -114,8 +115,8 @@ int		ft_heredoc(int i, t_ms *ms);
 /* -------◊		HEREDOC UTILS	◊------- */
 int		ft_heredoc_init(t_list *tokens, t_ms *ms);
 void	ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms);
-void	ft_trim_input_lines(int start, t_ms *ms);
 void	ft_print_heredoc_error(t_ms *ms);
+int		ft_get_exit_code_heredoc(int exit_status);
 
 /* -------◊		TOKENS	◊------- */
 int		ft_token_pipe(t_cmd **cmd, t_ms *ms);
@@ -176,6 +177,8 @@ int		ft_add_var(char *str, t_ms *ms);
 
 /* -------◊		EXECUTE	◊------- */
 void	ft_execute(t_list *cmds, t_ms *ms);
+int		ft_execute_if_is_builtin(t_cmd *cmd, int is_subshell, t_ms *ms);
+int		ft_get_exit_code(int exit_status);
 
 //TODO Quitar este archivo antes de entregar
 /* -------◊		DEBUG	◊------- */

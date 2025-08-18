@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/15 17:35:48 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:02:37 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,30 @@
 
 volatile sig_atomic_t   g_signal;
 
-//If there are arguments or STDIN_FILENO was redirected to a file or a pipe,
-//we execute in a non-interactive mode.
-static void ft_non_interactive_mode(int argc, char *argv[], t_ms *ms)
-{
-	(void) argc;
-	(void) argv;
-	ft_exit_clean(1, ms);
-}
+// int ft_launch_minishell(char *input, t_ms *ms)
+// {
+//     char    **commands;
+//     int     i;
+//     int     is_heredoc;
+//     int     last_exit_code = 0;
+
+//     // Divide la línea completa en comandos separados por ';'
+//     commands = ft_split(input, ';');
+//     if (!commands)
+//         ft_exit_perror("malloc", 1, ms);
+//     for (i = 0; commands[i] != NULL; i++)
+//     {
+//         if (*commands[i] == '\0')
+//             continue; // Ignorar comandos vacíos
+//         is_heredoc = ft_interpret_input_line(commands[i], i, ms);
+//         if (is_heredoc)
+//             break;
+//         last_exit_code = g_signal;
+//     }
+
+//     ft_free_str_array(commands);
+//     return last_exit_code;
+// }
 
 //Interprets a command line by lexing, expanding, parsing and executing.
 //If it's a heredoc command, ft_heredoc manages the following lines, asks for
@@ -85,6 +101,22 @@ static void ft_traverse_input(t_ms *ms)
     }
 }
 
+static void ft_non_interactive_mode(char *input, int do_free, t_ms *ms)
+{
+    char    **input_lines;
+
+    //TODO heredoc hace EOF(ctrl-D) automáticamente. No permite escribir.
+    //ft_debug_print_lines(input, "-Input:", "-Fin Input.");
+    input_lines = ft_split_empty(input, '\n');
+    //ft_debug_print_array(input_lines, "-Input lines:", "-Fin Input lines.");
+    if (do_free)
+        free(input);
+    if (input_lines == NULL)
+        ft_exit_perror(NULL, 1, ms);
+    ms->input_lines = input_lines;
+    ft_traverse_input(ms);
+}
+
 static void ft_interactive_mode(t_ms *ms)
 {
     char    *prompt;
@@ -94,6 +126,7 @@ static void ft_interactive_mode(t_ms *ms)
     prompt = "\001\033[1;34m\002minishell\001\033[0m\002$ ";
     while (1)
     {
+        ft_signals_interactive();
         input = readline(prompt);
         if (input == NULL)
         {
@@ -114,49 +147,30 @@ static void ft_interactive_mode(t_ms *ms)
     }
 }
 
-/* int ft_launch_minishell(char *input, t_ms *ms)
-{
-    char    **commands;
-    int     i;
-    int     is_heredoc;
-    int     last_exit_code = 0;
-
-    // Divide la línea completa en comandos separados por ';'
-    commands = ft_split(input, ';');
-    if (!commands)
-        ft_exit_perror("malloc", 1, ms);
-    for (i = 0; commands[i] != NULL; i++)
-    {
-        if (*commands[i] == '\0')
-            continue; // Ignorar comandos vacíos
-        is_heredoc = ft_interpret_input_line(commands[i], i, ms);
-        if (is_heredoc)
-            break;
-        last_exit_code = g_signal;
-    }
-
-    ft_free_str_array(commands);
-    return last_exit_code;
-} */
-
 int main(int argc, char *argv[], char *envp[])
 {
-    t_ms ms;
+    t_ms    ms;
+    char    *input;
 
     ft_init(envp, &ms);
-
-/*     if (argc >= 3 && !ft_strncmp(argv[1], "-c", 3))
+    if (argc >= 3 && !ft_strcmp(argv[1], "-c"))
     {
-        // Ejecuta el minishell con el comando dado en argv[2]
-        int exit_status = ft_launch_minishell(argv[2], &ms);
-        ft_exit_clean(exit_status, &ms);
-    } */
-    if (argc != 1 || isatty(STDIN_FILENO) == 0)
-        ft_non_interactive_mode(argc, argv, &ms);
+        ms.is_interactive = 0;
+        ft_non_interactive_mode(argv[2], 0, &ms);
+    }
+    else if (isatty(STDIN_FILENO) == 0)
+    {
+        input = ft_fd_to_str(STDIN_FILENO);
+        if (input == NULL)
+            ft_exit_perror(NULL, 1, &ms);
+        ms.is_interactive = 0;
+        ft_non_interactive_mode(input, 1, &ms);
+    }
     else
     {
-        ft_setup_signals();
+        ms.is_interactive = 1;
         ft_interactive_mode(&ms);
     }
+    ft_clean_all(&ms);
     return (g_signal);
 }
