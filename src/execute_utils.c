@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 20:51:02 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/17 20:51:59 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:19:47 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int ft_execute_if_is_builtin(t_cmd *cmd, int is_subshell, t_ms *ms)
 {
     char    *cmd_name;
     int     exit_code;
-    
+
     cmd_name = cmd->argv[0];
     exit_code = -1;
     if (ft_strcmp(cmd_name, "echo") == 0)
@@ -24,13 +24,13 @@ int ft_execute_if_is_builtin(t_cmd *cmd, int is_subshell, t_ms *ms)
     else if (ft_strcmp(cmd_name, "cd") == 0)
         exit_code = ft_cd(cmd, ms);
     else if (ft_strcmp(cmd_name, "pwd") == 0)
-        exit_code = ft_pwd();
+        exit_code = ft_pwd(cmd);
     else if (ft_strcmp(cmd_name, "export") == 0)
         exit_code = ft_export(cmd, ms);
     else if (ft_strcmp(cmd_name, "unset") == 0)
         exit_code = ft_unset(cmd, ms);
     else if (ft_strcmp(cmd_name, "env") == 0)
-        exit_code = ft_env(ms);
+        exit_code = ft_env(ms, cmd);
     else if (ft_strcmp(cmd_name, "exit") == 0)
         exit_code = ft_exit(cmd, is_subshell, ms);
     return (exit_code);

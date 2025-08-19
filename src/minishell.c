@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/18 21:02:37 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:53:42 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     ft_parse(ms);
 	if (!ms->cmds)
 		return (is_heredoc);
-    if (ft_resolve_paths(ms->cmds, ms))
+    if (ft_resolve_paths(&ms->cmds, ms))
 		return (is_heredoc);
-    //ft_print_cmd_list(cmds);//TODO Quitar tras confirmar debugging.
+    ft_print_cmd_list(ms->cmds);//TODO Quitar tras confirmar debugging.
     ft_execute(ms->cmds, ms);
     return (is_heredoc);
 }

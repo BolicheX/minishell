@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/11 21:49:06 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:18:26 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ int	ft_echo(t_cmd *cmd)
 	}
 	while (argv[i])
 	{
-		ft_putstr_fd(argv[i], STDOUT_FILENO);
+		ft_putstr_fd(argv[i], cmd->out);
 		if (argv[i + 1])
-			ft_putchar_fd(' ', STDOUT_FILENO);
+			ft_putchar_fd(' ', cmd->out);
 		i++;
 	}
 	if (newline)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		ft_putchar_fd('\n', cmd->out);
 	return (0);
 }
 
-int	ft_pwd(void)
+int	ft_pwd(t_cmd *cmd)
 {
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		ft_error("pwd", NULL, NULL, 1);
-	ft_putendl_fd(cwd, STDOUT_FILENO);
+	ft_putendl_fd(cwd, cmd->out);
 	free(cwd);
 	return (0);
 }
@@ -79,7 +79,7 @@ int	ft_cd(t_cmd *cmd, t_ms *ms)
 	return (0);
 }
 
-int	ft_env(t_ms *ms)
+int	ft_env(t_ms *ms, t_cmd *cmd)
 {
 	t_kvl	*env;
 
@@ -88,9 +88,9 @@ int	ft_env(t_ms *ms)
 	{
 		if (env->key && env->value)
 		{
-			ft_putstr_fd(env->key, STDOUT_FILENO);
-			ft_putchar_fd('=', STDOUT_FILENO);
-			ft_putendl_fd(env->value, STDOUT_FILENO);
+			ft_putstr_fd(env->key, cmd->out);
+			ft_putchar_fd('=', cmd->out);
+			ft_putendl_fd(env->value, cmd->out);
 		}
 		env = env->next;
 	}

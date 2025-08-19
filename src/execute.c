@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:23:45 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/18 21:47:53 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:55:55 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     int     exit_code;
     char    **envp;
 
-    ft_debug_print_msg(cmd->argv[0], "ft_execute_child: ");//TODO QUITAR cuando acabemos.
+    //ft_debug_print_msg(cmd->argv[0], "ft_execute_child: ");//TODO QUITAR cuando acabemos.
     exit_code = ft_execute_if_is_builtin(cmd, 1, ms);
     if (exit_code != -1)
         ft_exit_clean(exit_code, ms);
     if (cmd->path == NULL)
-        ft_exit_clean(127, ms);//Ya se mostró el mensaje de error en el parsing.
+	{
+		ft_error(cmd->argv[0], NULL, "command not found", 127);
+		ft_exit_clean(127, ms);
+	}
     envp = ft_env_to_array(ms);
     if (envp == NULL)
         ft_exit_perror(NULL, 1, ms);

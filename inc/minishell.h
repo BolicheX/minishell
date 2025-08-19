@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/18 21:34:56 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:52:59 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char	**ft_env_to_array(t_ms *ms);
 void	ft_add_history(char *entry, t_ms *ms);
 int		ft_update_input_lines(char *input, t_ms *ms);
 void	ft_trim_input_lines(int start, t_ms *ms);
+int	ft_del_empty_cmd(t_list **lst);
 
 /* -------◊		HEREDOC	◊------- */
 int		ft_heredoc(int i, t_ms *ms);
@@ -154,7 +155,7 @@ char	**ft_get_env_path(t_kvl *env);
 char	*ft_strjoin_path(const char *path, const char *cmd);
 char	*ft_set_path(char *cmd, t_kvl *env);
 int		ft_isbuiltin(char *cmd);
-int		ft_resolve_paths(t_list *cmd_list, t_ms *ms);
+int		ft_resolve_paths(t_list **cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */
 int		ft_open_read(char *filename);
@@ -163,9 +164,9 @@ int		ft_open_write(char *filename, int truncate);
 /* -------◊		BUILT-INS	◊------- */
 int		ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms);
 int		ft_echo(t_cmd *cmd);
-int		ft_pwd(void);
+int		ft_pwd(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd, t_ms *ms);
-int		ft_env(t_ms *ms);
+int		ft_env(t_ms *ms, t_cmd *cmd);
 int		ft_export(t_cmd *cmd, t_ms *ms);
 int		ft_unset(t_cmd *cmd, t_ms *ms);
 

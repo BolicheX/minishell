@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:57:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 22:38:27 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:53:54 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,30 +89,22 @@ int	ft_isbuiltin(char *cmd)
 	);
 }
 
-int	ft_resolve_paths(t_list *cmd_list, t_ms *ms)
+int	ft_resolve_paths(t_list **cmd_list, t_ms *ms)
 {
+	t_list	*curr;
 	t_cmd	*cmd;
 
-	while (cmd_list)
+	if (ft_del_empty_cmd(cmd_list))
+		return (1);
+	curr = *cmd_list;
+	while (curr)
 	{
-		cmd = (t_cmd *)cmd_list->content;
-		cmd_list = cmd_list->next;
-		if (!cmd || !cmd->argv || !cmd->argv[0] || cmd->argv[0][0] == '\0')
-		{
-			ft_error("", NULL, "command not found", 127);
-			continue;
-		}
+		cmd = (t_cmd *)curr->content;
 		if (ft_isbuiltin(cmd->argv[0]))
 			cmd->path = NULL;
 		else
-		{
 			cmd->path = ft_set_path(cmd->argv[0], ms->env);
-			if (!cmd->path)
-			{
-				ft_error(cmd->argv[0], NULL, "command not found", 127);
-				continue;
-			}
-		}
+		curr = curr->next;
 	}
 	return (0);
 }

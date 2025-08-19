@@ -6,7 +6,7 @@
 /*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:40:05 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 21:34:49 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:38:17 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	ft_token_pipe(t_cmd **cmd, t_ms *ms)
 	t_list	*node;
 	t_cmd	*new_cmd;
 
-	if ((*cmd)->argc == 0)
-		return (ft_syntax_error("|", 2), -1);
+	/* if ((*cmd)->argc == 0)
+		return (ft_syntax_error("|", 2), -1); */
 	if (pipe(fds) < 0)
 	{
 		ft_perror("pipe failed");
