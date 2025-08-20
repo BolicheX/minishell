@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_append.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:04:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 15:29:43 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:44:33 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	ft_append_exit_code(char **result, t_ms *ms, int *i)
 
 	exit_code = ft_itoa(g_signal);
 	if (!exit_code)
-		ft_exit_perror("malloc", 1, ms);
+		ft_exit_perror(NULL, 1, ms);
 	*result = ft_strjoin_free(*result, exit_code);
 	free(exit_code);
 	if (!*result)
-		ft_exit_perror("malloc", 1, ms);
+		ft_exit_perror(NULL, 1, ms);
 	(*i)++;
 	return (*i);
 }

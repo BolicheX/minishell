@@ -3,29 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 17:52:15 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:26:56 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_perror(char *perror_prefix)
+void	ft_perror(char *perror_prefix, t_ms *ms)
 {
-	if (perror_prefix != NULL)
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (ms->is_interactive == 0)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		perror(perror_prefix);
+		ft_putstr_fd("line ", STDERR_FILENO);
+		ft_putnbr_fd(ms->lines_count, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
+	if (perror_prefix != NULL)
+		perror(perror_prefix);
 	else
-		perror("minishell: error");
+		perror("error");
 }
 
 void    ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)
 {
-    ft_perror(perror_prefix);
+    ft_perror(perror_prefix, ms);
 	ft_exit_clean(exit_code, ms);
 }
 

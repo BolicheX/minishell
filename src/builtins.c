@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 21:54:09 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/19 18:18:26 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/20 22:34:43 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	ft_pwd(t_cmd *cmd)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
+	{
 		ft_error("pwd", NULL, NULL, 1);
+		return (1);
+	}
 	ft_putendl_fd(cwd, cmd->out);
 	free(cwd);
 	return (0);
@@ -73,7 +76,7 @@ int	ft_cd(t_cmd *cmd, t_ms *ms)
 		path = cmd->argv[1];
 	if (chdir(path) != 0)
 	{
-		ft_error("cd", path, NULL, 1);
+		ft_error("cd", path, "No such file or directory", 1);
 		return (1);
 	}
 	return (0);

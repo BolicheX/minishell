@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:20:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/17 21:54:16 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/20 23:18:59 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static void ft_init_env(char *envp[], t_ms *ms)
     }
 }
 
-//TODO Comprobar qué cosas hay que hacer si no es modo interactivo.
 void    ft_init(char *envp[], t_ms *ms)
 {
     ft_signals_ignore();
@@ -89,7 +88,7 @@ void    ft_init(char *envp[], t_ms *ms)
     ft_init_env(envp, ms);
     //ft_print_env(ms);//Para debug
     //printf("Value de PATH: %s\n", (char *) ft_kvl_get(ms->env, "PATH"));
-    ms->cmd_prompts_count = 1;//Contador de prompts de comandos necesario para mensaje de error heredoc.
+    ms->lines_count = 1;//Contador de prompts de comandos necesario para mensaje de error heredoc.
     ms->heredoc[0] = -1;
 	ms->heredoc[1] = -1;
 }

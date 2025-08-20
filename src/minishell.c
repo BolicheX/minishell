@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 18:53:42 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/20 23:19:26 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ volatile sig_atomic_t   g_signal;
 //     // Divide la línea completa en comandos separados por ';'
 //     commands = ft_split(input, ';');
 //     if (!commands)
-//         ft_exit_perror("malloc", 1, ms);
+//         ft_exit_perror(NULL, 1, ms);
 //     for (i = 0; commands[i] != NULL; i++)
 //     {
 //         if (*commands[i] == '\0')
@@ -56,7 +56,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
     {
         is_heredoc = 1;
         if (ft_heredoc(i, ms) == 0)
-            return (is_heredoc);
+            return (1);
     }
     else
         ft_add_history(cmd_line, ms);
@@ -68,7 +68,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 		return (is_heredoc);
     if (ft_resolve_paths(&ms->cmds, ms))
 		return (is_heredoc);
-    ft_print_cmd_list(ms->cmds);//TODO Quitar tras confirmar debugging.
+    //ft_print_cmd_list(ms->cmds);//TODO Quitar tras confirmar debugging.
     ft_execute(ms->cmds, ms);
     return (is_heredoc);
 }
@@ -97,6 +97,7 @@ static void ft_traverse_input(t_ms *ms)
                 return ;
             }
         }
+        ms->lines_count++;
         i++;
     }
 }
@@ -105,7 +106,6 @@ static void ft_non_interactive_mode(char *input, int do_free, t_ms *ms)
 {
     char    **input_lines;
 
-    //TODO heredoc hace EOF(ctrl-D) automáticamente. No permite escribir.
     //ft_debug_print_lines(input, "-Input:", "-Fin Input.");
     input_lines = ft_split_empty(input, '\n');
     //ft_debug_print_array(input_lines, "-Input lines:", "-Fin Input lines.");
@@ -143,7 +143,6 @@ static void ft_interactive_mode(t_ms *ms)
         ft_traverse_input(ms);
         ft_free_str_array(ms->input_lines);
         ms->input_lines = NULL;
-        ms->cmd_prompts_count++;
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/18 21:35:58 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:51:40 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int  ft_handle_heredoc_token(t_list *tokens, t_ms *ms)
 		return (ft_error("syntax error near unexpected token", NULL, tok->value, 1));
 	ms->limiter = ft_strdup(tok->value);
 	if (!ms->limiter)
-		ft_exit_perror("malloc", 1, ms);
+		ft_exit_perror(NULL, 1, ms);
 	if (pipe(ms->heredoc) == -1)
 		ft_exit_perror(NULL, 1, ms);
 	return(0);
@@ -71,8 +71,15 @@ void    ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms)
 //Prints a warning when EOF(ctrl-D) is used as heredoc input.
 void    ft_print_heredoc_error(t_ms *ms)
 {
-    ft_putstr_fd("minishell: warning: here-document at line ", STDERR_FILENO);
-    ft_putnbr_fd(ms->cmd_prompts_count, STDERR_FILENO);
+    ft_putstr_fd("minishell: ", STDERR_FILENO);
+    if (ms->is_interactive == 0)
+	{
+		ft_putstr_fd("line ", STDERR_FILENO);
+		ft_putnbr_fd(ms->lines_count, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+    ft_putstr_fd("warning: here-document at line ", STDERR_FILENO);
+    ft_putnbr_fd(ms->lines_count, STDERR_FILENO);
     ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
     ft_putstr_fd(ms->limiter, STDERR_FILENO);
     ft_putendl_fd("')", STDERR_FILENO);

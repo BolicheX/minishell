@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:47:51 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/18 02:15:26 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/20 23:19:50 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void ft_prompt_signal_handler(int signal_id)
 {
     if (signal_id == SIGINT)
     {
-        g_signal = SIGINT + 128;//TODO Usar en builtin exit.
+        g_signal = SIGINT + 128;
         write(STDOUT_FILENO, "\n", 1);
         rl_on_new_line();
         rl_replace_line("", 0);

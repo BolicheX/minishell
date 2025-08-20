@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/13 22:08:50 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:45:08 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_cmd	*ft_new_cmd(t_ms *ms)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 	{
-		ft_exit_perror("malloc", 1, ms);
+		ft_exit_perror(NULL, 1, ms);
 		return (NULL);
 	}
 	cmd->argv = NULL;

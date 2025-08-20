@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/19 18:52:59 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:14:13 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_ms
 	t_kvl			*env;
 	int				termios_ok;//TODO QUITAR si no lo usamos.
 	struct termios	orig_termios;//TODO QUITAR si no lo usamos.
-	int				cmd_prompts_count;
+	int				lines_count;
 	char			*last_history_entry;
 	char			**input_lines;
 	char			*limiter;
@@ -69,6 +69,7 @@ typedef struct s_ms
 	t_list			*tokens;
 	t_list			*cmds;
 	int				*child_ids;
+	//int				exit_code;//TODO Implementar a parte de g_signal para que ésta sólo recoja SIGINT
 	pid_t			pid;//TODO QUITAR o ver para qué es
 }				t_ms;
 
@@ -81,7 +82,7 @@ void	ft_close_all(t_ms *ms);
 void	ft_clean_all(t_ms *ms);
 
 /* -------◊		EXIT	◊------- */
-void	ft_perror(char *perror_prefix);
+void	ft_perror(char *perror_prefix, t_ms *ms);
 void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms);
 int		ft_error(char *cmd, char *arg, char *msg, int exit_code);
 int		ft_syntax_error(char *token, int exit_code);
@@ -158,8 +159,8 @@ int		ft_isbuiltin(char *cmd);
 int		ft_resolve_paths(t_list **cmd_list, t_ms *ms);
 
 /* -------◊		FILE DESCRIPTORS	◊------- */
-int		ft_open_read(char *filename);
-int		ft_open_write(char *filename, int truncate);
+int		ft_open_read(char *filename, t_ms *ms);
+int		ft_open_write(char *filename, int truncate, t_ms *ms);
 
 /* -------◊		BUILT-INS	◊------- */
 int		ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms);

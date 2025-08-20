@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:17:15 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/13 16:17:43 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:15:17 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms)
 {
     int     exit_code;
 
-    if (is_subshell == 0)
+    if (is_subshell == 0 && ms->is_interactive == 1)
         ft_putendl_fd("exit", STDERR_FILENO);
     if (cmd->argc == 1)
        ft_exit_clean(g_signal, ms);
