@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 21:24:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/07/28 16:25:55 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:50:28 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	ft_print_cmd_list(t_list *cmds)
 {
 	int		i;
 	t_cmd	*cmd;
-	int		cmd_num = 1;
+	int		cmd_num;
 
+	cmd_num = 1;
 	while (cmds)
 	{
 		cmd = (t_cmd *)cmds->content;
@@ -41,7 +42,7 @@ void	ft_print_cmd_list(t_list *cmds)
 
 void	ft_print_token(void *node)
 {
-	t_token *token;
+	t_token	*token;
 
 	token = (t_token *)node;
 	if (token->type == T_WORD)

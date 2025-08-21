@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_kvl_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:57:49 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/20 20:18:14 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/21 23:22:43 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int    ft_kvl_add(t_kvl **lst, t_kvl *new)
+int	ft_kvl_add(t_kvl **lst, t_kvl *new)
 {
 	if (!lst || !new)
 		return (0);

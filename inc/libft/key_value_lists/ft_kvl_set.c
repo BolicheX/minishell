@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_kvl_set.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 13:20:15 by jescuder          #+#    #+#             */
-/*   Updated: 2025/06/25 19:10:09 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/21 23:22:06 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 //Updates the node with this key or creates a new one if it doesn't exist.
 //Returns the old value if the node existed or the new value if not.
-void    *ft_kvl_set(t_kvl **lst, char *key, void *value)
+void	*ft_kvl_set(t_kvl **lst, char *key, void *value)
 {
-	t_kvl    *node;
-	t_kvl    *new;
-	void    *old_value;
+	t_kvl	*node;
+	t_kvl	*new;
+	void	*old_value;
 
 	node = *lst;
 	while (node != NULL)

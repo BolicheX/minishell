@@ -26,7 +26,16 @@ tests=(
 "echo '|'"
 "echo '<'"
 "echo '>'"
-
+"./src/../minishell"
+"./src/../inc/../minishell"
+"../minishell/src/../minishell"
+"cat << EOF
+hola
+EOF"
+"cat file | grep bla | more"
+"ls filethatdoesntexist | grep bla | more"
+"echo hola > in.txt"
+"cat < in.txt | cat > out.txt"
 )
 
 RED="\\033[31m"
@@ -78,3 +87,6 @@ run_test() {
 for t in "${tests[@]}"; do
     run_test "$t"
 done
+
+rm in.txt
+rm out.txt

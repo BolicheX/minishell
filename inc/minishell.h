@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/21 13:22:54 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 23:15:21 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_exit_clean(int exit_code, t_ms *ms);
 void	ft_signals_interactive(void);
 void	ft_signals_heredoc(void);
 void	ft_signals_default(void);
-void    ft_signals_ignore(void);
+void	ft_signals_ignore(void);
 
 /* -------◊		INIT	◊------- */
 void	ft_init(char *envp[], t_ms *ms);

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 19:06:01 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 22:30:40 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:49:04 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 void	ft_close(int *fd)
 {
 	if (*fd == -1)
-        return ;
+		return ;
 	if (close(*fd) == -1)
-        perror("error");
-    *fd = -1;
+		perror("error");
+	*fd = -1;
 }
 
 void	ft_close_cmd(void *content)
@@ -28,7 +28,7 @@ void	ft_close_cmd(void *content)
 
 	cmd = (t_cmd *)content;
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->in != STDIN_FILENO)
 		ft_close(&cmd->in);
 	if (cmd->out != STDOUT_FILENO)
@@ -41,7 +41,7 @@ void	ft_clean_cmd(void *content)
 
 	cmd = (t_cmd *)content;
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->in != STDIN_FILENO)
 		ft_close(&cmd->in);
 	if (cmd->out != STDOUT_FILENO)

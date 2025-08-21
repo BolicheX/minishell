@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:32:51 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/13 14:49:18 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 23:28:09 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ char	*ft_strjoin_free2(char *s1, char *s2)
 	free(s2);
 	return (res);
 }
-

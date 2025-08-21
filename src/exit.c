@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 13:16:31 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:01:08 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	ft_perror(char *perror_prefix, t_ms *ms)
 		perror("error");
 }
 
-void    ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)
+void	ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)
 {
-    ft_perror(perror_prefix, ms);
+	ft_perror(perror_prefix, ms);
 	ft_exit_clean(exit_code, ms);
 }
 
@@ -71,7 +71,7 @@ int	ft_syntax_error(char *token, int exit_code, t_ms *ms)
 	return (exit_code);
 }
 
-void    ft_exit_clean(int exit_code, t_ms *ms)
+void	ft_exit_clean(int exit_code, t_ms *ms)
 {
 	ft_clean_all(ms);
 	exit(exit_code);

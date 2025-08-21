@@ -6,7 +6,7 @@
 #    By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/16 21:26:43 by jose-jim          #+#    #+#              #
-#    Updated: 2025/07/23 15:10:42 by jescuder         ###   ########.fr        #
+#    Updated: 2025/08/21 21:07:23 by jescuder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ INC_PATH = inc/
 LIBFT_PATH = $(INC_PATH)libft/
 
 # Source files
-SRC = $(wildcard $(SRCS_PATH)*.c)#TODO Una nueva norma dice que todos los archivos fuente que necesitas para compilar deben estar nombrados explícitamente.
+SRC = $(wildcard $(SRCS_PATH)*.c)
 
 # Object files
 OBJS = $(patsubst $(SRCS_PATH)%.c, $(OBJS_PATH)%.o, $(SRC))

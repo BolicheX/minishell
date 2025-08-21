@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:09:27 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/19 16:45:08 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:22:21 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_parse(t_ms *ms)
 {
 	t_cmd	*cmd;
 	t_token	*tok;
-	t_list *tokens;
+	t_list	*tokens;
 
 	tokens = ms->tokens;
 	cmd = ft_new_cmd(ms);
