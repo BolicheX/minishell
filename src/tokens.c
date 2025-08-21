@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:40:05 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/21 12:32:33 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:40:54 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ int	ft_token_pipe(t_cmd **cmd, t_ms *ms)
 	t_list	*node;
 	t_cmd	*new_cmd;
 
-	/* if ((*cmd)->argc == 0)
-		return (ft_syntax_error("|", 2, ms), -1); */
 	if (pipe(fds) < 0)
 	{
-		ft_perror("pipe failed", ms);//TODO ¿No deberíamos terminar minishell aquí, igual que cuando falla malloc(o pipe() en otros sitios)?
+		ft_exit_perror("pipe error", 1, ms);
 		return (-1);
 	}
 	node = ft_lstnew(*cmd);
@@ -32,7 +30,8 @@ int	ft_token_pipe(t_cmd **cmd, t_ms *ms)
 	new_cmd = ft_new_cmd(ms);
 	if (!new_cmd)
 		return (-1);
-	(*cmd)->out = fds[1];
+	else if ((*cmd)->out == STDOUT_FILENO)
+		(*cmd)->out = fds[1];
 	new_cmd->in = fds[0];
 	*cmd = new_cmd;
 	return (0);
