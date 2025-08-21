@@ -148,3 +148,7 @@ run_test() {
 for t in "${tests[@]}"; do
     run_test "$t"
 done
+
+rm out.txt
+rm out1.txt
+rm out2.txt

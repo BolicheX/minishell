@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:20:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:18:15 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:01:59 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,4 @@ void	ft_init(char *envp[], t_ms *ms)
 	ms->lines_count = 1;
 	ms->heredoc[0] = -1;
 	ms->heredoc[1] = -1;
-}
-
-/* Initializes ms->original_termios with the original terminal configuration
-to be able to restore it. */
-void	ft_init_termios(t_ms *ms)
-{
-	struct termios	original_termios;
-
-	if (tcgetattr(STDIN_FILENO, &original_termios) == -1)
-	{
-		ms->termios_ok = 0;
-		return ;
-	}
-	ms->termios_ok = 1;
-	ms->orig_termios = original_termios;
-	ft_setup_terminal(ms);
 }

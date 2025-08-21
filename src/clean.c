@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 16:02:24 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 21:49:32 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:02:36 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,4 @@ void	ft_clean_all(t_ms *ms)
 	ft_close_all(ms);
 	ft_free_all(ms);
 	rl_clear_history();
-	//ft_restore_terminal(ms);
 }
