@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:01:08 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:31:44 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_error(char *cmd, char *arg, char *msg, t_ms *ms)
 
 int	ft_syntax_error(char *token, int exit_code, t_ms *ms)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
+	ft_error("syntax error near unexpected token `", NULL, NULL, ms);
 	if (token)
 		ft_putstr_fd(token, STDERR_FILENO);
 	else

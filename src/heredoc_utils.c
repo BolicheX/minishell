@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/22 00:15:26 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:34:44 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,16 @@ static int	ft_handle_heredoc_token(t_list *tokens, t_ms *ms)
 
 	next = tokens->next;
 	if (!next)
-		return (ft_error("syntax error near unexpected token", NULL, "`newline'", ms));
+	{
+		ft_error("syntax error near unexpected token", NULL, "`newline'", ms);
+		return (1);
+	}
 	tok = (t_token *)next->content;
 	if (tok->type != T_WORD)
-		return (ft_error("syntax error near unexpected token", NULL, tok->value, ms));
+	{
+		ft_error("syntax error near unexpected token", NULL, tok->value, ms);
+		return (1);
+	}
 	ms->limiter = ft_strdup(tok->value);
 	if (!ms->limiter)
 		ft_exit_perror(NULL, 1, ms);
