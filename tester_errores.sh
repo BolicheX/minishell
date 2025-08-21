@@ -58,11 +58,12 @@ run_test() {
     mini_exit=$?
 
     # Normalizar errores: sustituir prefix de bash por minishell
-    sed -i 's|^/bin/bash:|minishell:|' "$bash_stderr"
-    sed -i 's|^bash:|minishell:|' "$bash_stderr"
+    bash_stderr_normalized=$(mktemp)
+    cp "$bash_stderr" "$bash_stderr_normalized"
+    sed -i 's|^bash:|minishell:|' "$bash_stderr_normalized"
 
     # Comparar
-    if cmp -s "$bash_stdout" "$mini_stdout" && cmp -s "$bash_stderr" "$mini_stderr" && [ $bash_exit -eq $mini_exit ]; then
+    if cmp -s "$bash_stdout" "$mini_stdout" && cmp -s "$bash_stderr_normalized" "$mini_stderr" && [ $bash_exit -eq $mini_exit ]; then
         echo -e "${GREEN}OK${NC}"
     else
         echo -e "${RED}FAIL${NC}"
