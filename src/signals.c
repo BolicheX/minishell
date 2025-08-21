@@ -6,11 +6,13 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:47:51 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/20 23:19:50 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:50:51 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t   g_signal;
 
 static void ft_prompt_signal_handler(int signal_id)
 {

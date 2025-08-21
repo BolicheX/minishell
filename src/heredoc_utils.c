@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 22:51:40 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:20:37 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static int  ft_handle_heredoc_token(t_list *tokens, t_ms *ms)
 
 	next = tokens->next;
 	if (!next)
-		return (ft_error("syntax error near unexpected token", NULL, "`newline'", 1));
+		return (ft_error("syntax error near unexpected token", NULL, "`newline'", ms));
 	tok = (t_token *)next->content;
 	if (tok->type != T_WORD)
-		return (ft_error("syntax error near unexpected token", NULL, tok->value, 1));
+		return (ft_error("syntax error near unexpected token", NULL, tok->value, ms));
 	ms->limiter = ft_strdup(tok->value);
 	if (!ms->limiter)
 		ft_exit_perror(NULL, 1, ms);
@@ -85,14 +85,14 @@ void    ft_print_heredoc_error(t_ms *ms)
     ft_putendl_fd("')", STDERR_FILENO);
 }
 
-int ft_get_exit_code_heredoc(int exit_status)
+int ft_get_exit_code_heredoc(int exit_status, t_ms *ms)
 {
     if (WIFEXITED(exit_status))
     {
-        g_signal = 0;
+        ms->exit_code = 0;
         return (WEXITSTATUS(exit_status));
     }
     write(STDOUT_FILENO, "\n", 1);
-    g_signal = SIGINT + 128;
+    ms->exit_code = SIGINT + 128;
     return (-1);
 }

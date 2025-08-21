@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 22:46:12 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/20 20:09:28 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:20:10 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*ft_check_expand(char **value, t_ms *ms)
 	if (!*value)
 		return (NULL);
 	if (ft_has_unclosed_quotes(*value))
-		return (ft_error(NULL, NULL, "unclosed quotes", 1), NULL);
+		return (ft_error(NULL, NULL, "unclosed quotes", ms), NULL);
 	if (ft_strchr(*value, '$')
 		|| ft_strchr(*value, '\'') || ft_strchr(*value, '\"'))
 		*value = ft_replace_var(*value, ms);

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 20:40:05 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/20 23:20:27 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:32:33 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_token_pipe(t_cmd **cmd, t_ms *ms)
 	t_cmd	*new_cmd;
 
 	/* if ((*cmd)->argc == 0)
-		return (ft_syntax_error("|", 2), -1); */
+		return (ft_syntax_error("|", 2, ms), -1); */
 	if (pipe(fds) < 0)
 	{
 		ft_perror("pipe failed", ms);//TODO ¿No deberíamos terminar minishell aquí, igual que cuando falla malloc(o pipe() en otros sitios)?
@@ -45,10 +45,10 @@ int	ft_token_redir(t_cmd *cmd, t_token *red_tok, t_list **tokens, t_ms *ms)
 
 	fd = -1;
 	if (!*tokens || !(*tokens)->content)
-		return (ft_syntax_error(NULL, 2), -1);
+		return (ft_syntax_error(NULL, 2, ms), -1);
 	file_tok = (t_token *)(*tokens)->content;
 	if (file_tok->type != T_WORD)
-		return (ft_syntax_error(NULL, 2), -1);
+		return (ft_syntax_error(NULL, 2, ms), -1);
 	if (!ft_strcmp(red_tok->value, ">"))
 		fd = ft_open_write(file_tok->value, 1, ms);
 	else if (!ft_strcmp(red_tok->value, ">>"))

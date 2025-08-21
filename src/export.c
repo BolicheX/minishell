@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:37:32 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/12 21:50:41 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:20:26 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_add_var(char *str, t_ms *ms)
 	{
 		free(key);
 		free(value);
-		ft_error("export", str, "memory allocation error", 1);
+		ft_error("export", str, "memory allocation error", ms);
 		return (1);
 	}
 	ft_kvl_set(&ms->env, key, value);
@@ -105,7 +105,7 @@ int	ft_export(t_cmd *cmd, t_ms *ms)
 	{
 		if (!ft_valid_var(cmd->argv[i]))
 		{
-			ft_error("export", cmd->argv[i], "not a valid identifier", 1);
+			ft_error("export", cmd->argv[i], "not a valid identifier", ms);
 			i++;
 			continue ;
 		}

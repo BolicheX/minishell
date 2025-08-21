@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/18 21:41:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:41:01 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int  ft_heredoc_readline(char *history_entry, t_ms *ms)
         free(history_entry);
         ft_exit_perror(NULL, 1, ms);
     }
-    return (ft_get_exit_code_heredoc(exit_status));
+    return (ft_get_exit_code_heredoc(exit_status, ms));
 }
 
 static int	ft_heredoc_write(char *input_line, t_ms *ms)

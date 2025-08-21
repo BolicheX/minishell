@@ -6,13 +6,13 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:04:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/07/18 19:42:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:53:53 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int  ft_init(char **accumulator, char **buffer)
+static int  ft_fd_to_str_init(char **accumulator, char **buffer)
 {
     *accumulator = malloc(sizeof(char) * 1);
     if (*accumulator == NULL)
@@ -33,7 +33,7 @@ char    *ft_fd_to_str(int fd)
     char    *buffer;
     ssize_t bytes_read;
 
-    if (ft_init(&accumulator, &buffer) == 0)
+    if (ft_fd_to_str_init(&accumulator, &buffer) == 0)
         return (NULL);
     bytes_read = read(fd, buffer, BUFFER_SIZE);
     while (bytes_read > 0)

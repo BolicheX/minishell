@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:17:15 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 14:15:17 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:18:05 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ int ft_exit(t_cmd *cmd, int is_subshell, t_ms *ms)
     if (is_subshell == 0 && ms->is_interactive == 1)
         ft_putendl_fd("exit", STDERR_FILENO);
     if (cmd->argc == 1)
-       ft_exit_clean(g_signal, ms);
+       ft_exit_clean(ms->exit_code, ms);
     exit_code = ft_parse_exit_code(cmd->argv[1]);
     if (exit_code == -1)
     {
-        ft_error("exit", cmd->argv[1], "numeric argument required", 1);
+        ft_error("exit", cmd->argv[1], "numeric argument required", ms);
         ft_exit_clean(2, ms);
     }
     if (cmd->argc > 2)
     {
-        ft_error("exit", NULL, "too many arguments", 1);
+        ft_error("exit", NULL, "too many arguments", ms);
         return (1);
     }
     ft_exit_clean(exit_code, ms);

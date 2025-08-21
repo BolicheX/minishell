@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:23:45 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/20 23:00:48 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:19:22 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void    ft_execute_child(t_cmd *cmd, t_ms *ms)
     if (cmd->path == NULL)
 	{
         //ft_debug_print_str("Debug: Antes de execve: command not found");
-		ft_error(cmd->argv[0], NULL, "command not found", 127);
+		ft_error(cmd->argv[0], NULL, "command not found", ms);
 		ft_exit_clean(127, ms);
 	}
     envp = ft_env_to_array(ms);
@@ -130,7 +130,7 @@ void    ft_execute(t_list *cmds, t_ms *ms)
         exit_code = ft_execute_one((t_cmd *) cmds->content, ms);
         //ft_debug_print_msg(ft_itoa(exit_code), "Exit Code");
         if (exit_code != -1)
-            g_signal = exit_code;
+            ms->exit_code = exit_code;
     }
     else
     {
@@ -142,7 +142,7 @@ void    ft_execute(t_list *cmds, t_ms *ms)
         exit_code = ft_execute_pipeline(cmds, child_ids, cmds_count, ms);
         //ft_debug_print_msg(ft_itoa(exit_code), "Exit Code Pipeline");
         if (exit_code != -1)
-            g_signal = exit_code;
+            ms->exit_code = exit_code;
         free(child_ids);
         ms->child_ids = NULL;
     }

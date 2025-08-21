@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:19:52 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 18:52:52 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:46:55 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_check_signal(t_ms *ms)
+{
+	if (g_signal != 0)
+	{
+		ms->exit_code = g_signal;
+		g_signal = 0;
+	}
+}
 
 void    ft_add_history(char *entry, t_ms *ms)
 {

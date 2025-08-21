@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/19 18:02:50 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:35:50 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	lex_word(const char *line, int i, t_list **tokens)
 	return (i);
 }
 
-int	ft_lexing_check(t_list *tokens)
+int	ft_lexing_check(t_list *tokens, t_ms *ms)
 {
 	t_token	*tok;
 	t_token	*next_tok;
@@ -75,24 +75,24 @@ int	ft_lexing_check(t_list *tokens)
 		return (1);
 	tok = (t_token *)tokens->content;
 	if (tok->type == T_PIPE)
-		return (ft_syntax_error("|", 2));
+		return (ft_syntax_error("|", 2, ms));
 	while (tokens->next)
 	{
 		tok = (t_token *)tokens->content;
 		next_tok = (t_token *)tokens->next->content;
 		if (tok->type == T_PIPE && next_tok->type == T_PIPE)
-			return (ft_syntax_error("|", 2));
+			return (ft_syntax_error("|", 2, ms));
 		if (tok->type == T_REDIR && next_tok->type != T_WORD)
-			return (ft_syntax_error(next_tok->value, 2));
+			return (ft_syntax_error(next_tok->value, 2, ms));
 		tokens = tokens->next;
 	}
 	tok = (t_token *)tokens->content;
 	if (tok->type == T_PIPE)
-		return (ft_syntax_error("|", 2));
+		return (ft_syntax_error("|", 2, ms));
 	return (0);
 }
 
-int	ft_lexing(char *line, t_list **tokens)
+int	ft_lexing(char *line, t_list **tokens, t_ms *ms)
 {
 	int		i;
 
@@ -109,5 +109,5 @@ int	ft_lexing(char *line, t_list **tokens)
 		else
 			i = lex_word(line, i, tokens);
 	}
-	return (ft_lexing_check(*tokens));
+	return (ft_lexing_check(*tokens, ms));
 }

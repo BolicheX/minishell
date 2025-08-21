@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:04:59 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/19 16:44:33 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:39:24 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_append_exit_code(char **result, t_ms *ms, int *i)
 {
 	char	*exit_code;
 
-	exit_code = ft_itoa(g_signal);
+	exit_code = ft_itoa(ms->exit_code);
 	if (!exit_code)
 		ft_exit_perror(NULL, 1, ms);
 	*result = ft_strjoin_free(*result, exit_code);

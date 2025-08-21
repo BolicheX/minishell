@@ -6,38 +6,11 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/20 23:19:26 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:51:52 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t   g_signal;
-
-// int ft_launch_minishell(char *input, t_ms *ms)
-// {
-//     char    **commands;
-//     int     i;
-//     int     is_heredoc;
-//     int     last_exit_code = 0;
-
-//     // Divide la línea completa en comandos separados por ';'
-//     commands = ft_split(input, ';');
-//     if (!commands)
-//         ft_exit_perror(NULL, 1, ms);
-//     for (i = 0; commands[i] != NULL; i++)
-//     {
-//         if (*commands[i] == '\0')
-//             continue; // Ignorar comandos vacíos
-//         is_heredoc = ft_interpret_input_line(commands[i], i, ms);
-//         if (is_heredoc)
-//             break;
-//         last_exit_code = g_signal;
-//     }
-
-//     ft_free_str_array(commands);
-//     return last_exit_code;
-// }
 
 //Interprets a command line by lexing, expanding, parsing and executing.
 //If it's a heredoc command, ft_heredoc manages the following lines, asks for
@@ -48,7 +21,7 @@ static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 	int     is_heredoc;
 
     is_heredoc = 0;
-	if (ft_lexing(cmd_line, &ms->tokens))
+	if (ft_lexing(cmd_line, &ms->tokens, ms))
 		return (0);
 	if(ft_heredoc_init(ms->tokens, ms))
 		return (0);
@@ -128,10 +101,11 @@ static void ft_interactive_mode(t_ms *ms)
     {
         ft_signals_interactive();
         input = readline(prompt);
+        ft_check_signal(ms);
         if (input == NULL)
         {
             ft_putendl_fd("exit", STDERR_FILENO);
-            ft_exit_clean(g_signal, ms);
+            ft_exit_clean(ms->exit_code, ms);
         }
         //ft_debug_print_lines(input, "-Input:", "-Fin Input.");
         input_lines = ft_split_empty(input, '\n');
@@ -171,5 +145,5 @@ int main(int argc, char *argv[], char *envp[])
         ft_interactive_mode(&ms);
     }
     ft_clean_all(&ms);
-    return (g_signal);
+    return (ms.exit_code);
 }

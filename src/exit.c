@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:43:56 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/20 20:26:56 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:16:31 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,15 @@ void    ft_exit_perror(char *perror_prefix, int exit_code, t_ms *ms)
 	ft_exit_clean(exit_code, ms);
 }
 
-int	ft_error(char *cmd, char *arg, char *msg, int exit_code)
+int	ft_error(char *cmd, char *arg, char *msg, t_ms *ms)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (ms->is_interactive == 0)
+	{
+		ft_putstr_fd("line ", STDERR_FILENO);
+		ft_putnbr_fd(ms->lines_count, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
 	if (cmd)
 	{
 		ft_putstr_fd(cmd, STDERR_FILENO);
@@ -48,14 +54,12 @@ int	ft_error(char *cmd, char *arg, char *msg, int exit_code)
 	}
 	if (msg)
 		ft_putstr_fd(msg, STDERR_FILENO);
-/* 	else
-		ft_putstr_fd(strerror(errno), STDERR_FILENO); */
 	ft_putstr_fd("\n", STDERR_FILENO);
-	g_signal = exit_code;
-	return(exit_code);
+	ms->exit_code = 1;
+	return (1);
 }
 
-int	ft_syntax_error(char *token, int exit_code)
+int	ft_syntax_error(char *token, int exit_code, t_ms *ms)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
 	if (token)
@@ -63,7 +67,7 @@ int	ft_syntax_error(char *token, int exit_code)
 	else
 		ft_putstr_fd("newline", STDERR_FILENO);
 	ft_putstr_fd("'\n", STDERR_FILENO);
-	g_signal = exit_code;
+	ms->exit_code = exit_code;
 	return (exit_code);
 }
 

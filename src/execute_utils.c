@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 20:51:02 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/19 18:19:47 by jose-jim         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:22:03 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int ft_execute_if_is_builtin(t_cmd *cmd, int is_subshell, t_ms *ms)
     else if (ft_strcmp(cmd_name, "cd") == 0)
         exit_code = ft_cd(cmd, ms);
     else if (ft_strcmp(cmd_name, "pwd") == 0)
-        exit_code = ft_pwd(cmd);
+        exit_code = ft_pwd(cmd, ms);
     else if (ft_strcmp(cmd_name, "export") == 0)
         exit_code = ft_export(cmd, ms);
     else if (ft_strcmp(cmd_name, "unset") == 0)
