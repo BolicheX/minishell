@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:20:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/22 00:01:59 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:19:35 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	ft_init(char *envp[], t_ms *ms)
 	g_signal = 0;
 	ft_memset(ms, 0, sizeof(t_ms));
 	ft_init_env(envp, ms);
-	//ft_print_env(ms);//Para debug
-	//printf("Value de PATH: %s\n", (char *) ft_kvl_get(ms->env, "PATH"));
 	ms->lines_count = 1;
 	ms->heredoc[0] = -1;
 	ms->heredoc[1] = -1;

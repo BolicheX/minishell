@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:23:45 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:00:47 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:10:10 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_execute_child(t_cmd *cmd, t_ms *ms)
 	int		exit_code;
 	char	**envp;
 
-	//ft_debug_print_msg(cmd->argv[0], "ft_execute_child: ");
 	exit_code = ft_execute_if_is_builtin(cmd, 1, ms);
 	if (exit_code != -1)
 		ft_exit_clean(exit_code, ms);
@@ -33,11 +32,11 @@ void	ft_execute_child(t_cmd *cmd, t_ms *ms)
 	ft_signals_default();
 	execve(cmd->path, cmd->argv, envp);
 	if (errno == ENOENT)
-		ft_exit_perror(cmd->path, 127, ms);//Comando no encontrado
+		ft_exit_perror(cmd->path, 127, ms);
 	else if (errno == EACCES)
-		ft_exit_perror(cmd->path, 126, ms);//Permiso denegado
+		ft_exit_perror(cmd->path, 126, ms);
 	else
-		ft_exit_perror(cmd->path, 1, ms);//Otro error
+		ft_exit_perror(cmd->path, 1, ms);
 }
 
 pid_t	ft_execute_fork(t_cmd *cmd, int input_fd, int output_fd, t_ms *ms)

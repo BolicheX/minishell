@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 20:51:02 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 21:54:23 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:13:55 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,17 @@ int	ft_get_exit_code(int exit_status)
 			write(STDERR_FILENO, "\n", 1);
 		return (exit_code + 128);
 	}
+	return (-1);
+}
+
+int	ft_get_exit_code_heredoc(int exit_status, t_ms *ms)
+{
+	if (WIFEXITED(exit_status))
+	{
+		ms->exit_code = 0;
+		return (WEXITSTATUS(exit_status));
+	}
+	write(STDOUT_FILENO, "\n", 1);
+	ms->exit_code = SIGINT + 128;
 	return (-1);
 }

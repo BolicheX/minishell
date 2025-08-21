@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/22 00:01:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:20:52 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int		ft_heredoc_init(t_list *tokens, t_ms *ms);
 void	ft_update_history_entry(char **history_entry_p, char *line, t_ms *ms);
 void	ft_print_heredoc_error(t_ms *ms);
 int		ft_get_exit_code_heredoc(int exit_status, t_ms *ms);
+int		ft_heredoc_write(char *input_line, t_ms *ms);
 
 /* -------◊		TOKENS	◊------- */
 int		ft_token_pipe(t_cmd **cmd, t_ms *ms);
@@ -177,16 +178,5 @@ int		ft_add_var(char *str, t_ms *ms);
 void	ft_execute(t_list *cmds, t_ms *ms);
 int		ft_execute_if_is_builtin(t_cmd *cmd, int is_subshell, t_ms *ms);
 int		ft_get_exit_code(int exit_status);
-
-//TODO Quitar este archivo antes de entregar
-/* -------◊		DEBUG	◊------- */
-void	ft_print_cmd_list(t_list *cmds);
-void	ft_print_token(void *node);
-void	ft_print_env(t_ms *ms);
-void	ft_debug_print_str(char *message);
-void	ft_debug_print_msg(char *message, char *prefix);
-void	ft_debug_print_lines(char *str, char *pre_msg, char *post_msg);
-void	ft_debug_print_array(char **array, char *pre_msg, char *post_msg);
-void	ft_debug_print_fd(int fd, char *pre_msg, char *post_msg);
 
 #endif

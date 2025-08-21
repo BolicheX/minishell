@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 17:47:51 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:25:22 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:20:07 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ static void	ft_prompt_signal_handler(int signal_id)
 
 void	ft_signals_interactive(void)
 {
-	//struct sigaction sa;
-
-	// sa.sa_handler = ft_prompt_signal_handler;
-	// sigemptyset(&sa.sa_mask);
-	// sa.sa_flags = SA_RESTART;
-	// sigaction(SIGINT, &sa, NULL);
 	signal(SIGINT, ft_prompt_signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

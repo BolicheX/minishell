@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 23:50:05 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:10:56 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 		return (is_heredoc);
 	if (ft_resolve_paths(&ms->cmds, ms))
 		return (is_heredoc);
-	//ft_print_cmd_list(ms->cmds);//TODO Quitar tras confirmar debugging.
 	ft_execute(ms->cmds, ms);
 	return (is_heredoc);
 }
@@ -79,9 +78,7 @@ static void	ft_non_interactive_mode(char *input, int do_free, t_ms *ms)
 {
 	char	**input_lines;
 
-	//ft_debug_print_lines(input, "-Input:", "-Fin Input.");
 	input_lines = ft_split_empty(input, '\n');
-	//ft_debug_print_array(input_lines, "-Input lines:", "-Fin Input lines.");
 	if (do_free)
 		free(input);
 	if (input_lines == NULL)
@@ -107,9 +104,7 @@ static void	ft_interactive_mode(t_ms *ms)
 			ft_putendl_fd("exit", STDERR_FILENO);
 			ft_exit_clean(ms->exit_code, ms);
 		}
-		//ft_debug_print_lines(input, "-Input:", "-Fin Input.");
 		input_lines = ft_split_empty(input, '\n');
-		//ft_debug_print_array(input_lines, "-Input lines:", "-Fin Input lines.");
 		free(input);
 		if (input_lines == NULL)
 			ft_exit_perror(NULL, 1, ms);

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 10:30:13 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:05:36 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:15:26 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,19 @@ void	ft_print_heredoc_error(t_ms *ms)
 	ft_putendl_fd("')", STDERR_FILENO);
 }
 
-int	ft_get_exit_code_heredoc(int exit_status, t_ms *ms)
+int	ft_heredoc_write(char *input_line, t_ms *ms)
 {
-	if (WIFEXITED(exit_status))
+	char	*expanded_line;
+
+	expanded_line = ft_strdup(input_line);
+	if (!expanded_line)
+		return (0);
+	if (!ft_check_expand(&expanded_line, ms))
 	{
-		ms->exit_code = 0;
-		return (WEXITSTATUS(exit_status));
+		free(expanded_line);
+		return (0);
 	}
-	write(STDOUT_FILENO, "\n", 1);
-	ms->exit_code = SIGINT + 128;
-	return (-1);
+	ft_putendl_fd(expanded_line, ms->heredoc[1]);
+	free(expanded_line);
+	return (1);
 }

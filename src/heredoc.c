@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 10:01:14 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:14:47 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 00:14:32 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,23 +87,6 @@ static int	ft_heredoc_readline(char *history_entry, t_ms *ms)
 		ft_exit_perror(NULL, 1, ms);
 	}
 	return (ft_get_exit_code_heredoc(exit_status, ms));
-}
-
-static int	ft_heredoc_write(char *input_line, t_ms *ms)
-{
-	char	*expanded_line;
-
-	expanded_line = ft_strdup(input_line);
-	if (!expanded_line)
-		return (0);
-	if (!ft_check_expand(&expanded_line, ms))
-	{
-		free(expanded_line);
-		return (0);
-	}
-	ft_putendl_fd(expanded_line, ms->heredoc[1]);
-	free(expanded_line);
-	return (1);
 }
 
 //Writes in the heredoc pipe, manages the heredoc history entry, indicates if
