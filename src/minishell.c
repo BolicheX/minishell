@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jose-jim <jose-jim@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 12:51:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/21 22:47:01 by jose-jim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,34 @@
 //If it's a heredoc command, ft_heredoc manages the following lines, asks for
 //more if necessary and sets the lines after the limiter to be traversed here
 //after the execution of the heredoc command.
-static int  ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
+static int	ft_interpret_input_line(char *cmd_line, int i, t_ms *ms)
 {
-	int     is_heredoc;
+	int	is_heredoc;
 
-    is_heredoc = 0;
+	is_heredoc = 0;
 	if (ft_lexing(cmd_line, &ms->tokens, ms))
 		return (0);
 	if(ft_heredoc_init(ms->tokens, ms))
 		return (0);
-    if (ms->limiter != NULL)
-    {
-        is_heredoc = 1;
-        if (ft_heredoc(i, ms) == 0)
-            return (1);
-    }
-    else
-        ft_add_history(cmd_line, ms);
-    if (ft_expand(ms) == -1)
+	if (ms->limiter != NULL)
+	{
+		is_heredoc = 1;
+		if (ft_heredoc(i, ms) == 0)
+			return (1);
+	}
+	else
+		ft_add_history(cmd_line, ms);
+	if (ft_expand(ms) == -1)
 		return (is_heredoc);
 	ft_lstclear(&ms->cmds, ft_clean_cmd);
-    ft_parse(ms);
+	ft_parse(ms);
 	if (!ms->cmds)
 		return (is_heredoc);
-    if (ft_resolve_paths(&ms->cmds, ms))
+	if (ft_resolve_paths(&ms->cmds, ms))
 		return (is_heredoc);
-    //ft_print_cmd_list(ms->cmds);//TODO Quitar tras confirmar debugging.
-    ft_execute(ms->cmds, ms);
-    return (is_heredoc);
+	//ft_print_cmd_list(ms->cmds);//TODO Quitar tras confirmar debugging.
+	ft_execute(ms->cmds, ms);
+	return (is_heredoc);
 }
 
 //Traverses input lines to interpret them. It returns if a heredoc is
