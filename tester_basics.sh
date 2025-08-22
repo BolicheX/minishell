@@ -32,6 +32,20 @@ tests=(
 "false"
 "true"
 "ls noexiste"
+"echo hola
+ls"
+"echo 'hola
+mundo'"
+"echo \"hola
+mundo\""
+"echo \"hola'\"
+ls"
+"echo 'hola\"'
+ls"
+"echo \"hola 'mundo
+foo\""
+"echo 'hola \"mundo
+foo'"
 )
 
 RED="\\033[31m"

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:41:43 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/22 00:10:56 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:39:38 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	ft_non_interactive_mode(char *input, int do_free, t_ms *ms)
 {
 	char	**input_lines;
 
-	input_lines = ft_split_empty(input, '\n');
+	input_lines = ft_get_input_lines(input);
 	if (do_free)
 		free(input);
 	if (input_lines == NULL)
@@ -104,7 +104,7 @@ static void	ft_interactive_mode(t_ms *ms)
 			ft_putendl_fd("exit", STDERR_FILENO);
 			ft_exit_clean(ms->exit_code, ms);
 		}
-		input_lines = ft_split_empty(input, '\n');
+		input_lines = ft_get_input_lines(input);
 		free(input);
 		if (input_lines == NULL)
 			ft_exit_perror(NULL, 1, ms);

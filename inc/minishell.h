@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/22 10:52:20 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:24:52 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	ft_add_history(char *entry, t_ms *ms);
 int		ft_update_input_lines(char *input, t_ms *ms);
 void	ft_trim_input_lines(int start, t_ms *ms);
 int		ft_del_empty_cmd(t_list **lst);
+char	**ft_get_input_lines(char *input);
 
 /* -------◊		HEREDOC	◊------- */
 int		ft_heredoc(int i, t_ms *ms);

@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 14:19:52 by jescuder          #+#    #+#             */
-/*   Updated: 2025/08/21 22:49:58 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:39:56 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_update_input_lines(char *input, t_ms *ms)
 {
 	char	**input_lines;
 
-	input_lines = ft_split_empty(input, '\n');
+	input_lines = ft_get_input_lines(input);
 	free(input);
 	if (input_lines == NULL)
 		return (0);
