@@ -6,7 +6,7 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:35:33 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/22 00:20:52 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:52:20 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ typedef struct s_ms
 {
 	int				is_interactive;
 	t_kvl			*env;
-	int				termios_ok;//TODO QUITAR si no lo usamos.
-	struct termios	orig_termios;//TODO QUITAR si no lo usamos.
 	int				lines_count;
 	char			*last_history_entry;
 	char			**input_lines;
@@ -70,7 +68,6 @@ typedef struct s_ms
 	t_list			*cmds;
 	int				*child_ids;
 	int				exit_code;
-	pid_t			pid;//TODO QUITAR o ver para qué es
 }				t_ms;
 
 /* -------◊		CLEAN	◊------- */
@@ -126,9 +123,9 @@ void	ft_del_token(void *content);
 
 /* -------◊		LEXING	◊------- */
 int		ft_lexing(char *line, t_list **tokens, t_ms *ms);
-int		skip_quotes(const char *line, int i);
-int		lex_operator(const char *line, int i, t_list **tokens);
-int		lex_word(const char *line, int i, t_list **tokens);
+int		ft_skip_quotes(const char *line, int i);
+int		ft_lex_operator(const char *line, int i, t_list **tokens);
+int		ft_lex_word(const char *line, int i, t_list **tokens);
 
 /* -------◊		EXPANDING VARIBALES	◊------- */
 int		ft_handle_quotes(char *str, int *i, char *quote);

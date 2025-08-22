@@ -6,13 +6,13 @@
 /*   By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:05:11 by jose-jim          #+#    #+#             */
-/*   Updated: 2025/08/21 12:35:50 by jescuder         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:39:49 by jescuder         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	skip_quotes(const char *line, int i)
+int	ft_skip_quotes(const char *line, int i)
 {
 	char	quote;
 
@@ -25,7 +25,7 @@ int	skip_quotes(const char *line, int i)
 	return (i);
 }
 
-int	lex_operator(const char *line, int i, t_list **tokens)
+int	ft_lex_operator(const char *line, int i, t_list **tokens)
 {
 	char	op;
 	int		len;
@@ -46,7 +46,7 @@ int	lex_operator(const char *line, int i, t_list **tokens)
 	return (i + len);
 }
 
-int	lex_word(const char *line, int i, t_list **tokens)
+int	ft_lex_word(const char *line, int i, t_list **tokens)
 {
 	int		start;
 	char	*str;
@@ -55,7 +55,7 @@ int	lex_word(const char *line, int i, t_list **tokens)
 	while (line[i] && line[i] != ' ' && !ft_strchr("|<>", line[i]))
 	{
 		if (line[i] == '\'' || line[i] == '"')
-			i = skip_quotes(line, i);
+			i = ft_skip_quotes(line, i);
 		else
 			i++;
 	}
@@ -105,9 +105,9 @@ int	ft_lexing(char *line, t_list **tokens, t_ms *ms)
 		if (!line[i])
 			break ;
 		if (ft_strchr("|<>", line[i]))
-			i = lex_operator(line, i, tokens);
+			i = ft_lex_operator(line, i, tokens);
 		else
-			i = lex_word(line, i, tokens);
+			i = ft_lex_word(line, i, tokens);
 	}
 	return (ft_lexing_check(*tokens, ms));
 }
