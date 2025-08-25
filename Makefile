@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: jescuder <jescuder@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/16 21:26:43 by jose-jim          #+#    #+#              #
-#    Updated: 2025/08/21 21:07:23 by jescuder         ###   ########.fr        #
+#    Updated: 2025/08/25 15:50:31 by jescuder         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ $(OBJS_PATH):
 	echo "$(YELLOW)[$(OBJS_PATH)] directory created.$(DEF_COLOR)"
 
 # Compiles C source files into object files.
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC_PATH)minishell.h
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.c $(INC_PATH)$(NAME).h
 	$(CC) $(CFLAGS) -I $(INC_PATH) -I $(LIBFT_PATH) -c $< -o $@
 	echo "$(CYAN)[$@] object compiled.$(DEF_COLOR)"
 
